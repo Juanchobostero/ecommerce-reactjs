@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Form, Button, Row, Col, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,7 +30,6 @@ const ProfileScreen = () => {
   const orderMyList = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
 
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {

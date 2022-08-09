@@ -36,12 +36,11 @@ const PlaceOrderScreen = () => {
         dispatch(createOrder({
             orderItems: cart.cartItems,
             shippingAddress: cart.shippingAddress,
-            shippingPrice: cart.paymentMethod,
+            paymentMethod: cart.paymentMethod,
             itemsPrice: cart.itemsPrice,
             shippingPrice: cart.shippingPrice,
             taxPrice: cart.taxPrice,
-            totalPrice: cart.totalPrice,
-            paymentMethod: cart.paymentMethod
+            totalPrice: cart.totalPrice
         }))
     };
 
