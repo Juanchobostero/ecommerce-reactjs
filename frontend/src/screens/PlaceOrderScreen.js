@@ -1,10 +1,8 @@
-import React, { useState, Fragment, useEffect } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import React, {Fragment, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
-import Loader from '../components/Loader';
-import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
 import { createOrder } from '../actions/orderActions';
 
