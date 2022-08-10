@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
@@ -24,9 +24,8 @@ const UserEditScreen = () => {
     loading: loadingUpdate, 
     error: errorUpdate, 
     success: successUpdate 
-} = userUpdate;
+  } = userUpdate;
 
-  const location = useLocation();
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -34,7 +33,7 @@ const UserEditScreen = () => {
         dispatch({ type: USER_UPDATE_RESET });
         navigate('/admin/userlist');
     } else {
-        if(!user || !user.name || user._id !== userId) {
+        if(!user.name || user._id !== userId) {
             dispatch(getUserDetails(userId));
         } else {
             setName(user.name);
