@@ -10,7 +10,6 @@ import { deleteUser, listUsers } from '../actions/userActions';
 const UserListScreen = () => {
 
     const dispatch = useDispatch();
-
     const navigate = useNavigate();
 
     const userList = useSelector(state => state.userList);

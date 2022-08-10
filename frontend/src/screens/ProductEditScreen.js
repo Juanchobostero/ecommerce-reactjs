@@ -6,7 +6,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
 import { listProductDetails, updateProduct } from '../actions/productActions';
-import { PRODUCT_UPDATE_RESET, PRODUCT_DETAILS_RESET } from '../constants/productConstants';
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 
 const ProductEditScreen = () => {
 
@@ -35,11 +35,10 @@ const ProductEditScreen = () => {
   
   useEffect(() => {
     if(successUpdate) {
-        dispatch({ type: PRODUCT_UPDATE_RESET })     
-        dispatch({type: PRODUCT_DETAILS_RESET})
+        dispatch({ type: PRODUCT_UPDATE_RESET });
         navigate('/admin/productlist');
     } else {
-        if(!product.name || product._id !== productId) {
+        if(!product || product._id !== productId) {
             dispatch(listProductDetails(productId));
         } else {
             setName(product.name);

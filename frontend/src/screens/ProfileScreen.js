@@ -16,6 +16,7 @@ const ProfileScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const userDetails = useSelector((state) => state.userDetails);
@@ -29,8 +30,6 @@ const ProfileScreen = () => {
 
   const orderMyList = useSelector((state) => state.orderListMy);
   const { loading: loadingOrders, error: errorOrders, orders } = orderMyList;
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if(!userInfo) {
