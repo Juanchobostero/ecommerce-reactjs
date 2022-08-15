@@ -5,8 +5,10 @@ import Product from '../components/Product';
 import { listProducts } from '../actions/productActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
 
@@ -30,6 +32,8 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta />
+      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Go Back</Link>}
       <h1>Latest Products</h1>
       { loading 
         ? (<Loader />) 

@@ -7,6 +7,7 @@ import { listProductDetails, createProductReview } from '../actions/productActio
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import Meta from '../components/Meta';
 
 const ProductScreen = () => {
 
@@ -63,6 +64,7 @@ const ProductScreen = () => {
                 : error ? (<Message variant='danger'>{error}</Message>
                 ) : (
                 <>
+                <Meta title={product.name} />
                 <Row>
                     <Col md={6}>
                         <Image src={product.image} alt={product.name} fluid />
@@ -164,6 +166,7 @@ const ProductScreen = () => {
                             ))}
                             <ListGroup.Item>
                                 <h2>Write a Customer Review</h2>
+                                {loadingProductReview && <Loader />}
                                 {errorProductReview && (
                                     <Message variant='danger'>{errorProductReview}</Message>
                                 )}
@@ -205,7 +208,8 @@ const ProductScreen = () => {
                                             </Button>
                                         </Form>
                                     ) 
-                                    : (<Message>Please <Link to='/login'>sign in</Link> to write a review</Message>)}
+                                    : (<Message>Please <Link to='/login'>sign in</Link> to write a review</Message>)
+                                }
                             </ListGroup.Item>                                       
                         </ListGroup>
                     </Col>
