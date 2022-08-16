@@ -9,6 +9,7 @@ import productRoutes from './routes/productRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
+import mercadopago from 'mercadopago';
 
 dotenv.config();
 
@@ -34,6 +35,29 @@ app.use('/api/upload', uploadRoutes);
 app.get('/api/config/paypal', (req, res) => 
     res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+//MERCADO PAGO TEST (CREAR PREFERENCE)
+/* app.post("/api/create_preference", (req, res) => {
+
+	let preference = {
+		items: req.body.orderItems,
+		back_urls: {
+			"success": "http://localhost:3000/feedback",
+			"failure": "http://localhost:3000/feedback",
+			"pending": "http://localhost:3000/feedback"
+		},
+		auto_return: "approved",
+	};
+
+	mercadopago.preferences.create(preference)
+		.then(function (response) {
+			res.json({
+				id: response.body.id
+			});
+		}).catch(function (error) {
+			console.log(error);
+		});
+}); */
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
