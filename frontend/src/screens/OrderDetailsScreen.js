@@ -69,7 +69,7 @@ const OrderDetailsScreen = () => {
             script.src = 'https://sdk.mercadopago.com/js/v2';
             script.async = true;
             script.onload = () => {
-                setSdkReady(true);
+                setSdkMpReady(true);
             };
 
             document.body.appendChild(script);
@@ -237,7 +237,7 @@ const OrderDetailsScreen = () => {
                                         )}
 
                                         {!sdkMpReady ? <Loader /> : (
-                                            <MercadoPagoComponent />
+                                            <MercadoPagoComponent order={order}/>
                                         )}
                                     </ListGroup.Item>
                                 )}

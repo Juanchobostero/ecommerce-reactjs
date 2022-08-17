@@ -52,7 +52,7 @@ const PaymentScreen = () => {
                             label='Mercado Pago' 
                             id='mp'
                             name='paymentMethod'
-                            value='mp'
+                            value='MP'
                             checked onChange={(e)=> setPaymentMethod(e.target.value)}
                         >
 
