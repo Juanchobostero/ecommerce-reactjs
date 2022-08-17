@@ -91,15 +91,7 @@ const OrderDetailsScreen = () => {
                 setSdkMpReady(true);
             }
         }
-    }, [
-        dispatch, 
-        navigate, 
-        id, 
-        successPay, 
-        successDeliver, 
-        order, 
-        userInfo
-    ]);
+    }, [dispatch, id, successPay, successDeliver, order]);
 
     const successPaymentHandler = (paymentResult) => {
         console.log(paymentResult);

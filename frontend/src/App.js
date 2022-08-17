@@ -44,7 +44,6 @@ function App() {
               <Route path='/admin/orderlist' element={<OrderListScreen />}/>
               <Route path='/search/:keyword' element={<HomeScreen />} exact/>
               <Route path='/page/:pageNumber' element={<HomeScreen />} />
-              <Route path='/page/:pageNumber/product/:id' element={<ProductScreen />} />
               <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
               <Route path='/' element={<HomeScreen />} />
             </Routes>
