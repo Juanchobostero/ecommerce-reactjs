@@ -4,44 +4,30 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-    "@craco/craco": "^6.4.5",
     "@testing-library/jest-dom": "^5.16.5",
-=======
-    "@testing-library/jest-dom": "^5.16.4",
->>>>>>> parent of d8c772c... Changes until class 89
     "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^13.5.0",
+    "@testing-library/user-event": "^14.4.3",
     "axios": "^0.27.2",
-<<<<<<< HEAD
     "bootstrap": "^5.2.0",
-    "node-polyfill-webpack-plugin": "^2.0.1",
-=======
-    "bootstrap": "^5.1.3",
->>>>>>> parent of d8c772c... Changes until class 89
     "pkg": "^5.8.0",
-    "react": "^18.1.0",
-    "react-bootstrap": "^2.4.0",
-    "react-dom": "^18.1.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.5.0",
+    "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
     "react-paypal-button-v2": "^2.6.3",
     "react-redux": "^8.0.2",
-    "react-router-bootstrap": "^0.26.1",
+    "react-router-bootstrap": "^0.26.2",
     "react-router-dom": "^6.3.0",
-<<<<<<< HEAD
-    "react-scripts": "^2.1.3",
-=======
-    "react-scripts": "^2.1.8",
->>>>>>> parent of d8c772c... Changes until class 89
+    "react-scripts": "^4.0.3",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
-    "web-vitals": "^2.1.4",
-    "webpack-dev-middleware": "^5.3.3"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -61,17 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "assert": "^2.0.0",
-    "buffer": "^6.0.3",
-    "crypto-browserify": "^3.12.0",
-    "https-browserify": "^1.0.0",
-    "os-browserify": "^0.3.0",
-    "process": "^0.11.10",
-    "react-app-rewired": "^2.2.1",
-    "stream-browserify": "^3.0.0",
-    "stream-http": "^3.2.0",
-    "url": "^0.11.0"
   }
 }

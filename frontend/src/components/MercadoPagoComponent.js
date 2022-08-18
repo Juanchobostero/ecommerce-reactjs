@@ -1,8 +1,12 @@
 import React, { useEffect } from 'react';
 import mercadopago from 'mercadopago';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const MercadoPagoComponent = ({ order }) => {
+
+    const userLogin = useSelector((state) => state.userLogin);
+    const { userInfo } = userLogin;
 
 
     useEffect(() => {
@@ -12,10 +16,7 @@ const MercadoPagoComponent = ({ order }) => {
             access_token: 'APP_USR-5029250925841563-081611-6d6c33c264b920c6cce47d975f80e384-1180488044'
         });
 
-        const loadMpButton = async (order, getState) => {
-
-            const { userLogin: { userInfo } } = getState();
-
+        const loadMpButton = async (order) => {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,10 +40,10 @@ const MercadoPagoComponent = ({ order }) => {
                 }
             }); */
         }
-        loadMpButton(order);
+        loadMpButton(order, userInfo);
 
       
-    }, [order]);
+    }, [order, userInfo]);
 
 
     return( 
