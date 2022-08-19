@@ -1,11 +1,13 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { deleteUser, listUsers } from '../actions/userActions';
+import DemoColumnBar from '../components/DemoColumnBar';
+import { Tag } from 'antd';
 
 const UserListScreen = () => {
 
@@ -37,9 +39,10 @@ const UserListScreen = () => {
     }
     
     return (
-        <Fragment>
-            <h1>Users</h1>
+        <>
+            <h1>Users <Tag color="green">{users ? users.length : 'No Users'}</Tag></h1>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
+                <>
                 <Table
                     striped
                     bordered
@@ -90,8 +93,16 @@ const UserListScreen = () => {
                         ))}
                     </tbody>
                 </Table>
+                <Row>
+                    <Col md={12}>
+                        <h3>Sales by user</h3>
+                        <DemoColumnBar />
+                    </Col>
+                    
+                </Row>
+                </>
             )}
-        </Fragment>
+        </>
     )
 }
 

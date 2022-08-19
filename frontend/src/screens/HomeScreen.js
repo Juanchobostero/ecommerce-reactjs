@@ -5,8 +5,10 @@ import Product from '../components/Product';
 import { listProducts } from '../actions/productActions';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
 const HomeScreen = () => {
 
@@ -30,6 +32,9 @@ const HomeScreen = () => {
 
   return (
     <>
+      <Meta />
+      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Go Back</Link>}
+      <br></br>
       <h1>Latest Products</h1>
       { loading 
         ? (<Loader />) 
@@ -39,7 +44,12 @@ const HomeScreen = () => {
             <>
               <Row>
                 { products.map(product => (
-                    <Col key={product._id} sm={12} md={6} lg={4}>
+                    <Col 
+                      key={product._id} 
+                      sm={12} 
+                      md={6} 
+                      lg={4}
+                    >
                         <Product product={product}/>
                     </Col>
                 )) } 

@@ -8,7 +8,6 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
-import MercadoPagoComponent from '../components/MercadoPagoComponent';
 
 const OrderDetailsScreen = () => {
 
@@ -16,7 +15,6 @@ const OrderDetailsScreen = () => {
     const { id } = useParams();
 
     const [sdkReady, setSdkReady] = useState(false);
-    const [sdkMpReady, setSdkMpReady] = useState(false);
 
     const orderDetails = useSelector((state) => state.orderDetails);
     const { order, loading, error } = orderDetails;
@@ -62,19 +60,6 @@ const OrderDetailsScreen = () => {
             document.body.appendChild(script);
         }
 
-        const addMercadoPagoScript = async () => {
-            console.log('Add MERCADO PAGO SCRIPT');
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = 'https://sdk.mercadopago.com/js/v2';
-            script.async = true;
-            script.onload = () => {
-                setSdkMpReady(true);
-            };
-
-            document.body.appendChild(script);
-        }
-
         if(!order || successPay || successDeliver || order._id !== id) {
             dispatch({ type: ORDER_PAY_RESET });
             dispatch({ type: ORDER_DELIVER_RESET });
@@ -84,11 +69,6 @@ const OrderDetailsScreen = () => {
                 addPayPalScript();
             }else {
                 setSdkReady(true);
-            }
-            if(!window.mercadopago) {
-                addMercadoPagoScript();
-            } else {
-                setSdkMpReady(true);
             }
         }
     }, [dispatch, navigate, id, successPay, successDeliver, order, userInfo]);
@@ -226,10 +206,6 @@ const OrderDetailsScreen = () => {
                                                 amount={order.totalPrice}
                                                 onSuccess={successPaymentHandler}
                                             />
-                                        )}
-
-                                        {!sdkMpReady ? <Loader /> : (
-                                            <MercadoPagoComponent order={order}/>
                                         )}
                                     </ListGroup.Item>
                                 )}

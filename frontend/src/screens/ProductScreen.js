@@ -7,6 +7,7 @@ import { listProductDetails, createProductReview } from '../actions/productActio
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import Meta from '../components/Meta';
 
 const ProductScreen = () => {
 
@@ -26,7 +27,6 @@ const ProductScreen = () => {
 
     const productReviewCreate = useSelector(state => state.productReviewCreate);
     const { 
-        loading: loadingProductReview, 
         error: errorProductReview, 
         success : successProductReview
     } = productReviewCreate;
@@ -63,6 +63,7 @@ const ProductScreen = () => {
                 : error ? (<Message variant='danger'>{error}</Message>
                 ) : (
                 <>
+                <Meta title={product.name} />
                 <Row>
                     <Col md={6}>
                         <Image src={product.image} alt={product.name} fluid />
