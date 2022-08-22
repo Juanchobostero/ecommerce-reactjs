@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { deleteUser, listUsers } from '../actions/userActions';
-import DemoColumnBar from '../components/DemoColumnBar';
 import { Tag } from 'antd';
 
 const UserListScreen = () => {
@@ -96,7 +95,6 @@ const UserListScreen = () => {
                 <Row>
                     <Col md={12}>
                         <h3>Sales by user</h3>
-                        <DemoColumnBar />
                     </Col>
                     
                 </Row>
