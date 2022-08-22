@@ -127,8 +127,9 @@ const ReportScreen = () => {
 
     return (
         <>
-            <h1>Reports</h1>
+            <h1>Reports Panel</h1>
             <hr></hr>
+            <h3>Products</h3>
             <div style={{height: 400}}>
               <ResponsiveBar
                 data={data}

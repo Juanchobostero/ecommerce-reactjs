@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -92,12 +92,6 @@ const UserListScreen = () => {
                         ))}
                     </tbody>
                 </Table>
-                <Row>
-                    <Col md={12}>
-                        <h3>Sales by user</h3>
-                    </Col>
-                    
-                </Row>
                 </>
             )}
         </>
