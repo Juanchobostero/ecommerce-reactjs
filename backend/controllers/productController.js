@@ -37,6 +37,25 @@ const getProductById = asyncHandler( async (req, res) => {
     }
 });
 
+// @desc Get all product categories, and stock count by them
+// @route GET /api/products/categories
+// @access Public
+const getCategoriesWithCount = asyncHandler( async (req, res) => {
+
+    const categories = await Product.aggregate([ 
+        {
+            $group: { 
+                _id: '$category',
+                totalQuantity: { 
+                    $sum: '$countInStock' 
+                } 
+            }
+        } 
+    ]);
+
+    res.json(categories);
+});
+
 // @desc Delete a product
 // @route DELETE /api/products/:id
 // @access Private/Admin
@@ -143,7 +162,7 @@ const createProductReview = asyncHandler( async (req, res) => {
 // @route GET /api/products/top
 // @access Public
 const getTopProducts = asyncHandler( async (req, res) => {
-    const products = await Product.find({}).sort({ rating: -1 }).limit(3);
+    const products = await Product.find({}).sort({ 'rating': -1 }).limit(3);
 
     res.json(products);
 });
@@ -155,5 +174,6 @@ export {
     createProduct, 
     updateProduct,
     createProductReview,
-    getTopProducts 
+    getTopProducts,
+    getCategoriesWithCount 
 };

@@ -51,3 +51,7 @@ h3 {
     padding: 30px;
     background: #ececec;
 }
+
+.col-report {
+    height: 40vh;
+}
