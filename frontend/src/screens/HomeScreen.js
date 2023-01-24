@@ -36,9 +36,7 @@ const HomeScreen = () => {
       {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Go Back</Link>}
       <br></br>
       <h1>Latest Products</h1>
-      { loading 
-        ? (<Loader />) 
-        : error 
+      { loading ? (<Loader />) : error 
           ? (<Message variant='danger'>{error}</Message>) 
           : (
             <>
@@ -65,5 +63,6 @@ const HomeScreen = () => {
     </>
   )
 }
+
 
 export default HomeScreen
