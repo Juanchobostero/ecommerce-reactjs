@@ -33,9 +33,9 @@ const HomeScreen = () => {
   return (
     <>
       <Meta />
-      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Go Back</Link>}
+      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Volver</Link>}
       <br></br>
-      <h1>Latest Products</h1>
+      <h1>Últimos Productos</h1>
       { loading 
         ? (<Loader />) 
         : error 

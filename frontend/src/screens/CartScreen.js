@@ -39,9 +39,9 @@ const CartScreen = () => {
   return (
     <Row>
       <Col md={8}>
-        <h1>Shopping Cart</h1>
+        <h1>Tu carrito</h1>
         {cartItems.length === 0 
-          ? <Message>Your cart is empty <Link to='/'>Go Back</Link></Message>
+          ? <Message>Tu carrito está vacío <Link to='/'>Volver</Link></Message>
           : (
             <ListGroup variant='flush'>
               {cartItems.map(item => (
@@ -104,7 +104,7 @@ const CartScreen = () => {
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
-                Proceed to checkout
+                Continuar con el checkout
               </Button>
             </ListGroup.Item>
           </ListGroup>

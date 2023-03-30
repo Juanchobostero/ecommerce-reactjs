@@ -23,7 +23,7 @@ const Header = () => {
       <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to={'/'}>
-            <Navbar.Brand>GYMTURONES</Navbar.Brand>
+            <Navbar.Brand>TU NEGOCIO</Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -33,7 +33,7 @@ const Header = () => {
                   <Nav.Link>
                     <i className='fas fa-shopping-cart'>
                     </i>
-                    Cart
+                    Carrito
                   </Nav.Link>
                 </LinkContainer>
                 {userInfo && userInfo.name ? (
@@ -43,18 +43,18 @@ const Header = () => {
                   >
                     <LinkContainer to='/profile'>
                         <NavDropdown.Item>
-                          Profile
+                          Perfil
                         </NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
-                      Logout
+                      Cerrar Sessión
                     </NavDropdown.Item>
                   </NavDropdown>
                 ): (
                   <LinkContainer to={'/login'}>
                     <Nav.Link>
                       <i className='fas fa-user'>
-                      </i>Sign In
+                      </i>Login
                     </Nav.Link>
                 </LinkContainer>
                 )}
@@ -66,22 +66,22 @@ const Header = () => {
                   >
                     <LinkContainer to='/admin/userlist'>
                         <NavDropdown.Item>
-                          Users
+                          Usuarios
                         </NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/admin/productlist'>
                         <NavDropdown.Item>
-                          Products
+                          Productos
                         </NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/admin/orderlist'>
                         <NavDropdown.Item>
-                          Orders
+                          Ordenes
                         </NavDropdown.Item>
                     </LinkContainer>
                     <LinkContainer to='/admin/reports'>
                         <NavDropdown.Item>
-                          Reports
+                          Reportes
                         </NavDropdown.Item>
                     </LinkContainer>
                   </NavDropdown>

@@ -20,7 +20,7 @@ const authUser = asyncHandler( async (req, res) => {
         });
     } else {
         res.status(401);
-        throw new Error('Invalid email or password');
+        throw new Error('Correo y/o contraseña inválidos');
     }
 });
 
@@ -34,7 +34,7 @@ const registerUser = asyncHandler( async (req, res) => {
 
     if(userExists) {
         res.status(400);
-        throw new Error('User already exists');
+        throw new Error('El usuario ya existe');
     }
 
     const user = await User.create({
@@ -53,7 +53,7 @@ const registerUser = asyncHandler( async (req, res) => {
         });  
     } else {
         res.status(400);
-        throw new Error('Invalid user data');
+        throw new Error('Datos del usuario inválidos');
     }
 });
 
@@ -72,7 +72,7 @@ const getUserProfile = asyncHandler( async (req, res) => {
         });
     } else {
         res.status(404);
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
     }
 });
 
@@ -101,7 +101,7 @@ const updateUserProfile = asyncHandler( async (req, res) => {
         });
     } else {
         res.status(404);
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
     }
 });
 
@@ -122,10 +122,10 @@ const deleteUser = asyncHandler( async (req, res) => {
 
     if(user) {
         await user.remove();
-        res.json({ message: 'User removed !' });
+        res.json({ message: 'Usuario eliminado' });
     } else {
         res.status(404);
-        throw new Error('User not found !');
+        throw new Error('Usuario no encontrado');
     }
 });
 
@@ -139,7 +139,7 @@ const getUserById = asyncHandler( async (req, res) => {
         res.json(user);
     } else {
         res.json(404);
-        throw new Error('User not found !');
+        throw new Error('Usuario no encontrado');
     }
 });
 
@@ -164,7 +164,7 @@ const updateUser = asyncHandler( async (req, res) => {
         });
     } else {
         res.status(404);
-        throw new Error('User not found');
+        throw new Error('Usuario no encontrado');
     }
 });
 

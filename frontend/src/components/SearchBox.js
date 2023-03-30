@@ -27,7 +27,7 @@ const SearchBox = () => {
                 type='text'
                 name='q'
                 onChange={(e) => setKeyboard(e.target.value)}
-                placeholder='Search Products...'
+                placeholder='Buscar productos...'
                 className='mr-sm-2 ml-sm-2'
             >
             </Form.Control>
@@ -36,7 +36,7 @@ const SearchBox = () => {
                 variant='outline-success'
                 className='p-2'
             >
-                Search
+                Buscar
             </Button>
         </Form>
     )
