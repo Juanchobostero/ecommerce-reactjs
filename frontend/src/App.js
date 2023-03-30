@@ -58,3 +58,22 @@ function App() {
 }
 
 export default App;
+
+// Crear Proyecto
+
+// npx create-react-app nombre
+
+// npm install (p/cargar directorio 'node_modules' -> Dependencias en package.json)
+
+// npm start(inicialmente) & npm run dev (config ideal para separar backend y frontend) (server & cliente) 
+
+// Eliminar archivos innecesarios que vienen por defecto y limpiar App.js (Acá se van a configurar 
+// las rutas para el frontend)
+
+// Dividir directorios (components, screens)
+
+// Definir rutas e instalar 'react-router-dom', 'react-router-bootstrap', 'react-bootstrap' (a elección)
+
+// Aplicar componente de ruta en App.js (Router, Routes, Route)
+
+// Redux (?) ó Context API (?) (Manejo del estado de la app)
