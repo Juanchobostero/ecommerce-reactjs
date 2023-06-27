@@ -5,9 +5,10 @@
   "private": true,
   "dependencies": {
     "@ant-design/plots": "^1.2.1",
-    "@nivo/bar": "^0.79.1",
-    "@nivo/core": "^0.79.0",
-    "@nivo/pie": "^0.79.1",
+    "@mercadopago/sdk-react": "^0.0.11",
+    "@nivo/bar": "^0.83.0",
+    "@nivo/core": "^0.83.0",
+    "@nivo/pie": "^0.63.0",
     "@syncfusion/ej2-react-charts": "^20.2.44",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -32,6 +33,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "sweetalert2": "^11.4.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

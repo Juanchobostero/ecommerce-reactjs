@@ -82,14 +82,14 @@ const ProductListScreen = () => {
         <Fragment>
             <Row className='align-items-center'>
                 <Col>
-                    <h1>Products</h1>
+                    <h1>Productos</h1>
                 </Col>
                 <Col className='text-right'>
                     <Button 
                         className='my-3'
                         onClick={createProductHandler}
                     >   
-                        <i className='fas fa-plus'></i> Create Product
+                        <i className='fas fa-plus'></i> Nuevo Producto
                     </Button>
                 </Col>
             </Row>
@@ -108,11 +108,12 @@ const ProductListScreen = () => {
                     >
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>PRICE</th>
-                                <th>CATEGORY</th>
-                                <th>BRAND</th>
+                                <th>CÓDIGO</th>
+                                <th>NOMBRE</th>
+                                <th>PRECIO</th>
+                                <th>CATEGORÍA</th>
+                                <th>STOCK</th>
+                                <th>MARCA</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -125,7 +126,12 @@ const ProductListScreen = () => {
                                     <td>
                                         ${product.price}
                                     </td>
-                                    <td>{product.category}</td>
+                                    <td>{product.categoryName[0].description}</td>
+                                    <td 
+                                        className={`${(product.countInStock <= 5 && 'lowStock')}`}
+                                    >
+                                        {product.countInStock}
+                                    </td>
                                     <td>{product.brand}</td>
                                     <td>
                                         <LinkContainer to={`/admin/product/${product._id}/edit`}>

@@ -86,7 +86,7 @@ const ReportScreen = () => {
       <Container>
         <Row>
           <Col md={12}>
-            <h3>Reports Panel</h3>
+            <h3>Panel de Reportes</h3>
           </Col>
         </Row>
         <Row>
@@ -95,7 +95,7 @@ const ReportScreen = () => {
             sm={12} 
             className='col-report'
           >
-            <h4>Product stock by category</h4>
+            <h4>Stock de Productos por Categorías</h4>
             <PieComponent data={newProductsForReport} />
           </Col>
           <Col 
@@ -103,7 +103,7 @@ const ReportScreen = () => {
             sm={12} 
             className='col-report'
           >
-            <h4>Product top rated</h4>
+            <h4>Producto más valorado</h4>
             {
               productTop && <Link to={`/admin/product/${productTop._id}/edit`}>
               <h3>{productTop && productTop.name}</h3>
@@ -128,7 +128,7 @@ const ReportScreen = () => {
           </Col>
         </Row>
         <hr></hr>
-        <h1>Orders</h1>
+        <h1>Órdenes</h1>
         <Row>
           <Col md={6} sm={12} className='col-report'>
             COL 1
