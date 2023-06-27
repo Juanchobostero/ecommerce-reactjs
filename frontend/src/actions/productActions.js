@@ -26,9 +26,10 @@ import {
     PRODUCT_CATEGORIES_FAIL
 } from "../constants/productConstants";
 
+const baseUrl = "https://ecommerce-reactjs-nine.vercel.app";
+
 export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
     try {
-        const baseUrl = "https://ecommerce-reactjs-nine.vercel.app";
         dispatch({ type: PRODUCT_LIST_REQUEST });
 
         const { data } = await axios
