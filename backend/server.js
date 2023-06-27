@@ -26,6 +26,8 @@ const app = express();
 
 if(process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
+} else {
+	app.use(morgan('combine'));
 }
 
 app.use(express.json());
