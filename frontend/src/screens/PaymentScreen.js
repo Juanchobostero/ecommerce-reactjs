@@ -6,6 +6,8 @@ import FormContainer from '../components/FormContainer';
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckoutSteps from '../components/CheckoutSteps';
 
+
+
 const PaymentScreen = () => {
     const cart = useSelector(state => state.cart);
     const { shippingAddress } = cart;
@@ -42,12 +44,12 @@ const PaymentScreen = () => {
                             id='PayPal'
                             name='paymentMethod'
                             value='PayPal'
-                            checked onChange={(e)=> setPaymentMethod(e.target.value)}
+                            onChange={(e)=> setPaymentMethod(e.target.value)}
                         >
 
                         </Form.Check>
 
-                        {/* <Form.Check 
+                        <Form.Check 
                             type='radio' 
                             label='Mercado Pago' 
                             id='mp'
@@ -56,7 +58,7 @@ const PaymentScreen = () => {
                             onChange={(e)=> setPaymentMethod(e.target.value)}
                         > 
 
-                        </Form.Check>*/}
+                        </Form.Check>
                     </Col>
                 </Form.Group>
                 <Button

@@ -1,3 +1,4 @@
+import ProductCategory from "../models/productCategoryModel.js";
 import Product from "../models/productModel.js";
 import asyncHandler from 'express-async-handler';
 
@@ -5,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler( async (req, res) => {
-    const pageSize = 6;
+    const pageSize = 4;
     const page = Number(req.query.pageNumber) || 1;
 
     const keyword = req.query.keyword 
@@ -17,9 +18,22 @@ const getProducts = asyncHandler( async (req, res) => {
         : {};
 
     const count = await Product.count({ ...keyword });
-    const products = await Product.find({ ...keyword })
-        .limit(pageSize).skip(pageSize * (page - 1));
-
+    //const products = await Product.find({ ...keyword })
+    const products = await Product.aggregate([{ 
+            $match: { ...keyword}      
+        }, 
+        { $sort: { "created_at": -1 } },
+        { $skip: (page - 1) * pageSize },
+        { $limit: pageSize },
+        {
+            $lookup: {
+                from: 'productcategories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'categoryName' 
+            }
+        }
+    ])
     res.json({products, page, pages: Math.ceil(count / pageSize)});
 });
 
@@ -45,7 +59,7 @@ const getCategoriesWithCount = asyncHandler( async (req, res) => {
     const categories = await Product.aggregate([ 
         {
             $group: { 
-                _id: '$category',
+                _id: '$categoryName',
                 totalQuantity: { 
                     $sum: '$countInStock' 
                 } 
@@ -75,13 +89,14 @@ const deleteProduct = asyncHandler( async (req, res) => {
 // @route POST /api/products
 // @access Private/Admin
 const createProduct = asyncHandler( async (req, res) => {
+    const sampleCategory = await ProductCategory.find({});
     const product = new Product({
         name: 'Sample name',
         price: 0,
         user: req.user._id,
         image: '/images/sample.jpg',
         brand: 'Sample brand',
-        category: 'Sample category',
+        category: sampleCategory[0]._id,
         countInStock: 0,
         numReviews: 0,
         description: 'Sample description' 
@@ -101,7 +116,7 @@ const updateProduct = asyncHandler( async (req, res) => {
         description, 
         image, 
         brand, 
-        category, 
+        category,
         countInStock 
     } = req.body;
 

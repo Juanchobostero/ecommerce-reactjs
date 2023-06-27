@@ -47,7 +47,7 @@ const Header = () => {
                         </NavDropdown.Item>
                     </LinkContainer>
                     <NavDropdown.Item onClick={logoutHandler}>
-                      Cerrar Sessión
+                      Cerrar Sesión
                     </NavDropdown.Item>
                   </NavDropdown>
                 ): (

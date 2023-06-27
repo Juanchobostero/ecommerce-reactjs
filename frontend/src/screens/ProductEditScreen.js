@@ -8,6 +8,8 @@ import FormContainer from '../components/FormContainer';
 import { listProductDetails, updateProduct } from '../actions/productActions';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstants';
 import axios from 'axios';
+import { listProductCategories } from '../actions/productCategoryActions';
+import Swal from 'sweetalert2';
 
 const ProductEditScreen = () => {
 
@@ -17,7 +19,7 @@ const ProductEditScreen = () => {
   const [price, setPrice] = useState(0); 
   const [image, setImage] = useState('');
   const [brand, setBrand] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(0);
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -27,6 +29,9 @@ const ProductEditScreen = () => {
 
   const productDetails = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetails;
+
+  const productCategory = useSelector(state => state.productCategory);
+  const { categories } = productCategory;
 
   const productUpdate = useSelector(state => state.productUpdate);
   const { 
@@ -41,6 +46,7 @@ const ProductEditScreen = () => {
         navigate('/admin/productlist');
     } else {
         if(!product || product._id !== productId) {
+            dispatch(listProductCategories());
             dispatch(listProductDetails(productId));
         } else {
             setName(product.name);
@@ -52,11 +58,71 @@ const ProductEditScreen = () => {
             setDescription(product.description);
         }
     }
-    
   }, [dispatch, navigate, productId, product, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+
+    if(name.length === 0 || name === '') {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El nombre no puede estar vacío !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
+    if(brand.length === 0 || brand === '') {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El campo Marca no puede estar vacío !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
+    if(description.length === 0 || description === '') {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El campo Descripción no puede estar vacío !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
+    if(isNaN(price)) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El precio debe ser un número !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
+    if(price === 0) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El precio no puede ser cero !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
+    if(countInStock <= 0) {
+        Swal.fire({
+            title: 'Error!',
+            text: 'El stock ingresado debe ser mayor a 0 !',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        })
+        return;
+    }
+
     dispatch(updateProduct({
         _id: productId,
         name,
@@ -95,10 +161,10 @@ const ProductEditScreen = () => {
   return (
     <Fragment>
         <Link to='/admin/productlist' className='btn btn-light my-3'>
-            Go Back
+            VOLVER
         </Link>
         <FormContainer>
-        <h1>Edit Product</h1>
+        <h1>Editar Producto</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading 
@@ -107,7 +173,7 @@ const ProductEditScreen = () => {
                 ? <Message variant='danger'>{error}</Message> 
                 :(<Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Nombre</Form.Label>
                             <Form.Control 
                                 type='name' 
                                 placeholder='Enter Name' 
@@ -118,7 +184,7 @@ const ProductEditScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId='price'>
-                        <Form.Label>Price</Form.Label>
+                        <Form.Label>Precio</Form.Label>
                         <Form.Control 
                             type='number' 
                             placeholder='Enter price' 
@@ -129,7 +195,7 @@ const ProductEditScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId='image'>
-                        <Form.Label>Image</Form.Label>
+                        <Form.Label>Imagen</Form.Label>
                             <Form.Control 
                                 type='text' 
                                 placeholder='Enter image url' 
@@ -146,7 +212,7 @@ const ProductEditScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId='brand'>
-                        <Form.Label>Brand</Form.Label>
+                        <Form.Label>Marca</Form.Label>
                             <Form.Control 
                                 type='text' 
                                 placeholder='Enter brand' 
@@ -157,7 +223,7 @@ const ProductEditScreen = () => {
                     </Form.Group>
 
                     <Form.Group controlId='countInStock'>
-                        <Form.Label>Count In Stock</Form.Label>
+                        <Form.Label>Stock</Form.Label>
                         <Form.Control 
                             type='number' 
                             placeholder='Enter count in stock' 
@@ -167,19 +233,33 @@ const ProductEditScreen = () => {
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId='category'>
-                        <Form.Label>Category</Form.Label>
-                            <Form.Control 
-                                type='text' 
-                                placeholder='Enter category' 
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value)}
-                                >
-                            </Form.Control>
+                    <Form.Group controlId="category">
+                        <Form.Label>Categoría</Form.Label>
+                        <Form.Control
+                            as="select"
+                            value={category}
+                            onChange={e => {
+                                console.log("e.target.value", e.target.value);
+                                setCategory(e.target.value);
+                        }}
+                        >
+                            {
+                                categories.map(cat => (
+                                    <option 
+                                        key={cat.description} 
+                                        value={cat._id}
+                                    >
+                                        {cat.description}
+                                    </option>
+                                ))
+                            }
+                            
+                        
+                        </Form.Control>
                     </Form.Group>
 
                     <Form.Group controlId='description'>
-                        <Form.Label>Description</Form.Label>
+                        <Form.Label>Descripción</Form.Label>
                             <Form.Control 
                                 type='text' 
                                 placeholder='Enter description' 
@@ -190,7 +270,7 @@ const ProductEditScreen = () => {
                     </Form.Group>
 
                     <Button type='submit' variant='primary'>
-                        Update
+                        CONFIRMAR
                     </Button>
                 </Form>
         )}

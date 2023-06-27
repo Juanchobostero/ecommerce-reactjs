@@ -55,3 +55,8 @@ h3 {
 .col-report {
     height: 40vh;
 }
+
+.lowStock {
+    background-color: rgb(196, 117, 117);
+    color: rgb(255, 255, 255);
+}
