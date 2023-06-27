@@ -1,0 +1,1 @@
+export const URI_API_PRODUCTION = 'https://ecommerce-reactjs-nine.vercel.app';

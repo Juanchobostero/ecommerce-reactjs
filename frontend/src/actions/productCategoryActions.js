@@ -4,12 +4,13 @@ import {
     CATEGORY_LIST_REQUEST, 
     CATEGORY_LIST_SUCCESS 
 } from '../constants/productCategoryConstants';
+import { URI_API_PRODUCTION } from '../constants/urlConstants';
 
 export const listProductCategories = () => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_LIST_REQUEST });
 
-        const { data } = await axios.get('/api/categories');
+        const { data } = await axios.get(`${URI_API_PRODUCTION}/api/categories`);
 
         dispatch({
             type: CATEGORY_LIST_SUCCESS,

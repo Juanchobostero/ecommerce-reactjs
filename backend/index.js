@@ -52,6 +52,7 @@ app.get('/api/config/paypal', (req, res) =>
 
 // PREFERENCIA MERCADO PAGO
 app.post("/create_preference", (req, res) => {
+	const baseURIClient = process.env.BASE_URI_CLIENT;
 	let cartItemsMercadoPago = req.body.orderDataMercadoPago.map((item) => ({
 		...item,
 		title: item.name,
@@ -62,12 +63,12 @@ app.post("/create_preference", (req, res) => {
 	let preference = {
 		items: cartItemsMercadoPago,
 		back_urls: {
-			"success": `http://localhost:3000/order/${order}`,
-			"failure": `http://localhost:3000/order/${order}`,
-			"pending": "http://localhost:3000"
+			"success": `${baseURIClient}/order/${order}`,
+			"failure": `${baseURIClient}/order/${order}`,
+			"pending": `${baseURIClient}/order/${order}`
 		},
 		auto_return: "approved",
-		statement_descriptor: "ECOMMERCE JUAN 2",
+		statement_descriptor: "ECOMMERCE JUAN",
 		//notification_url: 'https://1281-201-235-90-251.ngrok-free.app/notify'
 	};
 
