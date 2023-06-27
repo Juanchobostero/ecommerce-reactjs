@@ -2,7 +2,7 @@
   "name": "proshop-ecommerce",
   "version": "1.0.0",
   "description": "MERN shopping cart app",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node backend/index",
