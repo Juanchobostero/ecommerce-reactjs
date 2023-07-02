@@ -9,7 +9,7 @@ import Loader from '../components/Loader';
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstants';
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react';
-import { URI_API_PRODUCTION } from '../constants/urlConstants';
+
 
 const OrderDetailsScreen = () => {
 
@@ -93,6 +93,9 @@ const OrderDetailsScreen = () => {
     
         const createPreference = async () => {
             try {
+                const url = process.env.REACT_APP_ENV === 'development' 
+                    ? 'http://localhost:5000' 
+                    : process.env.REACT_APP_URI_API_PRODUCTION;
                 const orderDataMercadoPago = cartItems.map((item) => ({
                     ...item,
                     name: item.name,
@@ -101,7 +104,8 @@ const OrderDetailsScreen = () => {
                     currency_id: "ARS"
                 }));
                 console.log(orderDataMercadoPago);
-                const response = await axios.post(`${URI_API_PRODUCTION}/create_preference`, {
+                console.log('URI', process.env.REACT_APP_URI_API_PRODUCTION);
+                const response = await axios.post(`${url}/create_preference`, {
                     orderDataMercadoPago,
                     order: order._id
                 });
@@ -114,7 +118,7 @@ const OrderDetailsScreen = () => {
         }
         
         const addPayPalScript = async () => {
-            const { data: clientId } = await axios.get(`${URI_API_PRODUCTION}/api/config/paypal`);
+            const { data: clientId } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/config/paypal`);
             const script = document.createElement('script');
             script.type = 'text/javascript';
             script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;

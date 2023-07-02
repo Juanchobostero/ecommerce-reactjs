@@ -52,7 +52,9 @@ app.get('/api/config/paypal', (req, res) =>
 
 // PREFERENCIA MERCADO PAGO
 app.post("/create_preference", (req, res) => {
-	const baseURIClient = process.env.BASE_URI_CLIENT;
+	const url = process.env.NODE_ENV === 'development' 
+		? 'http://localhost:3000' 
+		: process.env.NODE_BASE_URI_CLIENT_PROD;
 	let cartItemsMercadoPago = req.body.orderDataMercadoPago.map((item) => ({
 		...item,
 		title: item.name,
@@ -63,9 +65,9 @@ app.post("/create_preference", (req, res) => {
 	let preference = {
 		items: cartItemsMercadoPago,
 		back_urls: {
-			"success": `${baseURIClient}/order/${order}`,
-			"failure": `${baseURIClient}/order/${order}`,
-			"pending": `${baseURIClient}/order/${order}`
+			"success": `${url}/order/${order}`,
+			"failure": `${url}/order/${order}`,
+			"pending": `${url}/order/${order}`
 		},
 		auto_return: "approved",
 		statement_descriptor: "ECOMMERCE JUAN",
@@ -107,7 +109,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-mercadopago.merchant_orders.findById('10010594485').then(res => console.log(res.body));
+mercadopago.preferences.findById('1180488044-b8242cf5-9aa5-447d-b120-570549edbf15').then(res => console.log(res.body));
 
 app.listen(
     PORT, 

@@ -27,6 +27,7 @@ const HomeScreen = () => {
   } = productList;
 
   useEffect(() => {
+    console.log('PROCESS', process.env.REACT_APP_URI_API_PRODUCTION);
     dispatch(listProducts(keyword, pageNumber));
   }, [dispatch, keyword, pageNumber]);
 
