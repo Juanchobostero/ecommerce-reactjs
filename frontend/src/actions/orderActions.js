@@ -20,6 +20,10 @@ import {
     ORDER_DELIVER_REQUEST
 } from "../constants/orderConstants";
 
+const url = process.env.REACT_APP_ENV === 'development' 
+        ? 'http://localhost:5000' 
+        : process.env.REACT_APP_URI_API_PRODUCTION;
+
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
         dispatch({
@@ -35,7 +39,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.post(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders`, order, config);
+        const { data } = await axios.post(`${url}/api/orders`, order, config);
 
         dispatch({
             type: ORDER_CREATE_SUCCESS,
@@ -66,7 +70,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders/${id}`, config);
+        const { data } = await axios.get(`${url}/api/orders/${id}`, config);
 
         dispatch({
             type: ORDER_DETAILS_SUCCESS,
@@ -98,7 +102,7 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.put(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders/${id}/pay`, paymentResult, config);
+        const { data } = await axios.put(`${url}/api/orders/${id}/pay`, paymentResult, config);
 
         dispatch({
             type: ORDER_PAY_SUCCESS,
@@ -132,7 +136,7 @@ export const listMyOrders = () => async (
             }
         };
 
-        const { data } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders/myorders`, config);
+        const { data } = await axios.get(`${url}/api/orders/myorders`, config);
 
         dispatch({
             type: ORDER_LIST_MY_SUCCESS,
@@ -166,7 +170,7 @@ export const listOrders = () => async (
             }
         };
 
-        const { data } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders`, config);
+        const { data } = await axios.get(`${url}/api/orders`, config);
 
         dispatch({
             type: ORDER_LIST_SUCCESS,
@@ -197,7 +201,7 @@ export const deliverOrder = (order) => async (dispatch, getState) => {
             }
         };
 
-        await axios.put(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/orders/${order._id}/deliver`, {}, config);
+        await axios.put(`${url}/api/orders/${order._id}/deliver`, {}, config);
 
         dispatch({  type: ORDER_DELIVER_SUCCESS });
 

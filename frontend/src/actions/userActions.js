@@ -27,6 +27,10 @@ import {
     USER_UPDATE_SUCCESS
 } from "../constants/userConstants";
 
+const url = process.env.REACT_APP_ENV === 'development' 
+    ? 'http://localhost:5000' 
+    : process.env.REACT_APP_URI_API_PRODUCTION;
+
 export const login = (email, password) => async (dispatch) => {
     try {
         dispatch({
@@ -39,7 +43,7 @@ export const login = (email, password) => async (dispatch) => {
             }
         };
 
-        const { data } = await axios.post(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users/login`, { email, password }, config);
+        const { data } = await axios.post(`${url}/api/users/login`, { email, password }, config);
 
         dispatch({
             type: USER_LOGIN_SUCCESS,
@@ -78,7 +82,7 @@ export const register = (name, email, password) => async (dispatch) => {
         };
 
         const { data } = await axios.post(
-            `${process.env.REACT_APP_URI_API_PRODUCTION}/api/users`, 
+            `${url}/api/users`, 
             { name, email, password }, 
             config
         );
@@ -119,7 +123,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users/${id}`, config);
+        const { data } = await axios.get(`${url}/api/users/${id}`, config);
 
         dispatch({
             type: USER_DETAILS_SUCCESS,
@@ -151,7 +155,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.put(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users/profile`, user, config);
+        const { data } = await axios.put(`${url}/api/users/profile`, user, config);
 
         dispatch({
             type: USER_UPDATE_PROFILE_SUCCESS,
@@ -189,7 +193,7 @@ export const listUsers = () => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users`, config);
+        const { data } = await axios.get(`${url}/api/users`, config);
 
         dispatch({
             type: USER_LIST_SUCCESS,
@@ -220,7 +224,7 @@ export const deleteUser = (id) => async (dispatch, getState) => {
             }
         };
 
-        await axios.delete(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users/${id}`, config);
+        await axios.delete(`${url}/api/users/${id}`, config);
 
         dispatch({ type: USER_DELETE_SUCCESS });
 
@@ -249,7 +253,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.put(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/users/${user._id}`, user, config);
+        const { data } = await axios.put(`${url}/api/users/${user._id}`, user, config);
 
         dispatch({ type: USER_UPDATE_SUCCESS });
         dispatch({ type: USER_DETAILS_SUCCESS, payload: data });

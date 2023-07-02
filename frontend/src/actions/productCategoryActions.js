@@ -5,6 +5,10 @@ import {
     CATEGORY_LIST_SUCCESS 
 } from '../constants/productCategoryConstants';
 
+const url = process.env.REACT_APP_ENV === 'development' 
+    ? 'http://localhost:5000' 
+    : process.env.REACT_APP_URI_API_PRODUCTION;
+
 export const listProductCategories = () => async (dispatch) => {
     try {
         dispatch({ type: CATEGORY_LIST_REQUEST });
