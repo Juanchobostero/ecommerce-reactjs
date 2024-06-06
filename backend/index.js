@@ -36,9 +36,13 @@ app.get('/', (req, res) => {
     res.send('API is running ...');
 });
 
-app.use(cors({
-	origin: '*',
-}));
+const corsOptions = {
+    origin: 'https://ecommerce-reactjs-chi.vercel.app',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization'
+};
+
+app.use(cors(corsOptions));
 
 app.use('/api/products', productRoutes);
 app.use('/api/categories', productCategoryRoutes);
