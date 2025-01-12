@@ -20,7 +20,7 @@ import {
     ORDER_DELIVER_REQUEST
 } from "../constants/orderConstants";
 
-const url = process.env.REACT_APP_ENV === 'development' 
+const url = process.env.NODE_ENV === 'development' 
         ? 'http://localhost:5000' 
         : process.env.REACT_APP_URI_API_PRODUCTION;
 

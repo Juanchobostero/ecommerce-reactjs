@@ -27,7 +27,8 @@
     "mercadopago": "^1.5.8",
     "mongoose": "^6.3.6",
     "morgan": "^1.10.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "react-scripts": "^5.0.1"
   },
   "devDependencies": {
     "concurrently": "^7.2.1",

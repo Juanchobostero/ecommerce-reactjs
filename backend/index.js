@@ -19,8 +19,12 @@ connectDB();
 
 const app = express();
 
+const origin = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:3000' 
+    : process.env.REACT_APP_URI_FRONT_PRODUCTION;
+
 const corsOptions = {
-    origin: 'https://ecommerce-reactjs-chi.vercel.app',
+    origin, 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization'
 };

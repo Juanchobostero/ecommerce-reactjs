@@ -6,7 +6,7 @@ import {
     CART_SAVE_SHIPPING_ADDRESS 
 } from '../constants/cartConstants';
 
-const url = process.env.REACT_APP_ENV === 'development' 
+const url = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:5000' 
     : process.env.REACT_APP_URI_API_PRODUCTION;
 
