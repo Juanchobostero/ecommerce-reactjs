@@ -20,8 +20,9 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
-    'http://localhost:3000', // Desarrollo
-    'https://ecommerce-reactjs-chi.vercel.app' // Producción
+    'http://localhost:3000',
+    'http://localhost:3420',
+    'https://ecommerce-reactjs-chi.vercel.app'
 ];
 
 const corsOptions = {
@@ -63,8 +64,8 @@ app.get('/api/config/paypal', (req, res) => {
 app.post('/create_preference', async (req, res) => {
     try {
         const url = process.env.NODE_ENV === 'development'
-            ? 'http://localhost:3000'
-            : process.env.NODE_BASE_URI_CLIENT_PROD;
+            ? 'http://localhost:3420'
+            : process.env.REACT_APP_URI_FRONT_PRODUCTION;
         let cartItemsMercadoPago = req.body.orderDataMercadoPago.map((item) => ({
             ...item,
             title: item.name,

@@ -77,113 +77,11 @@ const OrderDetailsScreen = () => {
         if(!userInfo) {
             navigate('/login');
         }
-
-        const getDataPagoMercadoPago = async (paymentId) => {
-            try {
-                const response = await axios.get(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
-                    headers: {
-                        'Authorization': 'Bearer APP_USR-5029250925841563-081611-6d6c33c264b920c6cce47d975f80e384-1180488044'
-                    }
-                });
-                return response.data;
-            } catch (error) {
-                console.log(error);
-            }   
-        }
-    
-        const createPreference = async () => {
-            try {
-                const url = process.env.REACT_APP_ENV === 'development' 
-                    ? 'http://localhost:5000' 
-                    : process.env.REACT_APP_URI_API_PRODUCTION;
-                const orderDataMercadoPago = cartItems.map((item) => ({
-                    ...item,
-                    name: item.name,
-                    price: item.price,
-                    quantity: item.qty,
-                    currency_id: "ARS"
-                }));
-                console.log(orderDataMercadoPago);
-                console.log('URI', process.env.REACT_APP_URI_API_PRODUCTION);
-                const response = await axios.post(`${url}/create_preference`, {
-                    orderDataMercadoPago,
-                    order: order._id
-                });
-    
-                const { id } = response.data;
-                return id;
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        
-        const addPayPalScript = async () => {
-            const { data: clientId } = await axios.get(`${process.env.REACT_APP_URI_API_PRODUCTION}/api/config/paypal`);
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-            script.async = true;
-            script.onload = () => {
-                setSdkReady(true);
-            };
-
-            document.body.appendChild(script);
-        }
-
-        const addMercadoPago = async () => {
-            const preference = await createPreference();
-                if(preference) {
-                    setPreferenceId(preference);
-                }
-        }
-
-            if(!order || successPay || successDeliver || order._id !== id) {
-                dispatch({ type: ORDER_PAY_RESET });
-                dispatch({ type: ORDER_DELIVER_RESET });
-                dispatch(getOrderDetails(id));
-            } else if(!order.isPaid) {
-                if(order.paymentMethod === 'MP') {
-
-                    //Verificar si hay parametros de mercado pago de redirección luego del pago exitoso
-                    if(paramsMercadoPago && paramsMercadoPago.length > 0) {
-
-                        //REFACTORIZE THIS IF 
-                        // (CALL TO api/merchant_orders/:merchant_order_id }
-                        // AND VERIFY ORDER PAID AND THEN CHANGE THE STATE OR NOT
-                        if(paramsMercadoPago[3][1] === 'approved') {
-                            // Extracts the payment_id from to array of params returned by MERCADO PAGO
-                            paymentId = paramsMercadoPago[2][1];
-                            // Get pay info
-                            const mercadoPagoData = getDataPagoMercadoPago(paymentId);
-
-                            successPaymentHandler({
-                                id: paymentId,
-                                status: paramsMercadoPago[3][1],
-                                update_time: Date(mercadoPagoData.date_approved),
-                                email_address: 'juancruzmart93@gmail.com'
-                            });
-                        } else {
-                            if (paramsMercadoPago[3][1] === 'rejected') {
-                                setSdkReady(false);
-                                addMercadoPago();
-                            } 
-                        }
-                    } else {
-                        setSdkReady(false);
-                        addMercadoPago();
-                    } 
- 
-                } else {
-                    if(!window.paypal) {
-                        addPayPalScript();
-                    }else {
-                        setSdkReady(false);
-                    }
-                }
-            }
-        
-
-        
+        if(!order || successPay || successDeliver || order._id !== id) {
+            dispatch({ type: ORDER_PAY_RESET });
+            dispatch({ type: ORDER_DELIVER_RESET });
+            dispatch(getOrderDetails(id));
+        } 
     }, [dispatch, navigate, id, successPay, successDeliver, order, userInfo]);
 
     const deliverHandler = () => {
@@ -306,31 +204,9 @@ const OrderDetailsScreen = () => {
                                         <Col>${order.totalPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
-                                {/* {!order.isPaid && (
-                                    <ListGroup.Item>
-                                        {loadingPay && <Loader />}
-                                        {!sdkReady ? <Loader /> : (
-                                            <PayPalButton 
-                                                amount={order.totalPrice}
-                                                onSuccess={successPaymentHandler}
-                                            />
-                                        )}
-                                    </ListGroup.Item>
-                                )} */}
-
-                                {!order.isPaid && (
-                                    <ListGroup.Item>
-                                        {loadingPay && <Loader />}
-                                        {!preferenceId ? <Loader /> : (
-                                            <Wallet
-                                                initialization={{ preferenceId }} 
-                                            />
-                                        )}
-                                    </ListGroup.Item>
-                                )}
 
                                 {loadingDeliver && <Loader />}
-                                {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                {userInfo && userInfo.isAdmin && !order.isDelivered && (
                                     <ListGroup.Item>
                                         <Button
                                             type='button'
