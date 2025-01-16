@@ -24,8 +24,10 @@ import 'antd/dist/antd.min.css';
 function App() {
   return (
     <Router>
+      <div className="bg-no-repeat bg-cover bg-fixed"
+        style={{ backgroundImage: "url('/images/background-alfajores-8.jpg')" }}>
       <Header />
-      <main className='py-3'>
+      <main>
         <Container>
           <Routes>
             <Route path='/order/:id' element={<OrderDetailsScreen />} />
@@ -53,6 +55,7 @@ function App() {
         </Container>
       </main>
       <Footer />
+      </div>
     </Router>
   );
 }

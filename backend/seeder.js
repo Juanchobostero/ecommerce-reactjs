@@ -22,19 +22,17 @@ const importData = async () => {
         await ProductCategory.deleteMany();
 
         const createdUsers = await User.insertMany(users);
-        const createdCategories = await ProductCategory.insertMany(categories);
-        const sampleCategory = createdCategories[0]._id;
         const adminUser = createdUsers[0]._id;
 
-        const sampleProducts = products.map(product => {
-            return { 
-                ...product, 
-                user: adminUser, 
-                category: sampleCategory,
-            }
-        });
+        // const sampleProducts = products.map(product => {
+        //     return { 
+        //         ...product, 
+        //         user: adminUser, 
+        //         category: sampleCategory,
+        //     }
+        // });
 
-        await Product.insertMany(sampleProducts);
+        // await Product.insertMany(sampleProducts);
 
         console.log('Data imported !'.green.inverse);
         process.exit();

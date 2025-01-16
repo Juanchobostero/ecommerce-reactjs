@@ -126,7 +126,6 @@ const ProductListScreen = () => {
                                     <td>
                                         ${product.price}
                                     </td>
-                                    <td>{product.categoryName[0].description}</td>
                                     <td 
                                         className={`${(product.countInStock <= 5 && 'lowStock')}`}
                                     >

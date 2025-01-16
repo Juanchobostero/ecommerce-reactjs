@@ -18,7 +18,8 @@ const ProductEditScreen = () => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0); 
   const [image, setImage] = useState('');
-  const [brand, setBrand] = useState('');
+  const [code, setCode] = useState('');
+  const [discount, setDiscount] = useState('');
   const [category, setCategory] = useState(0);
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
@@ -52,7 +53,8 @@ const ProductEditScreen = () => {
             setName(product.name);
             setPrice(product.price);
             setImage(product.image);
-            setBrand(product.brand);
+            setCode(product.code);
+            setDiscount(product.discount);
             setCategory(product.category);
             setCountInStock(product.countInStock);
             setDescription(product.description);
@@ -73,7 +75,7 @@ const ProductEditScreen = () => {
         return;
     }
 
-    if(brand.length === 0 || brand === '') {
+    if(code.length === 0 || code === 0) {
         Swal.fire({
             title: 'Error!',
             text: 'El campo Marca no puede estar vacío !',
@@ -128,7 +130,8 @@ const ProductEditScreen = () => {
         name,
         price,
         image,
-        brand,
+        code,
+        discount,
         category,
         description,
         countInStock
@@ -211,13 +214,24 @@ const ProductEditScreen = () => {
                             {uploading && <Loader />}
                     </Form.Group>
 
-                    <Form.Group controlId='brand'>
-                        <Form.Label>Marca</Form.Label>
+                    <Form.Group controlId='code'>
+                        <Form.Label>Código</Form.Label>
                             <Form.Control 
                                 type='text' 
                                 placeholder='Enter brand' 
-                                value={brand}
-                                onChange={(e) => setBrand(e.target.value)}
+                                value={code}
+                                onChange={(e) => setCode(e.target.value)}
+                                >
+                            </Form.Control>
+                    </Form.Group>
+
+                    <Form.Group controlId='discount'>
+                        <Form.Label>Descuento</Form.Label>
+                            <Form.Control 
+                                type='text' 
+                                placeholder='Enter brand' 
+                                value={discount}
+                                onChange={(e) => setDiscount(e.target.value)}
                                 >
                             </Form.Control>
                     </Form.Group>
@@ -233,30 +247,6 @@ const ProductEditScreen = () => {
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId="category">
-                        <Form.Label>Categoría</Form.Label>
-                        <Form.Control
-                            as="select"
-                            value={category}
-                            onChange={e => {
-                                console.log("e.target.value", e.target.value);
-                                setCategory(e.target.value);
-                        }}
-                        >
-                            {
-                                categories.map(cat => (
-                                    <option 
-                                        key={cat.description} 
-                                        value={cat._id}
-                                    >
-                                        {cat.description}
-                                    </option>
-                                ))
-                            }
-                            
-                        
-                        </Form.Control>
-                    </Form.Group>
 
                     <Form.Group controlId='description'>
                         <Form.Label>Descripción</Form.Label>

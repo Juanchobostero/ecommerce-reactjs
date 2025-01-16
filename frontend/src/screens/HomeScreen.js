@@ -7,7 +7,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { Link, useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
-import ProductCarousel from '../components/ProductCarousel';
+import Carousel from '../components/Carousel';
 import Meta from '../components/Meta';
 
 const HomeScreen = () => {
@@ -26,6 +26,25 @@ const HomeScreen = () => {
     page
   } = productList;
 
+  const cards = [
+    <div key="1" className="p-6">
+      <h3 className="text-xl font-bold mb-2">Card 1</h3>
+      <p className="text-gray-600">This is the first card with some content.</p>
+    </div>,
+    <div key="2" className="p-6">
+      <h3 className="text-xl font-bold mb-2">Card 2</h3>
+      <p className="text-gray-600">Here's the second card with different content.</p>
+    </div>,
+    <div key="3" className="p-6">
+      <h3 className="text-xl font-bold mb-2">Card 3</h3>
+      <p className="text-gray-600">And this is the third card in our carousel.</p>
+    </div>,
+    <div key="4" className="p-6">
+      <h3 className="text-xl font-bold mb-2">Card 4</h3>
+      <p className="text-gray-600">The fourth card shows how the carousel loops.</p>
+    </div>,
+  ];
+
   useEffect(() => {
     console.log('PROCESS', process.env.REACT_APP_URI_API_PRODUCTION);
     dispatch(listProducts(keyword, pageNumber));
@@ -34,7 +53,7 @@ const HomeScreen = () => {
   return (
     <>
       <Meta />
-      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>Volver</Link>}
+      {!keyword ? <Carousel cards={cards} /> : <Link to='/' className='btn btn-light'>Volver</Link>}
       <br></br>
       <h1>Últimos Productos</h1>
       { loading 
