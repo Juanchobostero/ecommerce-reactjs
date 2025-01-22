@@ -33,18 +33,24 @@ const app = express();
 //     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
 // ];
 
+const whitelist = [
+    'http://localhost:3000',
+    'http://localhost:3420',
+    'https://ecommerce-reactjs-chi.vercel.app', // PROD
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app'
+]
 const corsOptions = {
-    origin: '*', // Permitir cualquier origen
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-};
-
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
 
 // Permitir todos los orígenes
-app.use(cors(corsOptions));
-
-// Maneja solicitudes preflight
-app.options('*', cors());
+app.use(cors());
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
