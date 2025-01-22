@@ -21,7 +21,9 @@ const CartScreen = () => {
   };
 
   const checkoutHandler = () => {
-    if(!userInfo) {
+    if(userInfo && userInfo.name) {
+      navigate('/shipping');
+    } else {
       Swal.fire({
         title: 'Error!',
         text: 'Debes iniciar sesión para poder continuar con la Compra',
@@ -31,7 +33,6 @@ const CartScreen = () => {
       })
       return
     }
-    navigate('/shipping');
   };
 
   return (
