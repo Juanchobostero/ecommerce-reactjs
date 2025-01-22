@@ -50,6 +50,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+// Maneja solicitudes preflight
+app.options('*', cors(corsOptions));
+
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 } else {
