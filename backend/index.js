@@ -29,33 +29,25 @@ connectDB();
 
 const app = express();
 
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3420',
+    'https://ecommerce-reactjs-chi.vercel.app', // PROD
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
+];
+
 const corsOptions = {
-    origin: '*', // Permite todas las solicitudes
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
 };
 
-// const allowedOrigins = [
-//     'http://localhost:3000',
-//     'http://localhost:3420',
-//     'https://ecommerce-reactjs-chi.vercel.app', // PROD
-//     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
-// ];
-
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         console.log('Origin:', origin); // Log para debug
-//         if (allowedOrigins.includes(origin)) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     },
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     allowedHeaders: 'Content-Type,Authorization',
-// };
-
-// Middleware CORS
 app.use(cors(corsOptions))
 
 if (process.env.NODE_ENV === 'development') {
