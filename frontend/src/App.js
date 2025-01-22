@@ -83,7 +83,7 @@ function App() {
                 <Route path="/catalogo/page/:pageNumber" element={<ProductCatalogScreen />} />
                 <Route path="/" element={<HomeScreen />} />
               </Routes>
-              <TopButton className="z-100" />
+              <TopButton />
             </TransitionWrapper>
           </Container>
         </main>

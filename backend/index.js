@@ -33,7 +33,7 @@ const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3420',
     'https://ecommerce-reactjs-chi.vercel.app', // PROD
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
 ];
 
 const corsOptions = {
@@ -46,6 +46,7 @@ const corsOptions = {
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
+    credentials: true,
 };
 
 app.use(cors(corsOptions))
