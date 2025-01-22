@@ -33,22 +33,15 @@ const app = express();
 //     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
 // ];
 
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         if (!origin || allowedOrigins.includes(origin)) {
-//             callback(null, true);
-//         } else {
-//             console.error(`Blocked by CORS: ${origin}`);
-//             callback(new Error('Not allowed by CORS'));
-//         }
-//     },
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//     allowedHeaders: 'Content-Type,Authorization',
-//     credentials: true,
-// };
+const corsOptions = {
+    origin: '*', // Permitir cualquier origen
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
+};
+
 
 // Permitir todos los orígenes
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Maneja solicitudes preflight
 app.options('*', cors());
