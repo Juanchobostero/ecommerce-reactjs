@@ -29,26 +29,34 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app', //PROD
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
-];
-
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: '*', // Permite todas las solicitudes
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
 };
 
-app.use(cors(corsOptions));
+// const allowedOrigins = [
+//     'http://localhost:3000',
+//     'http://localhost:3420',
+//     'https://ecommerce-reactjs-chi.vercel.app', // PROD
+//     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
+// ];
+
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//         console.log('Origin:', origin); // Log para debug
+//         if (allowedOrigins.includes(origin)) {
+//             callback(null, true);
+//         } else {
+//             callback(new Error('Not allowed by CORS'));
+//         }
+//     },
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     allowedHeaders: 'Content-Type,Authorization',
+// };
+
+// Middleware CORS
+app.use(cors(corsOptions))
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -128,8 +136,7 @@ app.get('/feedback', (req, res) => {
     }
 });
 
-const __dirname = path.resolve();
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.use('/uploads', express.static('uploads'))
 
 app.use(notFound);
 app.use(errorHandler);
