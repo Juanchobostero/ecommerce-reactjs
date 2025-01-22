@@ -12,6 +12,16 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import mercadopago from 'mercadopago';
 import cors from 'cors';
+import { rateLimit } from "express-rate-limit"
+
+// Puedo y debería crear mas, pero vamos viendo.
+const limiterGeneral = rateLimit({
+    windowMs: 1 * 60 * 1000, // 1 min
+    limit: 2, // each IP can make up to 10 requests per `windowsMs` (5 minutes)
+    standardHeaders: true, // add the `RateLimit-*` headers to the response
+    legacyHeaders: false, // remove the `X-RateLimit-*` headers from the response
+  });
+
 
 dotenv.config();
 
@@ -48,7 +58,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.send('API is running ...');
+    res.send('API is running...');
 });
 
 app.use('/api/products', productRoutes);

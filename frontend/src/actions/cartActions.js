@@ -8,7 +8,7 @@ import {
 
 const url = process.env.NODE_ENV === 'development' 
     ? 'http://localhost:5000' 
-    : process.env.REACT_APP_URI_API_PRODUCTION;
+    : process.env.REACT_APP_URI_API_PRODUCTION
 
 export const addToCart = (id, qty) => async (dispatch, getState) => {
     const { data } = await axios.get(`${url}/api/products/${id}`);

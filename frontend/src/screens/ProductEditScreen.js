@@ -75,7 +75,7 @@ const ProductEditScreen = () => {
         return;
     }
 
-    if(code.length === 0 || code === 0) {
+    if(code === 0) {
         Swal.fire({
             title: 'Error!',
             text: 'El campo Marca no puede estar vacío !',
@@ -150,8 +150,11 @@ const ProductEditScreen = () => {
                 'Content-Type': 'multipart/form-data',
             }
         }
+        const url = process.env.NODE_ENV === 'development' 
+            ? 'http://localhost:5000' 
+            : process.env.REACT_APP_URI_API_PRODUCTION
 
-        const { data } = await axios.post('/api/upload', formData, config);
+        const { data } = await axios.post(`${url}/api/upload`, formData, config);
 
         setImage(data);
         setUploading(false);
@@ -199,18 +202,49 @@ const ProductEditScreen = () => {
 
                     <Form.Group controlId='image'>
                         <Form.Label>Imagen</Form.Label>
-                            <Form.Control 
-                                type='text' 
-                                placeholder='Enter image url' 
-                                value={image}
-                                onChange={(e) => setImage(e.target.value)}
+                        <div className="flex flex-col items-center justify-center w-full">
+                            <label
+                                htmlFor="dropzone-file"
+                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                            >
+                                <div className="flex flex-col items-center justify-center">
+                                <svg
+                                    className="w-6 h-6 mb-2 text-gray-500 dark:text-gray-400"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 20 16"
                                 >
-                            </Form.Control>
-                            
-                            <Form.Control
-                                type='file'
+                                    <path
+                                    stroke="currentColor"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                    />
+                                </svg>
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="font-semibold">Click para Cargar Archivo</span> o Arrastrar y Soltar
+                                </p>
+                                </div>
+                                <input
+                                id="dropzone-file"
+                                type="file"
+                                className="hidden"
                                 onChange={uploadFileHandler}
-                            />
+                                />
+                            </label>
+
+                            {/* Campo de texto adicional para la URL de la imagen */}
+                            <div className="w-full mt-2">
+                                {/* Texto de la ruta debajo del input */}
+                                {image && (
+                                <p className="text-xs text-gray-500 mt-1 truncate">
+                                    <span className="bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Ruta actual: {image}</span>
+                                </p>
+                                )}
+                            </div>
+                            </div>
                             {uploading && <Loader />}
                     </Form.Group>
 
