@@ -18,7 +18,7 @@ const TopButton = () => {
     function scrollFunction() {
         if (mybutton && (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
             mybutton.style.display = "block";
-            mybutton.style.zIndex = "100";
+            mybutton.style.zIndex = "500";
         } else if (mybutton) {
             mybutton.style.display = "none";
         }
