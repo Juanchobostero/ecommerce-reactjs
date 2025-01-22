@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+
 main{
-    min-height: 80vh;
+    min-height: 100vh;
 }
 
 h1 {
+    font-family: 'Playball', system-ui;
     font-size: 1.4rem;
     padding: 0.1rem;
+    font-wight: bold;
+}
+
+.nav-elem {
+    font-family: 'Playfair Display Variable', serif;
+    font-size: 0.8rem
 }
 
 h2 {
@@ -64,3 +72,77 @@ h3 {
     background-color: rgb(196, 117, 117);
     color: rgb(255, 255, 255);
 }
+
+.custom-card {
+    font-family: 'Playball', system-ui;
+    font-size: 1rem;
+    width: 95%;
+    max-height: 320px; /* Reducir altura */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px; /* Reducir el padding */
+  }
+  
+  .custom-card-img {
+    height: 180px; /* Reducir la altura de la imagen */
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out; /* Suaviza la transición */
+  }
+  
+
+.custom-card-img:hover {
+    transform: scale(1.4); /* Zoom hacia dentro al hacer hover */
+}
+
+.custom-card {
+  overflow: hidden; /* Evita que la imagen se salga del contenedor */
+}
+  
+  
+  .custom-card-body {
+    padding: 5px;
+    text-align: center;
+  }
+  
+  .custom-card-title {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+    overflow: hidden; /* Oculta el texto que se desborda */
+    text-overflow: ellipsis; /* Añade '...' al final del texto que no cabe */
+    display: block; /* Asegura que el contenedor del texto sea un bloque */
+  }
+  
+  
+  .custom-card-price {
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+  }
+
+  #myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+    font-size: 18px; /* Increase font size */
+}
+
+#myBtn:hover {
+    background-color: #555; /* Add a dark-grey background on hover */
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+  
