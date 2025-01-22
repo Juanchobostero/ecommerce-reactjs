@@ -12,16 +12,15 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import mercadopago from 'mercadopago';
 import cors from 'cors';
-import { rateLimit } from "express-rate-limit"
+import { rateLimit } from "express-rate-limit";
 
-// Puedo y debería crear mas, pero vamos viendo.
+// Configuración de rate limiting
 const limiterGeneral = rateLimit({
-    windowMs: 1 * 60 * 1000, // 1 min
-    limit: 2, // each IP can make up to 10 requests per `windowsMs` (5 minutes)
-    standardHeaders: true, // add the `RateLimit-*` headers to the response
-    legacyHeaders: false, // remove the `X-RateLimit-*` headers from the response
-  });
-
+    windowMs: 1 * 60 * 1000, // 1 minuto
+    limit: 10, // cada IP puede realizar hasta 10 solicitudes por ventana
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 dotenv.config();
 
@@ -41,6 +40,7 @@ const corsOptions = {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
+            console.error(`Blocked by CORS: ${origin}`);
             callback(new Error('Not allowed by CORS'));
         }
     },
@@ -49,11 +49,13 @@ const corsOptions = {
     credentials: true,
 };
 
-app.use(cors(corsOptions))
+// Middleware para CORS
+app.use(cors(corsOptions));
 
-// Maneja solicitudes preflight
+// Manejo de solicitudes preflight
 app.options('*', cors(corsOptions));
 
+// Middleware adicional para logging y parsing
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 } else {
@@ -62,6 +64,7 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(express.json());
 
+// Rutas principales
 app.get('/', (req, res) => {
     res.send('API is running...');
 });
@@ -80,20 +83,22 @@ app.post('/create_preference', async (req, res) => {
     try {
         const url = process.env.NODE_ENV === 'development'
             ? 'http://localhost:3420'
-            : process.env.REACT_APP_URI_FRONT_PRODUCTION;
+            : 'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app';
+
         let cartItemsMercadoPago = req.body.orderDataMercadoPago.map((item) => ({
             ...item,
             title: item.name,
             unit_price: Number(item.price),
-            quantity: Number(item.quantity)
+            quantity: Number(item.quantity),
         }));
+
         let order = req.body.order;
         let preference = {
             items: cartItemsMercadoPago,
             back_urls: {
                 "success": `${url}/order/${order}`,
                 "failure": `${url}/order/${order}`,
-                "pending": `${url}/order/${order}`
+                "pending": `${url}/order/${order}`,
             },
             auto_return: 'approved',
             statement_descriptor: 'ECOMMERCE JUAN',
@@ -124,7 +129,7 @@ app.get('/feedback', (req, res) => {
         res.json({
             Payment: req.query.payment_id,
             Status: req.query.status,
-            MerchantOrder: req.query.merchant_order_id
+            MerchantOrder: req.query.merchant_order_id,
         });
     } catch (error) {
         console.error(error);
@@ -132,8 +137,9 @@ app.get('/feedback', (req, res) => {
     }
 });
 
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('uploads'));
 
+// Middleware de manejo de errores
 app.use(notFound);
 app.use(errorHandler);
 
