@@ -26,24 +26,24 @@ connectDB();
 
 const app = express();
 
-const whitelist = [
-    'http://localhost:3000', // Local development
-    'http://localhost:3420', // Local QA
-    'https://ecommerce-reactjs-chi.vercel.app', // PROD
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA Test
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', // QA Juancho
+const allowedOrigins = [
+    'http://localhost:3000', // Desarrollo
+    'http://localhost:3420', // Desarrollo pc JUANCHO 
+    'https://ecommerce-reactjs-chi.vercel.app', // Producción
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', // QA JUANCHO
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA TEST
 ];
 
 const corsOptions = {
     origin: function (origin, callback) {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            // Si el origen está en la lista blanca o no hay origen (para solicitudes internas)
+        if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
-            // Bloquear orígenes no permitidos
             callback(new Error('Not allowed by CORS'));
         }
     },
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type,Authorization',
 };
 
 app.use(cors(corsOptions));
