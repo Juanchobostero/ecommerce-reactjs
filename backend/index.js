@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.use(cors({
-	origin: 'https://ecommerce-reactjs-chi.vercel.app',
+	origin: '*',
 }));
 
 app.use('/api/products', productRoutes);
