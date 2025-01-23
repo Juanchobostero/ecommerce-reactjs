@@ -27,15 +27,18 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
-    'http://localhost:3000', // Desarrollo
-    'http://localhost:3420', // Desarrollo pc JUANCHO 
-    'https://ecommerce-reactjs-chi.vercel.app/', // Producción
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app/', // QA JUANCHO
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app/' // QA TEST
+    'http://localhost:3000',
+    'http://localhost:3420',
+    'https://ecommerce-reactjs-chi.vercel.app',
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app/catalogo', 
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
 ];
 
 const corsOptions = {
     origin: function (origin, callback) {
+        console.log(origin)
+        // Permitir solicitudes sin origen (como las de herramientas como Postman)
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
@@ -44,7 +47,9 @@ const corsOptions = {
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
+    credentials: true, // Permitir cookies en solicitudes CORS
 };
+
 
 app.use(cors(corsOptions));
 
