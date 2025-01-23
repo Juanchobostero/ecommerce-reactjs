@@ -12,28 +12,26 @@ import orderRoutes from './routes/orderRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import mercadopago from 'mercadopago';
 import cors from 'cors';
-import { rateLimit } from "express-rate-limit"
+import { rateLimit } from "express-rate-limit";
 
-// Puedo y debería crear mas, pero vamos viendo.
 const limiterGeneral = rateLimit({
     windowMs: 1 * 60 * 1000, // 1 min
-    limit: 2, // each IP can make up to 10 requests per `windowsMs` (5 minutes)
-    standardHeaders: true, // add the `RateLimit-*` headers to the response
-    legacyHeaders: false, // remove the `X-RateLimit-*` headers from the response
-  });
-
+    limit: 10, // Incrementé el límite para evitar bloqueos constantes
+    standardHeaders: true,
+    legacyHeaders: false,
+});
 
 dotenv.config();
-
 connectDB();
 
 const app = express();
 
 const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app', // PROD
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
+    'http://localhost:3000', // Desarrollo
+    'http://localhost:3420', // Desarrollo pc JUANCHO 
+    'https://ecommerce-reactjs-chi.vercel.app', // Producción
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', // QA JUANCHO
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA TEST
 ];
 
 const corsOptions = {
@@ -46,13 +44,9 @@ const corsOptions = {
     },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     allowedHeaders: 'Content-Type,Authorization',
-    credentials: true,
 };
 
-app.use(cors(corsOptions))
-
-// Maneja solicitudes preflight
-app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
@@ -80,7 +74,8 @@ app.post('/create_preference', async (req, res) => {
     try {
         const url = process.env.NODE_ENV === 'development'
             ? 'http://localhost:3420'
-            : process.env.REACT_APP_URI_FRONT_PRODUCTION;
+            : process.env.REACT_APP_URI_FRONT_PRODUCTION || 'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app';
+        
         let cartItemsMercadoPago = req.body.orderDataMercadoPago.map((item) => ({
             ...item,
             title: item.name,
@@ -132,7 +127,7 @@ app.get('/feedback', (req, res) => {
     }
 });
 
-app.use('/uploads', express.static('uploads'))
+app.use('/uploads', express.static('uploads'));
 
 app.use(notFound);
 app.use(errorHandler);
