@@ -27,7 +27,11 @@ connectDB();
 const app = express();
 
 const allowedOrigins = [
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', 
+    'http://localhost:3000', // Desarrollo
+    'http://localhost:3420', // Desarrollo pc JUANCHO 
+    'https://ecommerce-reactjs-chi.vercel.app', // Producción
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', // QA JUANCHO
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA TEST
 ];
 
 const corsOptions = {
