@@ -1,40 +1,39 @@
-import React, { useEffect } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import Swal from 'sweetalert2';
 
 const CartScreen = () => {
+  let navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  const { id } = useParams();
-
-  let navigate = useNavigate();
-  let location = useLocation();
-
-  const productId = id;
-  const qty = location.search 
-    ? Number(location.search.split('=')[1]) 
-    : 1;
-
-  const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  const { cartItems } = cart;
-
-  useEffect(() => {
-    if(productId) {
-      dispatch(addToCart(productId, qty))
-    }
-  }, [dispatch, productId, qty]);
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+  
+  const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
 
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
 
   const checkoutHandler = () => {
-    navigate('/shipping');
+    if(userInfo && userInfo.name) {
+      navigate('/shipping');
+    } else {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Debes iniciar sesión para poder continuar con la Compra',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#d97706'
+      })
+      return
+    }
   };
-  
 
   return (
     <Row>
@@ -100,11 +99,11 @@ const CartScreen = () => {
             <ListGroup.Item>
               <Button
                 type='button'
-                className='btn btn-block'
+                className='btn btn-block bg-amber-600'
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
-                Continuar con el checkout
+                Continuar con la Compra
               </Button>
             </ListGroup.Item>
           </ListGroup>
