@@ -26,23 +26,15 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app',
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
-];
+// const allowedOrigins = [
+//     'http://localhost:3000',
+//     'http://localhost:3420',
+//     'https://ecommerce-reactjs-chi.vercel.app',
+//     'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
+//     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
+// ];
 
-app.use(cors({
-    origin: (origin, callback) => {
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-}));
+app.use(cors());
 
 
 if (process.env.NODE_ENV === 'development') {
