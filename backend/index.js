@@ -19,25 +19,7 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app'
-];
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-};
-
-app.use(cors(corsOptions));
+app.use(cors())
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
