@@ -29,6 +29,7 @@ const app = express();
 const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3420',
+    'https://ecommerce-reactjs-chi.vercel.app',
     'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
 ];
