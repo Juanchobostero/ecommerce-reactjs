@@ -26,32 +26,20 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-    'http://localhost:3000',
-    'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app',
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app/catalogo', 
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
-];
-
-const corsOptions = {
-    origin: function (origin, callback) {
-        console.log(origin)
-        // Permitir solicitudes sin origen (como las de herramientas como Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
-    credentials: true, // Permitir cookies en solicitudes CORS
-};
+// const allowedOrigins = [
+//     'http://localhost:3000',
+//     'http://localhost:3420',
+//     'https://ecommerce-reactjs-chi.vercel.app',
+//     'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
+//     'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app/catalogo', 
+//     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app'
+// ];
 
 
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: 'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app',
+    credentials: true
+}));
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
