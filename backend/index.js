@@ -26,31 +26,27 @@ connectDB();
 
 const app = express();
 
-// const allowedOrigins = [
-//     'http://localhost:3000',
-//     'http://localhost:3420',
-//     'https://ecommerce-reactjs-chi.vercel.app', // PROD
-//     'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
-// ];
-
 const whitelist = [
-    'http://localhost:3000',
-    'http://localhost:3420',
+    'http://localhost:3000', // Local development
+    'http://localhost:3420', // Local QA
     'https://ecommerce-reactjs-chi.vercel.app', // PROD
-    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app'
-]
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA Test
+    'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', // QA Juancho
+];
 
-// Permitir todos los orígenes
-app.use(cors());
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            // Si el origen está en la lista blanca o no hay origen (para solicitudes internas)
+            callback(null, true);
+        } else {
+            // Bloquear orígenes no permitidos
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+};
+
+app.use(cors(corsOptions));
 
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
