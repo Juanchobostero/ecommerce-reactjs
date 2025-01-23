@@ -13,6 +13,7 @@ const reviewSchema = mongoose.Schema({
         type: String,
         required: true
     },
+
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -36,18 +37,14 @@ const productSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    brand: {
-        type: String,
-        required: true
+    code: {
+        type: Number,
+        required: false
     },
-    /* category: {
-        type: String,
-        required: true
-    }, */
-    category: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'ProductCategory'
+    discount: {
+        type: Number,
+        required: false,
+        default: 0
     },
     description: {
         type: String,

@@ -1,8 +1,8 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import Footer from "./components/Footer";
-import Header from "./components/Header";
+import Footer from './components/Footer';
+import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
@@ -19,61 +19,78 @@ import ProductListScreen from './screens/ProductListScreen';
 import ProductEditScreen from './screens/ProductEditScreen';
 import OrderListScreen from './screens/OrderListScreen';
 import ReportScreen from './screens/ReportScreen';
+import ProductCatalogScreen from './screens/ProductCatalogScreen';
 import 'antd/dist/antd.min.css';
+import '@fontsource/playball';
+import '@fontsource-variable/playfair-display';
+import TopButton from './components/TopButton';
+
+// Componente de transición para vistas
+const TransitionWrapper = ({ children }) => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if ('startViewTransition' in document) {
+      document.startViewTransition(() => {
+        // Aquí se renderiza la nueva vista automáticamente
+      });
+    }
+  }, [location]);
+
+  return <>{children}</>;
+};
 
 function App() {
   return (
     <Router>
-      <Header />
-      <main className='py-3'>
-        <Container>
-          <Routes>
-            <Route path='/order/:id' element={<OrderDetailsScreen />} />
-            <Route path='/shipping' element={<ShippingScreen />} />
-            <Route path='/payment' element={<PaymentScreen />} />
-            <Route path='/placeorder' element={<PlaceOrderScreen />} />
-            <Route path='/login' element={<LoginScreen />} />
-            <Route path='/register' element={<RegisterScreen />} />
-            <Route path='/profile' element={<ProfileScreen />} />
-            <Route path='/product/:id' element={<ProductScreen />} />
-            <Route path='/cart' element={<CartScreen />}/>
-            <Route path='/cart/:id' element={<CartScreen />}/>
-            <Route path='/admin/userlist' element={<UserListScreen />}/>
-            <Route path='/admin/user/:id/edit' element={<UserEditScreen />}/>
-            <Route path='/admin/productlist' element={<ProductListScreen />} exact />
-            <Route path='/admin/productlist/:pageNumber' element={<ProductListScreen />} exact />
-            <Route path='/admin/product/:id/edit' element={<ProductEditScreen />}/>
-            <Route path='/admin/orderlist' element={<OrderListScreen />}/>
-            <Route path='/admin/reports' element={<ReportScreen />}/>
-            <Route path='/search/:keyword' element={<HomeScreen />} exact/>
-            <Route path='/page/:pageNumber' element={<HomeScreen />} />
-            <Route path='/search/:keyword/page/:pageNumber' element={<HomeScreen />} />
-            <Route path='/' element={<HomeScreen />} />
-          </Routes>
-        </Container>
-      </main>
-      <Footer />
+      <div
+        className="relative bg-no-repeat bg-cover bg-fixed"
+        style={{
+          backgroundImage: "url('/images/background-alfajores-10.jpeg')",
+          backgroundSize: "cover",
+        }}
+      >
+        <div
+          className="absolute inset-0 bg-black opacity-100"
+          style={{
+            zIndex: -1, // Para asegurarse de que no se superponga con el contenido
+          }}
+        ></div>
+        <Header />
+        <main>
+          <Container>
+            <TransitionWrapper>
+              <Routes>
+                <Route path="/order/:id" element={<OrderDetailsScreen />} />
+                <Route path="/shipping" element={<ShippingScreen />} />
+                <Route path="/payment" element={<PaymentScreen />} />
+                <Route path="/placeorder" element={<PlaceOrderScreen />} />
+                <Route path="/login" element={<LoginScreen />} />
+                <Route path="/register" element={<RegisterScreen />} />
+                <Route path="/profile" element={<ProfileScreen />} />
+                <Route path="/product/:id" element={<ProductScreen />} />
+                <Route path="/cart" element={<CartScreen />} />
+                <Route path="/cart/:id" element={<CartScreen />} />
+                <Route path="/admin/userlist" element={<UserListScreen />} />
+                <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+                <Route path="/admin/productlist" element={<ProductListScreen />} exact />
+                <Route path="/admin/productlist/:pageNumber" element={<ProductListScreen />} exact />
+                <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
+                <Route path="/admin/orderlist" element={<OrderListScreen />} />
+                <Route path="/admin/reports" element={<ReportScreen />} />
+                <Route path="/search/:keyword" element={<HomeScreen />} exact />
+                <Route path="/catalogo" element={<ProductCatalogScreen />}/>
+                <Route path="/catalogo/page/:pageNumber" element={<ProductCatalogScreen />} />
+                <Route path="/" element={<HomeScreen />} />
+              </Routes>
+              <TopButton className={"z-1000"}/>
+            </TransitionWrapper>
+          </Container>
+        </main>
+        <Footer />
+      </div>
     </Router>
   );
 }
 
 export default App;
-
-// Crear Proyecto
-
-// npx create-react-app nombre
-
-// npm install (p/cargar directorio 'node_modules' -> Dependencias en package.json)
-
-// npm start(inicialmente) & npm run dev (config ideal para separar backend y frontend) (server & cliente) 
-
-// Eliminar archivos innecesarios que vienen por defecto y limpiar App.js (Acá se van a configurar 
-// las rutas para el frontend)
-
-// Dividir directorios (components, screens)
-
-// Definir rutas e instalar 'react-router-dom', 'react-router-bootstrap', 'react-bootstrap' (a elección)
-
-// Aplicar componente de ruta en App.js (Router, Routes, Route)
-
-// Redux (?) ó Context API (?) (Manejo del estado de la app)
