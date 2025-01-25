@@ -25,24 +25,49 @@ const HomeScreen = () => {
 
   const cards = [
     <div key="1" className="p-6">
-      <h3 className="text-xl font-bold mb-10">Card 1</h3>
-      <p className="text-gray-600">This is the first card with some content.</p>
+      <img
+        src={'/images/primera.jpeg'}
+        alt="noticia alfajores principal"
+        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
+      />
+      <h3>No te los podes perder</h3>
+      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
     <div key="2" className="p-6">
-      <h3 className="text-xl font-bold mb-10">Card 2</h3>
-      <p className="text-gray-600">Here's the second card with different content.</p>
+      <img
+        src={'/images/primera.jpeg'}
+        alt="noticia alfajores principal"
+        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
+      />
+      <h3>No te los podes perder</h3>
+      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
     <div key="3" className="p-6">
-      <h3 className="text-xl font-bold mb-10">Card 3</h3>
-      <p className="text-gray-600">And this is the third card in our carousel.</p>
+      <img
+        src={'/images/primera.jpeg'}
+        alt="noticia alfajores principal"
+        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
+      />
+      <h3>No te los podes perder</h3>
+      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
     <div key="4" className="p-6">
-      <h3 className="text-xl font-bold mb-10">Card 4</h3>
-      <p className="text-gray-600">The fourth card shows how the carousel loops.</p>
+      <img
+        src={'/images/primera.jpeg'}
+        alt="noticia alfajores principal"
+        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
+      />
+      <h3>No te los podes perder</h3>
+      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
     <div key="5" className="p-6">
-    <h3 className="text-xl font-bold mb-10">Card 5  </h3>
-    <p className="text-gray-600">The fourth card shows how the carousel loops.</p>
+      <img
+        src={'/images/primera.jpeg'}
+        alt="noticia alfajores principal"
+        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
+      />
+      <h3>No te los podes perder</h3>
+      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
   </div>,
   ];
 

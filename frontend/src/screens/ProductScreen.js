@@ -10,8 +10,6 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import Meta from '../components/Meta';
 
 const ProductScreen = () => {
-
-    const [qty, setQty] = useState(1);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     
@@ -41,10 +39,6 @@ const ProductScreen = () => {
         dispatch(listProductDetails(id));
       }, [dispatch, id, successProductReview]);
 
-    const addToCartHandler = () => {
-        navigate(`/cart/${id}?qty=${qty}`);
-    }
-
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(createProductReview(id, {
@@ -54,10 +48,10 @@ const ProductScreen = () => {
     }
 
     return (
-        <>
-            <Link className='btn btn-light my-3' to='/'>
+        <div className='h-auto mb-3'>
+            <Button className='my-3 bg-amber-700 text-white' onClick={() => navigate(-1)}>
                 Volver
-            </Link>
+            </Button>
             { loading 
                 ? (<Loader />) 
                 : error ? (<Message variant='danger'>{error}</Message>
@@ -66,12 +60,12 @@ const ProductScreen = () => {
                 <Meta title={product.name} />
                 <Row>
                     <Col md={6}>
-                        <Image src={product.image} alt={product.name} fluid />
+                        <Image className='object-cover w-96 h-96' src={product.image} alt={product.name} fluid />
                     </Col>
-                    <Col md={3}>
+                    <Col md={6}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h3>{product.name}</h3>
+                                <h3 className='prod-name'>{product.name}</h3>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Rating 
@@ -86,64 +80,6 @@ const ProductScreen = () => {
                                 Descripción: {product.description}
                             </ListGroup.Item>
                         </ListGroup>
-                    </Col>
-                    <Col md={3}>
-                        <Card>
-                            <ListGroup variant='flush'>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col>
-                                            Precio:
-                                        </Col>
-                                        <Col>
-                                            <strong>${product.price}</strong>
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Row>
-                                        <Col>
-                                            Estado:
-                                        </Col>
-                                        <Col>
-                                            {product.countInStock > 0 ? 'En stock' : 'Fuera de stock'}
-                                        </Col>
-                                    </Row>
-                                </ListGroup.Item>
-
-                                {product.countInStock > 0 && (
-                                    <ListGroup.Item>
-                                        <Row>
-                                            <Col>Cantidad</Col>
-                                            <Col>
-                                                <Form.Control 
-                                                    as='select' 
-                                                    value={qty} 
-                                                    onChange={(e) => 
-                                                        setQty(e.target.value)}
-                                                >
-                                                    {[...Array(Number(product.countInStock)).keys()].map( (x) => (
-                                                        <option key={x + 1} value={x + 1}>
-                                                            {x + 1}
-                                                        </option>
-                                                    ))}
-                                                </Form.Control>
-                                            </Col>
-                                        </Row>
-                                    </ListGroup.Item>
-                                )}
-
-                                <ListGroup.Item>
-                                    <Button 
-                                        onClick={addToCartHandler}
-                                        className='btn-block' 
-                                        disabled={product.countInStock === 0}
-                                    >
-                                        Agregar al carrito
-                                    </Button>
-                                </ListGroup.Item>
-                            </ListGroup>
-                        </Card>
                     </Col>
                 </Row>
                 <Row>
@@ -214,7 +150,7 @@ const ProductScreen = () => {
                 </>
                 ) }
             
-        </>
+        </div>
     )
 }
 

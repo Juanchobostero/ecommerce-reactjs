@@ -94,33 +94,33 @@ const OrderDetailsScreen = () => {
             ? <Loader /> 
             : error ? <Message variant='danger'>{error}</Message> 
             : 
-            <Fragment>
-                <h1>Order {order._id}</h1>
+            <div className='mt-3'>
+                <h1>Pedido {order._id}</h1>
                 <Row>
                     <Col md={8}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Shipping</h2>
+                                <h2>Envío</h2>
                                 <p>
-                                    <strong>Name: </strong>{order.user.name}
+                                    <strong><b>Usuario: </b></strong>{order.user.name}
                                 </p>
                                 <p>
                                     <a href={`mailto:${order.user.email}`}>{order.user.email}</a>
                                 </p>
                                 <p>
-                                    <strong>Address: </strong>
+                                    <strong><b>Dirección: </b></strong>
                                     {order.shippingAddress.address}, {order.shippingAddress.city} 
                                     {order.shippingAddress.postalCode}, {' '}
                                     {order.shippingAddress.country}
                                 </p>
 
                                 {order.isDelivered 
-                                    ? <Message variant='success'>Delivered on {order.deliveredAt}</Message>
-                                    : <Message variant='danger'>Not delivered</Message>
+                                    ? <Message variant='success'>Entregado el {order.deliveredAt}</Message>
+                                    : <Message variant='danger'>No entregado</Message>
                                 }
                             </ListGroup.Item>
 
-                            <ListGroup.Item>
+                            {/* <ListGroup.Item>
                                 <h2>Payment Method</h2>
                                 <p>
                                     <strong>Method: </strong>
@@ -130,12 +130,12 @@ const OrderDetailsScreen = () => {
                                     ? <Message variant='success'>Paid on {order.paidAt}</Message>
                                     : <Message variant='danger'>Not paid</Message>
                                 }
-                            </ListGroup.Item>
+                            </ListGroup.Item> */}
 
                             <ListGroup.Item>
-                                <h2>Order Items</h2>
+                                <h2>Detalle del Pedido</h2>
                                 {order.orderItems.length === 0 
-                                    ? (<Message>Order is empty !</Message>)
+                                    ? (<Message>No hay Pedidos</Message>)
                                     : (<ListGroup variant='flush'>
                                         {order.orderItems.map(
                                             (item, index) => (
@@ -152,12 +152,12 @@ const OrderDetailsScreen = () => {
 
                                                         <Col>
                                                             <Link to={`/product/${item.product}`}>
-                                                                {item.name}
+                                                                <span className='playball-font text-amber-900'>{item.name}</span>
                                                             </Link>
                                                         </Col>
 
                                                         <Col md={4}>
-                                                            {item.qty} x ${item.price} = ${item.qty * item.price}
+                                                        <span className='playball-font text-amber-950 font-extrabold'>{item.qty} x ${item.price} = ${item.qty * item.price}</span>
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
@@ -174,33 +174,33 @@ const OrderDetailsScreen = () => {
                         <Card>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
-                                    <h2>Order Summary</h2>
+                                    <h2>Resumen</h2>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Items</Col>
+                                        <Col><strong><b>Items</b></strong></Col>
                                         <Col>${order.itemsPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Shipping</Col>
+                                        <Col><strong><b>Envío</b></strong></Col>
                                         <Col>${order.shippingPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Tax</Col>
+                                        <Col><strong><b>Tasa</b></strong></Col>
                                         <Col>${order.taxPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>
                                     <Row>
-                                        <Col>Total</Col>
+                                        <Col><strong><b>Total</b></strong></Col>
                                         <Col>${order.totalPrice}</Col>
                                     </Row>
                                 </ListGroup.Item>
@@ -210,10 +210,10 @@ const OrderDetailsScreen = () => {
                                     <ListGroup.Item>
                                         <Button
                                             type='button'
-                                            className='btn btn-block'
+                                            className='btn-block bg-green-500 text-white'
                                             onClick={deliverHandler}
                                         >
-                                            Mark As Delivered
+                                            Marcar como ENTREGADO
                                         </Button>
                                     </ListGroup.Item>
                                 )}
@@ -221,7 +221,7 @@ const OrderDetailsScreen = () => {
                         </Card>
                     </Col>
                 </Row>
-            </Fragment>
+            </div>
     )
 }
 

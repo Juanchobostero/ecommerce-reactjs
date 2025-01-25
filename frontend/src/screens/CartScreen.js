@@ -29,31 +29,40 @@ const CartScreen = () => {
         text: 'Debes iniciar sesión para poder continuar con la Compra',
         icon: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#d97706'
+        confirmButtonColor: '#d97706',
+        background: '#fef3c7'
       })
       return
     }
   };
 
   return (
-    <Row>
+    <Row className='mt-4'>
       <Col md={8}>
-        <h1>Tu carrito</h1>
+        <h1 className='font-extrabold'>Tu carrito</h1>
         {cartItems.length === 0 
           ? <Message>Tu carrito está vacío <Link to='/'>Volver</Link></Message>
           : (
             <ListGroup variant='flush'>
               {cartItems.map(item => (
-                <ListGroup.Item key={item.product}>
+                <ListGroup.Item className='bg-amber-100' key={item.product}>
                   <Row>
                     <Col md={2}>
-                      <Image src={item.image} alt={item.name} fluid rounder />
+                      <Image 
+                        className="w-40 h-20" 
+                        src={item.image} 
+                        alt={item.name} 
+                        fluid 
+                        rounder 
+                      />
                     </Col>
                     <Col md={3}>
-                      <Link to={`/product/${item.product}`}>{item.name}</Link>
+                      <Link 
+                        className='item-name text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
+                        to={`/product/${item.product}`}>{item.name}</Link>
                     </Col>
                     <Col md={2}>
-                      ${item.price}
+                      <span className='playball-font font-extrabold text-amber-950'>${item.price}</span>
                     </Col>
                     <Col md={2}>
                       <Form.Control 
@@ -90,13 +99,13 @@ const CartScreen = () => {
       <Col md={4}>
         <Card>
           <ListGroup variant='flush'>
-            <ListGroup.Item>
+            <ListGroup.Item className='bg-amber-100'>
               <h2>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
                 items
               </h2>
-              ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}                  
+              <span className='playball-font font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item className='bg-amber-100' >
               <Button
                 type='button'
                 className='btn btn-block bg-amber-600'

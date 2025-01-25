@@ -59,25 +59,18 @@ const PlaceOrderScreen = () => {
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping</h2>
+                            <h2>Datos de Envío</h2>
                             <p>
-                                <strong>Address: </strong>
+                                <strong>Dirección: </strong>
                                 {cart.shippingAddress.address}, {cart.shippingAddress.city} 
                                 {cart.shippingAddress.postalCode}, {' '}
                                 {cart.shippingAddress.country}
                             </p>
                         </ListGroup.Item>
-
                         <ListGroup.Item>
-                            <h2>Payment Method</h2>
-                            <strong>Method: </strong>
-                            {cart.paymentMethod}
-                        </ListGroup.Item>
-
-                        <ListGroup.Item>
-                            <h2>Order Items</h2>
+                            <h2>Detalle del Pedido</h2>
                             {cart.cartItems.length === 0 
-                                ? (<Message>You cart is empty !</Message>)
+                                ? (<Message>Tu Carrito está vacío !</Message>)
                                 : (<ListGroup variant='flush'>
                                     {cart.cartItems.map(
                                         (item, index) => (
@@ -94,7 +87,7 @@ const PlaceOrderScreen = () => {
 
                                                     <Col>
                                                         <Link to={`/product/${item.product}`}>
-                                                            {item.name}
+                                                            <span className='playball-font text-amber-900'>{item.name}</span>
                                                         </Link>
                                                     </Col>
 
@@ -116,49 +109,49 @@ const PlaceOrderScreen = () => {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Order Summary</h2>
+                                <h2>Resumen del Pedido</h2>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Items</Col>
+                                    <Col><strong><b>Items</b></strong></Col>
                                     <Col>${cart.itemsPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Shipping</Col>
+                                    <Col><strong><b>Envío</b></strong></Col>
                                     <Col>${cart.shippingPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Tax</Col>
+                                    <Col><strong><b>Tasa</b></strong></Col>
                                     <Col>${cart.taxPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
                                 <Row>
-                                    <Col>Total</Col>
+                                    <Col><strong><b>Total</b></strong></Col>
                                     <Col>${cart.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
-
-                            <ListGroup.Item>
-                                {error && <Message variant='danger'>{error}</Message>}
-                            </ListGroup.Item>
-
+                            {error && 
+                                <ListGroup.Item>
+                                    {error && <Message variant='danger'>{error}</Message>}
+                                </ListGroup.Item>
+                            }
                             <ListGroup.Item>
                                 <Button
                                     type='button'
-                                    className='btn-block'
+                                    className='btn-block bg-green-500 text-white'
                                     disabled={cart.cartItems === 0}
                                     onClick={placeOrderHandler}
                                 >
-                                    PLACE ORDER
+                                    Realizar Pedido
                                 </Button>
                             </ListGroup.Item>
                         </ListGroup>

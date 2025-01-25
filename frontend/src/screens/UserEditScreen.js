@@ -51,11 +51,11 @@ const UserEditScreen = () => {
   
   return (
     <Fragment>
-        <Link to='/admin/userlist' className='btn btn-light my-3'>
-            Go Back
-        </Link>
+        <Button className='my-3 bg-amber-700 text-white' onClick={() => navigate(-1)}>
+            Volver
+        </Button>
         <FormContainer>
-        <h1>Edit User</h1>
+        <h1>Editar Usuario</h1>
         {loadingUpdate && <Loader />}
         {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading 
@@ -63,39 +63,40 @@ const UserEditScreen = () => {
             : error 
                 ? <Message variant='danger'>{error}</Message> 
                 :(<Form onSubmit={submitHandler}>
-                    <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
-                            <Form.Control 
-                                type='name' 
-                                placeholder='Enter Name' 
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                >
-                            </Form.Control>
+                    <Form.Group controlId='name' className='mb-3'>
+                        <Form.Control 
+                            type='name' 
+                            placeholder='Ingresar Nombre' 
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            >
+                        </Form.Control>
                     </Form.Group>
-                    <Form.Group controlId='email'>
-                        <Form.Label>Email Address</Form.Label>
+                    <Form.Group controlId='email' className='mb-3'>
                         <Form.Control 
                             type='email' 
-                            placeholder='Enter Email' 
+                            placeholder='Ingresar Correo' 
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             >
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId='isadmin'>
+                    <Form.Group controlId='isadmin'  className='mb-3 text-white font-bold'>
                         <Form.Check 
                             type='checkbox' 
-                            label='Is Admin' 
+                            label='Es Administrador' 
                             checked={isAdmin}
                             onChange={(e) => setIsAdmin(e.target.checked)}
                             >
                         </Form.Check>
                     </Form.Group>
 
-                    <Button type='submit' variant='primary'>
-                        Update
+                    <Button 
+                        type='submit' 
+                        className='btn btn-block bg-amber-600 mt-4'
+                    >
+                        Actualizar
                     </Button>
                 </Form>
         )}

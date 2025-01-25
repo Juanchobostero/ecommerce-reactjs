@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, Row, Col } from 'react-bootstrap';
+import { Table, Button, Row, Col, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -69,7 +69,7 @@ const ProductListScreen = () => {
     ]);
 
     const deleteHandler = (id) => {
-        if(window.confirm('¿ Are you sure ?')){
+        if(window.confirm('¿ Estás seguro de eliminar éste Usuario ?')){
             dispatch(deleteProduct(id));
         }
     }
@@ -86,9 +86,8 @@ const ProductListScreen = () => {
                 </Col>
                 <Col className='text-right'>
                     <Button 
-                        className='my-3'
-                        onClick={createProductHandler}
-                    >   
+                        className='my-3 bg-amber-700 text-white' 
+                        onClick={createProductHandler}>
                         <i className='fas fa-plus'></i> Nuevo Producto
                     </Button>
                 </Col>
@@ -99,60 +98,63 @@ const ProductListScreen = () => {
             {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <>
-                    <Table
-                        striped
-                        bordered
-                        hover
-                        responsive
-                        className='table-sm'
-                    >
-                        <thead>
-                            <tr>
-                                <th>CÓDIGO</th>
-                                <th>NOMBRE</th>
-                                <th>PRECIO</th>
-                                <th>CATEGORÍA</th>
-                                <th>STOCK</th>
-                                <th>MARCA</th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <Table
+                                striped
+                                bordered
+                                hover
+                                responsive
+                                className='table-sm'
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>CÓDIGO</th>
+                                        <th>NOMBRE</th>
+                                        <th>PRECIO</th>
+                                        <th>STOCK</th>
+                                        <th>MARCA</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
 
-                        <tbody>
-                            {products.map(product => (
-                                <tr key={product._id}>
-                                    <td>{product._id}</td>
-                                    <td>{product.name}</td>
-                                    <td>
-                                        ${product.price}
-                                    </td>
-                                    <td 
-                                        className={`${(product.countInStock <= 5 && 'lowStock')}`}
-                                    >
-                                        {product.countInStock}
-                                    </td>
-                                    <td>{product.brand}</td>
-                                    <td>
-                                        <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                                            <Button 
-                                                variant='light'
-                                                className='btn-sm'
+                                <tbody>
+                                    {products.map(product => (
+                                        <tr key={product._id}>
+                                            <td>{product._id}</td>
+                                            <td>{product.name}</td>
+                                            <td>
+                                                ${product.price}
+                                            </td>
+                                            <td 
+                                                className={`${(product.countInStock <= 5 && 'lowStock')}`}
                                             >
-                                                <i className='fas fa-edit'></i>
-                                            </Button>
-                                        </LinkContainer>
-                                        <Button
-                                            variant='danger'
-                                            className='btn-sm'
-                                            onClick={() => deleteHandler(product._id)}
-                                        >
-                                            <i className='fas fa-trash'></i>
-                                        </Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                                                {product.countInStock}
+                                            </td>
+                                            <td>{product.brand}</td>
+                                            <td>
+                                                <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                                                    <Button 
+                                                        variant='dark'
+                                                        className='btn-sm bg-amber-400'
+                                                    >
+                                                        <i className='fas fa-edit'></i>
+                                                    </Button>
+                                                </LinkContainer>
+                                                <Button
+                                                    variant='dark'
+                                                    className='btn-sm bg-red-600'
+                                                    onClick={() => deleteHandler(product)}
+                                                >
+                                                    <i className='fas fa-trash'></i>
+                                                </Button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </Table>
+                        </ListGroup.Item>
+                    </ListGroup>
                     <Paginate 
                         pages={pages}
                         page={page}

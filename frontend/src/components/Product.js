@@ -2,31 +2,25 @@ import React, { useState } from 'react';
 import { Card, Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import EditQuantity from "./EditQuantity"
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Swal from 'sweetalert2';
 import { addToCart } from '../actions/cartActions';
 
-const Product = ({ product }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [showModalCart, setShowModalCart] = useState(false);
-  const [qty, setQty] = useState(1);
-
-  const userLogin = useSelector(state => state.userLogin);
-  const { userInfo } = userLogin;
+const Product = ({ userLogged, product }) => {
+  const [showModal, setShowModal] = useState(false)
+  const [qty, setQty] = useState(1)
 
   const dispatch = useDispatch();
 
-  const handleShow = () => setShowModal(true);
-  const handleShowModalCart = () => setShowModalCart(true);
+  const handleShow = () => setShowModal(true)
 
-  const handleClose = () => setShowModal(false);
-  const handleCloseModalCart = () => setShowModalCart(false);
+  const handleClose = () => setShowModal(false)
 
   const handleQty = (newQty) => {
     if (newQty <= 0) {
-      setQty(1); // No permite valores negativos
+      setQty(1)
     } else {
-      setQty(newQty); // Actualiza el estado del padre
+      setQty(newQty)
     }
   };
 
@@ -45,28 +39,25 @@ const Product = ({ product }) => {
     dispatch(addToCart(product._id, qty))
 
     Swal.fire({
-      title: "OK!",
+      title: "✅",
       text: `Se ha actualizado tu Carrito`,
-      confirmButtonText: "Ok",
-      confirmButtonColor: '#d97706'
+      confirmButtonText: "OK",
+      confirmButtonColor: '#b45309',
+      background: '#fef3c7'
     });
     return
   };
 
-  
-  
-
   return (
     <>
       <Card className="custom-card my-3 py-1 rounded bg-amber-100">
-        <div className={`${userInfo && 'relative '}cursor-pointer`}>
+        <div className={`${userLogged && 'relative '}cursor-pointer`}>
           <Card.Img
             className="custom-card-img"
             src={product.image}
             variant="top"
           />
-          {
-            userInfo 
+          { userLogged
               && (<button
                 onClick={handleShow} 
                 type="button" 
@@ -109,7 +100,7 @@ const Product = ({ product }) => {
           </Card.Text>
           <Card.Title as="div" className="mt-[-1rem] p-1">
             {
-              !userInfo 
+              !userLogged 
                 ? (
                   <button
                     onClick={handleShow} 
@@ -159,16 +150,16 @@ const Product = ({ product }) => {
       {/* Modal */}
       <Modal show={showModal} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title><h1>{product.name}</h1></Modal.Title>
+          <Modal.Title><h1 className='text-amber-700'>{product.name}</h1></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <img
             src={product.image}
             alt={product.name}
-            style={{ width: '100%', height: '300px', borderRadius: '8px' }}
+            style={{ width: '100%', maxHeight: '270px', objectFit: 'cover'}}
           />
-          <h1>
-            ${product.price}
+          <h1 className='mt-3 text-amber-700'>
+            Precio: ${product.price}
           </h1>
         </Modal.Body>
         <Modal.Footer>
@@ -177,23 +168,6 @@ const Product = ({ product }) => {
           </Button>
           <Button variant="primary" className='bg-amber-700' as={Link} to={`/product/${product._id}`}>
             Ver Más
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={showModalCart} onHide={handleCloseModalCart} centered>
-        <Modal.Header closeButton>
-          <Modal.Title><h1>{product.name}</h1></Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h3>Seleccionar Cantidad</h3>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModalCart}>
-            Cerrar
-          </Button>
-          <Button variant="primary" className='bg-amber-700' as={Link} to={`/product/${product._id}`}>
-            Agregar al Carrito
           </Button>
         </Modal.Footer>
       </Modal>

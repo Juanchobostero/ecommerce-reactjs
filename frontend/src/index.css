@@ -19,9 +19,24 @@ h1 {
     font-size: 0.8rem
 }
 
+.playball-font {
+    font-family: 'Playball', system-ui;
+}
+
+.prod-name {
+    font-family: 'Playball', system-ui;
+    font-size: 1rem;
+    color: #b45309 !important;
+}
+
 h2 {
+    font-family: 'Playball', system-ui;
     font-size: 1.8rem;
     padding: 1rem;
+}
+
+.item-name {
+    font-family: 'Playball', system-ui;
 }
 
 h3 {
@@ -121,6 +136,22 @@ h3 {
     font-weight: bold;
   }
 
+  .custom-nav-link {
+    color: #007bff; /* Cambia al color deseado */
+    text-decoration: none; /* Elimina el subrayado */
+  }
+  
+  .custom-nav-link:hover {
+    color: #0056b3; /* Cambia el color al pasar el mouse */
+    text-decoration: underline; /* Opcional: subrayar al pasar el mouse */
+  }
+  
+  .custom-nav-link.disabled {
+    color: #6c757d; /* Cambia el color para los enlaces deshabilitados */
+    pointer-events: none; /* Asegúrate de que no sean clicables */
+  }
+  
+
   #myBtn {
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
@@ -145,4 +176,6 @@ h3 {
         scroll-behavior: auto;
     }
 }
+
+
   
