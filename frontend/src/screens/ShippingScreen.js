@@ -20,21 +20,20 @@ const ShippingScreen = () => {
     const dispatch = useDispatch();
 
     const submitHandler = (e) => {
-        e.preventDefault();
-        dispatch(saveShippingAddress({ address, city, postalCode, country }));
-        navigate('/payment');
+        e.preventDefault()
+        dispatch(saveShippingAddress({ address, city, postalCode, country }))
+        navigate('/placeorder')
     }
 
     return (
         <FormContainer>
-            <CheckoutSteps step1 step2 />
-            <h1>Shipping</h1>
+            <CheckoutSteps className="mt-3" step1 step2 />
+            <h1>Envío</h1>
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId='address'>
-                    <Form.Label>Address</Form.Label>
+                <Form.Group controlId='address' className='mb-3'>
                         <Form.Control 
                             type='address' 
-                            placeholder='Enter Address' 
+                            placeholder='Ingresar Dirección' 
                             value={address}
                             required
                             onChange={(e) => setAddress(e.target.value)}
@@ -42,11 +41,10 @@ const ShippingScreen = () => {
                         </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='city'>
-                    <Form.Label>city</Form.Label>
+                <Form.Group controlId='city' className='mb-3'>
                         <Form.Control 
                             type='city' 
-                            placeholder='Enter City' 
+                            placeholder='Ingresar Ciudad' 
                             value={city}
                             required
                             onChange={(e) => setCity(e.target.value)}
@@ -54,11 +52,10 @@ const ShippingScreen = () => {
                         </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='postalCode'>
-                    <Form.Label>postalcode</Form.Label>
+                <Form.Group controlId='postalCode' className='mb-3'>
                         <Form.Control 
                             type='postalcode' 
-                            placeholder='Enter Postal Code' 
+                            placeholder='Ingresar Código Postal' 
                             value={postalCode}
                             required
                             onChange={(e) => setPostalCode(e.target.value)}
@@ -66,23 +63,22 @@ const ShippingScreen = () => {
                         </Form.Control>
                 </Form.Group>
 
-                <Form.Group controlId='country'>
-                    <Form.Label>country</Form.Label>
+                <Form.Group controlId='country' className='mb-3'>
                         <Form.Control 
                             type='country' 
-                            placeholder='Enter Country' 
+                            placeholder='Ingresar País' 
                             value={country}
                             required
                             onChange={(e) => setCountry(e.target.value)}
                             >
                         </Form.Control>
                 </Form.Group>
-
-                <Button
-                    type='submit'
-                    variant='primary'
+                <Button 
+                    type='submit' 
+                    variant='primary' 
+                    className='my-3 bg-amber-700 text-white' 
                 >
-                    Continue
+                    Continuar
                 </Button>
             </Form>
         </FormContainer>

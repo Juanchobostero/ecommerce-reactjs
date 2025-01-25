@@ -4,9 +4,11 @@ import 'leaflet/dist/leaflet.css';
 import { Row, Col, Card } from 'react-bootstrap';
 
 const branches = [
-    { id: 1, name: 'Sucursal 1', coords: [40.7128, -74.0060], description: 'Sucursal en Nueva York' },
-    { id: 2, name: 'Sucursal 2', coords: [34.0522, -118.2437], description: 'Sucursal en Los Ángeles' },
-    { id: 3, name: 'Sucursal 3', coords: [41.8781, -87.6298], description: 'Sucursal en Chicago' },
+    { id: 1, name: 'YPF SANTA ROSA', coords: [-27.477870, -58.820101], description: 'Sucursal en Nueva York' },
+    { id: 2, name: 'KIOSKO COCHA - LA ESTACIÓN', coords: [-29.156622, -59.260274], description: 'Sucursal en Los Ángeles' },
+    { id: 3, name: 'AR FULL 24 HS.', coords: [-27.514253, -58.566322], description: 'Sucursal en Chicago' },
+    { id: 4, name: 'BAR IMPERIO', coords: [-27.509187, -58.558258], description: 'Sucursal en Chicago' },
+    { id: 5, name: 'STOP 20-20', coords: [-27.509459, -58.558517], description: 'Sucursal en Chicago' },
 ];
 
 const Location = () => {
@@ -16,13 +18,24 @@ const Location = () => {
         setSelectedBranch(branch);
     };
 
+
     useEffect(() => {
-        const { coords } = selectedBranch;
-        const map = L.map('map').setView(coords, 13);
+        const { coords, name } = selectedBranch;
+        const map = L.map('map').setView(coords, 13)
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+        }).addTo(map)
+
+        L.circle(coords, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
         }).addTo(map);
+
+        L.marker(coords).addTo(map).bindPopup(`${name}`)
+        .openPopup();
 
         return () => {
             map.remove();
@@ -37,7 +50,7 @@ const Location = () => {
                     <div className="bg-amber-100 p-1 rounded-md">
                         <h1 className="text-lg font-bold">¿Cómo encontrarnos?</h1>
                         <p className="text-gray-600">
-                            Selecciona una sucursal para ver su ubicación en el mapa.
+                            Selecciona una ubicación
                         </p>
                     </div>
                     {branches.map((branch) => (

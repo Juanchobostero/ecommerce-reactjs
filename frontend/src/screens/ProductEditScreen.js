@@ -75,10 +75,10 @@ const ProductEditScreen = () => {
         return;
     }
 
-    if(code === 0) {
+    if(name.length === 0 || name === '') {
         Swal.fire({
             title: 'Error!',
-            text: 'El campo Marca no puede estar vacío !',
+            text: 'El campo Código no puede estar vacío !',
             icon: 'error',
             confirmButtonText: 'Ok'
         })
@@ -166,9 +166,9 @@ const ProductEditScreen = () => {
   
   return (
     <Fragment>
-        <Link to='/admin/productlist' className='btn btn-light my-3'>
-            VOLVER
-        </Link>
+        <Button className='my-3 bg-amber-700 text-white' onClick={() => navigate(-1)}>
+            Volver
+        </Button>
         <FormContainer>
         <h1>Editar Producto</h1>
         {loadingUpdate && <Loader />}
@@ -178,30 +178,27 @@ const ProductEditScreen = () => {
             : error 
                 ? <Message variant='danger'>{error}</Message> 
                 :(<Form onSubmit={submitHandler}>
-                    <Form.Group controlId='name'>
-                        <Form.Label>Nombre</Form.Label>
+                    <Form.Group controlId='name' className='mb-3'>
                             <Form.Control 
                                 type='name' 
-                                placeholder='Enter Name' 
+                                placeholder='Ingresar Nombre' 
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 >
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId='price'>
-                        <Form.Label>Precio</Form.Label>
+                    <Form.Group controlId='price' className='mb-3'>
                         <Form.Control 
                             type='number' 
-                            placeholder='Enter price' 
+                            placeholder='Ingresar Precio' 
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}
                             >
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId='image'>
-                        <Form.Label>Imagen</Form.Label>
+                    <Form.Group controlId='image' className='mb-3'>
                         <div className="flex flex-col items-center justify-center w-full">
                             <label
                                 htmlFor="dropzone-file"
@@ -248,53 +245,48 @@ const ProductEditScreen = () => {
                             {uploading && <Loader />}
                     </Form.Group>
 
-                    <Form.Group controlId='code'>
-                        <Form.Label>Código</Form.Label>
-                            <Form.Control 
-                                type='text' 
-                                placeholder='Enter brand' 
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
-                                >
-                            </Form.Control>
+                    <Form.Group controlId='code' className='mb-3'>
+                        <Form.Control 
+                            type='text' 
+                            placeholder='Ingresar Código ' 
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            >
+                        </Form.Control>
                     </Form.Group>
-
-                    <Form.Group controlId='discount'>
-                        <Form.Label>Descuento</Form.Label>
+                    <Form.Group controlId='discount' className='mb-3'>
                             <Form.Control 
                                 type='text' 
-                                placeholder='Enter brand' 
+                                placeholder='Ingresar Descuento' 
                                 value={discount}
                                 onChange={(e) => setDiscount(e.target.value)}
                                 >
                             </Form.Control>
                     </Form.Group>
 
-                    <Form.Group controlId='countInStock'>
-                        <Form.Label>Stock</Form.Label>
+                    <Form.Group controlId='countInStock' className='mb-3'>
                         <Form.Control 
                             type='number' 
-                            placeholder='Enter count in stock' 
+                            placeholder='Ingresar Stock' 
                             value={countInStock}
                             onChange={(e) => setCountInStock(e.target.value)}
                             >
                             </Form.Control>
                     </Form.Group>
-
-
-                    <Form.Group controlId='description'>
-                        <Form.Label>Descripción</Form.Label>
-                            <Form.Control 
-                                type='text' 
-                                placeholder='Enter description' 
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                >
-                            </Form.Control>
+                    <Form.Group controlId='description' className='mb-3'>
+                        <Form.Control 
+                            type='text' 
+                            placeholder='Ingresar Descripción' 
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            >
+                        </Form.Control>
                     </Form.Group>
-
-                    <Button type='submit' variant='primary'>
-                        CONFIRMAR
+                    <Button 
+                        className='btn btn-block bg-amber-600 mt-4 mb-3' 
+                        type='submit'
+                    >
+                        Confirmar
                     </Button>
                 </Form>
         )}

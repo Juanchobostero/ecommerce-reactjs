@@ -1,43 +1,47 @@
-import React from 'react';
-import { Nav } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
+import React from 'react'
+import { Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
-const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
+const CheckoutSteps = ({ step1, step2, step3 }) => {
   return (
-    <Nav className='justify-content-center mb-4'>
-        <Nav.Item>
-            {step1 ? (
-                <LinkContainer to='/login'>
-                    <Nav.Link>Iniciar sesión</Nav.Link>
-                </LinkContainer>
-            ): (<Nav.Link disabled>Iniciar sesión</Nav.Link>)}
-        </Nav.Item>
+    <Nav className='justify-content-center my-6'>
+      <Nav.Item>
+        {step1 ? (
+          <LinkContainer to='/login'>
+            <Nav.Link className='bg-green-700 no-underline hover:opacity-50 transition-all'>
+            <span className='text-amber-100'>Iniciar sesión</span></Nav.Link>
+          </LinkContainer>
+        ) : (
+          <Nav.Link className='disabled no-underline text-amber-300'>Iniciar sesión</Nav.Link>
+        )}
+      </Nav.Item>
 
-        <Nav.Item>
-            {step2 ? (
-                <LinkContainer to='/shipping'>
-                    <Nav.Link>Envío</Nav.Link>
-                </LinkContainer>
-            ): (<Nav.Link disabled>Envío</Nav.Link>)}
-        </Nav.Item>
-
-        <Nav.Item>
-            {step3 ? (
-                <LinkContainer to='/payment'>
-                    <Nav.Link>Pago</Nav.Link>
-                </LinkContainer>
-            ): (<Nav.Link disabled>Pago</Nav.Link>)}
-        </Nav.Item>
-
-        <Nav.Item>
-            {step4 ? (
-                <LinkContainer to='/placeorder'>
-                    <Nav.Link>Realizar Pedido</Nav.Link>
-                </LinkContainer>
-            ): (<Nav.Link disabled>Realizar Pedido</Nav.Link>)}
-        </Nav.Item>
+      <Nav.Item>
+        {step2 ? (
+          <LinkContainer to='/shipping'>
+            <Nav.Link className='bg-green-700 no-underline hover:opacity-50 transition-all'>
+            <span className='text-amber-100'>Envío</span></Nav.Link>
+          </LinkContainer>
+        ) : (
+            <Nav.Link className='disabled no-underline text-amber-300'>Envío</Nav.Link>
+        )}
+      </Nav.Item>
+      <Nav.Item>
+        {step3 ? (
+          <LinkContainer to='/placeorder'>
+            <Nav.Link className='bg-green-700 no-underline hover:opacity-50 transition-all'>
+            <span className='text-amber-100'>Realizar Pedido</span></Nav.Link>
+          </LinkContainer>
+        ) : (
+            <Nav.Link className='bg-gray-500 disabled no-underline'>
+                <span className='text-white'>
+                    Realizar Pedido
+                </span>
+            </Nav.Link>
+        )}
+      </Nav.Item>
     </Nav>
-  )
-}
+  );
+};
 
 export default CheckoutSteps

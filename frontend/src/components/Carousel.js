@@ -16,8 +16,8 @@ const Carousel = ({ cards }) => {
   };
 
   return (
-    <div className="relative w-full max-w-full my-20 mx-auto py-8">
-      <div className="relative h-full flex justify-center items-center">
+    <div className="relative w-full max-w-full my-5 mx-auto py-2">
+      <div className="relative h-52 flex justify-center items-center">
         <div className="flex items-center justify-center w-full">
           {cards.map((card, index) => {
             // Calculate the position relative to the current card
@@ -47,7 +47,7 @@ const Carousel = ({ cards }) => {
                   opacity,
                   left: '50%',
                   marginLeft: '-140px', // Half of the card width
-                  width: '100%', // Hacer que el ancho ocupe todo el contenedor
+                  width: '50%', // Hacer que el ancho ocupe todo el contenedor
                   maxWidth: '280px', // Máximo ancho para las tarjetas
                 }}
               >
