@@ -63,7 +63,6 @@ function App() {
               <Routes>
                 <Route path="/order/:id" element={<OrderDetailsScreen />} />
                 <Route path="/shipping" element={<ShippingScreen />} />
-                <Route path="/payment" element={<PaymentScreen />} />
                 <Route path="/placeorder" element={<PlaceOrderScreen />} />
                 <Route path="/login" element={<LoginScreen />} />
                 <Route path="/register" element={<RegisterScreen />} />

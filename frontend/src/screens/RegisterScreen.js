@@ -44,65 +44,65 @@ const RegisterScreen = () => {
   
   return (
     <FormContainer>
-        <h1>Sign UP</h1>
+        <h1>Registro</h1>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
-            <Form.Group controlId='name'>
-                <Form.Label>Name</Form.Label>
+            <Form.Group controlId='name' className='mb-3'>
                     <Form.Control 
                         type='name' 
-                        placeholder='Enter Name' 
+                        placeholder='Ingresar Nombre' 
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         >
                     </Form.Control>
             </Form.Group>
-            <Form.Group controlId='email'>
-                <Form.Label>Email Address</Form.Label>
+            <Form.Group controlId='email' className='mb-3'>
                 <Form.Control 
                     type='email' 
-                    placeholder='Enter Email' 
+                    placeholder='Ingresar Correo' 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     >
                     </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='password'>
-                <Form.Label>Password</Form.Label>
+            <Form.Group controlId='password' className='mb-3'>
                 <Form.Control 
                     type='password' 
-                    placeholder='Enter Password' 
+                    placeholder='Ingresar Contraseña' 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     >
                     </Form.Control>
             </Form.Group>
 
-            <Form.Group controlId='confirmPassword'>
-                <Form.Label>Confirm Password</Form.Label>
+            <Form.Group controlId='confirmPassword' className='mb-3'>
                 <Form.Control 
                     type='password' 
-                    placeholder='Confirm Password' 
+                    placeholder='Confirmar Contraseña' 
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     >
                     </Form.Control>
             </Form.Group>
-
-            <Button type='submit' variant='primary'>
-                Register
+            <Button 
+                className='btn btn-block bg-amber-600 mt-4' 
+                type='submit' 
+            >
+                Confirmar
             </Button>
         </Form>
 
         <Row className='py-3'>
             <Col>
-                Have an Account ? {' '}
-                    <Link to={redirect 
+                <span className='text-amber-100 font-bold'>¿ Ya tenes una cuenta ?</span>
+                    <Link
+                        className='font-bold text-white hover:opacity-50' 
+                        to={redirect 
                         ? `/login?redirect=${redirect}` 
-                        : '/login'}>Login</Link>
+                        : '/login'}> Iniciar Sesión</Link>
             </Col>
         </Row>
     </FormContainer>

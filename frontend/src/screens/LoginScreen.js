@@ -70,7 +70,13 @@ const LoginScreen = () => {
 
         <Row className='py-3'>
             <Col>
-                Eres nuevo ? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Registrarse</Link>
+                <span className='text-amber-100'>Sos nuevo ? </span>
+                  <Link 
+                    className='item-name text-amber-500 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
+                    to={redirect ? `/register?redirect=${redirect}` : '/register'}
+                  >
+                    REGISTRATE
+                  </Link>
             </Col>
         </Row>
     </FormContainer>

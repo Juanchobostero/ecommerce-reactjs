@@ -3,7 +3,8 @@ import {
     CART_ADD_ITEM, 
     CART_REMOVE_ITEM, 
     CART_SAVE_PAYMENT_METHOD, 
-    CART_SAVE_SHIPPING_ADDRESS 
+    CART_SAVE_SHIPPING_ADDRESS,
+    CART_DROP 
 } from '../constants/cartConstants';
 
 const url = process.env.NODE_ENV === 'development' 
@@ -54,5 +55,16 @@ export const savePaymentMethod = (data) => (dispatch) => {
 
     localStorage.setItem('paymentMethod', JSON.stringify(data));
 }
+
+export const cartDrop = () => (dispatch) => {
+    // Despacha la acción para vaciar el carrito
+    dispatch({
+        type: CART_DROP,
+    });
+
+    // Limpia los datos del carrito en el localStorage
+    localStorage.setItem('cartItems', JSON.stringify([])); // Guarda un array vacío para los items del carrito
+};
+
 
 

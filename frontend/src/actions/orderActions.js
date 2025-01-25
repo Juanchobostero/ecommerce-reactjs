@@ -19,6 +19,7 @@ import {
     ORDER_DELIVER_FAIL,
     ORDER_DELIVER_REQUEST
 } from "../constants/orderConstants";
+import { CART_DROP } from "../constants/cartConstants";
 
 const url = process.env.NODE_ENV === 'development' 
         ? 'http://localhost:5000' 
@@ -44,6 +45,10 @@ export const createOrder = (order) => async (dispatch, getState) => {
         dispatch({
             type: ORDER_CREATE_SUCCESS,
             payload: data
+        });
+
+        dispatch({
+            type: CART_DROP,
         });
 
     } catch(error) {
