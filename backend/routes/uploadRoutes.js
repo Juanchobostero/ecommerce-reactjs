@@ -1,39 +1,36 @@
-import path from 'path';
 import express from 'express';
 import multer from 'multer';
+import cloudinary from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-    destination(req, file, cb) {
-        cb(null, 'uploads/');
+// Configura Cloudinary
+cloudinary.v2.config({
+    cloud_name: 'dcvzljyj3',
+    api_key: '791171769866529',
+    api_secret: 'Bp6NrKELRqjSkGrcrqYNnbNHlHs',
+});
+
+// Configura Multer con almacenamiento en Cloudinary
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary.v2,
+    params: {
+        folder: 'uploads', // Carpeta en Cloudinary
+        allowed_formats: ['jpg', 'jpeg', 'png'], // Tipos de archivo permitidos
     },
-    filename(req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
-    }
 });
 
-function checkFileType(file, cb) {
-    const filetypes = /jpg|jpeg|png/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
+const upload = multer({ storage });
 
-    if(extname && mimetype) {
-        return cb(null, true);
-    } else {
-        cb('Images only');
-    }
-};
-
-const upload = multer({
-    storage,
-    fileFilter: function(req, file, cb) {
-        checkFileType(file, cb)
-    }
-});
-
+// Ruta para subir imágenes
 router.post('/', upload.single('image'), (req, res) => {
-    res.send(`/${req.file.path}`);
+
+    if (req.file && req.file.path) {
+        res.send(`${req.file.path}`); // Retorna la URL de la imagen subida
+    } else {
+        res.status(400).send('Error al subir la imagen');
+    }
 });
 
 export default router;
