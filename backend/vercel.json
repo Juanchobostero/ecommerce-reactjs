@@ -2,19 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "backend/index.js",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["backend/**"]
-      }
+      "src": "./index.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/backend"
+      "dest": "/"
     }
   ],
-  "installCommand": "cd backend && pnpm install",
-  "buildCommand": "cd backend && pnpm build"
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm build"
 }

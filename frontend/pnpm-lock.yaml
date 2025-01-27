@@ -5611,7 +5611,7 @@ packages:
   /d3-interpolate@2.0.1:
     resolution: {integrity: sha512-c5UhwwTs/yybcmTpAVqwSFl6vrQ8JZJoT5F7xNFK9pymv5C0Ymcc9/LIJHtYIggg/yS9YHw8i8O8tgb9pupjeQ==}
     dependencies:
-      d3-color: 2.0.0
+      d3-color: 1.4.1
     dev: false
 
   /d3-interpolate@3.0.1:
