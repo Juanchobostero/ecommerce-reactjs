@@ -5,7 +5,7 @@
       "src": "backend/index.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["backend/**"] 
+        "includeFiles": ["backend/**"]
       }
     }
   ],
@@ -15,6 +15,7 @@
       "dest": "/backend"
     }
   ],
-  "installCommand": "cd backend && pnpm install",  
-  "buildCommand": "cd backend && pnpm build"
+  "installCommand": "cd backend && pnpm install",
+  "buildCommand": "cd backend && pnpm build",
+  "clean": true
 }
