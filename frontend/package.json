@@ -40,7 +40,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "sweetalert2": "^11.4.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ajv": "^8.0.0"
   },
   "scripts": {
     "start": "set PORT=3420 && react-scripts --openssl-legacy-provider start",

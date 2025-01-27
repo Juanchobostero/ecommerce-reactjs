@@ -29,7 +29,7 @@ router.post('/', upload.single('image'), (req, res) => {
     if (req.file && req.file.path) {
         res.send(`${req.file.path}`); // Retorna la URL de la imagen subida
     } else {
-        res.status(400).send('Error al subir la imagen');
+        res.status(400).send('Error al subir la imagen :( :(');
     }
 });
 
