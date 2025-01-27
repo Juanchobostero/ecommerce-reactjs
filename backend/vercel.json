@@ -16,6 +16,5 @@
     }
   ],
   "installCommand": "cd backend && pnpm install",
-  "buildCommand": "cd backend && pnpm build",
-  "clean": true
+  "buildCommand": "cd backend && pnpm build"
 }
