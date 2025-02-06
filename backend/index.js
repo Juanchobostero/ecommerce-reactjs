@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import dotenv from 'dotenv';
 import colors from 'colors';
 import morgan from 'morgan';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
@@ -17,7 +16,7 @@ mercadopago.configure({
 	access_token: "APP_USR-5029250925841563-081611-6d6c33c264b920c6cce47d975f80e384-1180488044",
 });
 
-dotenv.config();
+process.loadEnvFile()
 
 connectDB();
 

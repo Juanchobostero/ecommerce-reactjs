@@ -58,11 +58,11 @@ const CartScreen = () => {
                     </Col>
                     <Col md={3}>
                       <Link 
-                        className='item-name text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
+                        className='ubuntu font-bold text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
                         to={`/product/${item.product}`}>{item.name}</Link>
                     </Col>
                     <Col md={2}>
-                      <span className='playball-font font-extrabold text-amber-950'>${item.price}</span>
+                      <span className='ubuntu font-extrabold text-amber-950'>${item.price}</span>
                     </Col>
                     <Col md={2}>
                       <Form.Control 
@@ -100,10 +100,10 @@ const CartScreen = () => {
         <Card>
           <ListGroup variant='flush'>
             <ListGroup.Item className='bg-amber-100'>
-              <h2>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
+              <h2 className='ubuntu'>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
                 items
               </h2>
-              <span className='playball-font font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
+              <span className='ubuntu font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
             </ListGroup.Item>
             <ListGroup.Item className='bg-amber-100' >
               <Button

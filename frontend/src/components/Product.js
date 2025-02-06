@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Modal, Button } from 'react-bootstrap';
+import { Card, Modal, Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import EditQuantity from "./EditQuantity"
 import { useDispatch } from 'react-redux';
@@ -92,10 +92,10 @@ const Product = ({ userLogged, product }) => {
         <Card.Body className="custom-card-body">
           <Link to={`/product/${product._id}`}>
             <Card.Title as="div" className="custom-card-title">
-              <strong className="text-amber-950">{product.name}</strong>
+              <strong className="ubuntu text-amber-950">{product.name}</strong>
             </Card.Title>
           </Link>
-          <Card.Text as="h3" className="custom-card-price">
+          <Card.Text as="h3" className="ubuntu custom-card-price">
             ${product.price}
           </Card.Text>
           <Card.Title as="div" className="mt-[-1rem] p-1">
@@ -130,16 +130,30 @@ const Product = ({ userLogged, product }) => {
               </button>
               ) : (
                 <>
-                  <EditQuantity qty={qty} onQtyChange={handleQty}/>
-                  <button
-                      onClick={handleAddToCart} 
-                      type="button" 
-                      className=" text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                  >
-                      <svg class="w-8 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
-                      </svg>
-                  </button>
+                  <div className='ubuntu flex flex-row gap-2'>
+                    <Form.Control 
+                      as='select' 
+                      value={qty} 
+                      onChange={(e) => setQty(e.target.value)}
+                      className="w-full md:w-28 h-10"
+                    >
+                      {[...Array(Number(product.countInStock)).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </Form.Control>
+                    <button
+                        onClick={handleAddToCart} 
+                        type="button" 
+                        className=" text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    >
+                        <svg class="w-8 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
+                        </svg>
+                    </button>
+                  </div>
+                  
                 </>
               ) }
             

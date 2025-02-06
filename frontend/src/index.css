@@ -8,10 +8,14 @@ main{
 }
 
 h1 {
-    font-family: 'Playball', system-ui;
+    font-family: 'Ubuntu Sans Variable', sans-serif;
     font-size: 1.4rem;
     padding: 0.1rem;
-    font-wight: bold;
+    font-weight: 600;
+}
+
+.ubuntu {
+    font-family: 'Ubuntu Sans Variable', sans-serif;
 }
 
 .nav-elem {
@@ -24,7 +28,7 @@ h1 {
 }
 
 .prod-name {
-    font-family: 'Playball', system-ui;
+    font-family: 'Ubuntu Sans Variable', sans-serif;
     font-size: 1rem;
     color: #b45309 !important;
 }
