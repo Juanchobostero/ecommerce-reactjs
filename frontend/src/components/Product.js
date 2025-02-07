@@ -1,34 +1,43 @@
-import React, { useState } from 'react';
-import { Card, Modal, Button, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import EditQuantity from "./EditQuantity"
-import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
-import { addToCart } from '../actions/cartActions';
+import React, { useState } from 'react'
+import { Card, Modal, Button, Form } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import { addToCart } from '../actions/cartActions'
 
 const Product = ({ userLogged, product }) => {
   const [showModal, setShowModal] = useState(false)
   const [qty, setQty] = useState(1)
 
+  const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
+
   const dispatch = useDispatch();
 
   const handleShow = () => setShowModal(true)
-
   const handleClose = () => setShowModal(false)
-
-  const handleQty = (newQty) => {
-    if (newQty <= 0) {
-      setQty(1)
-    } else {
-      setQty(newQty)
-    }
-  };
 
   const handleAddToCart = () => {
     if(qty >= product.countInStock) {
       Swal.fire({
         title: 'Error!',
         text: 'La cantidad es Mayor a la del Stock Disponible',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#d97706'
+      })
+      return
+    }
+
+    const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
+    const limit = 5
+
+    console.log(Number(cartPlusQtyUpdated))
+
+    if(cartPlusQtyUpdated > limit) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'El límite es de hasta 40 alfajores !',
         icon: 'error',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#d97706'

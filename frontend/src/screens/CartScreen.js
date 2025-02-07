@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem } from 'react-bootstrap';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import Swal from 'sweetalert2';
@@ -104,6 +104,14 @@ const CartScreen = () => {
                 items
               </h2>
               <span className='ubuntu font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
+            </ListGroup.Item>
+            <ListGroup.Item className='bg-amber-100'>
+              <strong>
+                Restantes disponibles: 
+                  <span className='ubuntu border-green-950 bg-green-300 p-1 text-xl text-green-900'>
+                    <b>{40 - (cartItems.reduce((acc, item) => acc + item.qty, 0))}</b>
+                  </span>
+              </strong>
             </ListGroup.Item>
             <ListGroup.Item className='bg-amber-100' >
               <Button
