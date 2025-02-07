@@ -18,7 +18,7 @@ const Product = ({ userLogged, product }) => {
   const handleClose = () => setShowModal(false)
 
   const handleAddToCart = () => {
-    if(qty >= product.countInStock) {
+    if(qty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
         text: 'La cantidad es Mayor a la del Stock Disponible',
@@ -31,8 +31,6 @@ const Product = ({ userLogged, product }) => {
 
     const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
     const limit = 5
-
-    console.log(Number(cartPlusQtyUpdated))
 
     if(cartPlusQtyUpdated > limit) {
       Swal.fire({

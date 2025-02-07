@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem } from 'react-bootstrap';
@@ -19,6 +19,25 @@ const CartScreen = () => {
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
+
+  const handleAddToCart = (product, qty) => {
+    const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0)
+    const limit = 5
+    const condition = totalItems > limit
+    
+    if(condition) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'El límite es de hasta 40 alfajores !',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#d97706'
+      })
+      return
+    } else {
+      dispatch(addToCart(product, qty))
+    }
+  }
 
   const checkoutHandler = () => {
     if(userInfo && userInfo.name) {
@@ -69,9 +88,7 @@ const CartScreen = () => {
                         as='select' 
                         value={item.qty} 
                         onChange={(e) =>
-                          dispatch(
-                            addToCart(item.product, Number(e.target.value))
-                          )
+                          handleAddToCart(item.product, Number(e.target.value))
                         }
                       >
                         {[...Array(Number(item.countInStock)).keys()].map((x) => (
@@ -108,7 +125,7 @@ const CartScreen = () => {
             <ListGroup.Item className='bg-amber-100'>
               <strong>
                 Restantes disponibles: 
-                  <span className='ubuntu border-green-950 bg-green-300 p-1 text-xl text-green-900'>
+                  <span className='ubuntu cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
                     <b>{40 - (cartItems.reduce((acc, item) => acc + item.qty, 0))}</b>
                   </span>
               </strong>

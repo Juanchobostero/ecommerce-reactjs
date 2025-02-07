@@ -93,7 +93,7 @@ h3 {
 }
 
 .custom-card {
-    font-family: 'Playball', system-ui;
+    font-family: 'Ubuntu Sans Variable', sans-serif;
     font-size: 1rem;
     width: 95%;
     max-height: 320px; /* Reducir altura */
