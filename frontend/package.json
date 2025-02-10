@@ -6,6 +6,7 @@
     "@ant-design/plots": "^1.2.1",
     "@fontsource-variable/dancing-script": "^5.1.1",
     "@fontsource-variable/playfair-display": "^5.1.1",
+    "@fontsource-variable/ubuntu-sans": "^5.1.1",
     "@fontsource/playball": "^5.1.1",
     "@material-tailwind/react": "^2.1.10",
     "@mercadopago/sdk-react": "^0.0.11",
@@ -16,6 +17,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
+    "ajv": "^8.0.0",
     "antd": "^4.22.6",
     "apexcharts": "^3.35.4",
     "axios": "^0.27.2",
@@ -39,8 +41,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "sweetalert2": "^11.4.8",
-    "web-vitals": "^2.1.4",
-    "ajv": "^8.0.0"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "set PORT=3420 && react-scripts --openssl-legacy-provider start",
