@@ -21,7 +21,7 @@ const Product = ({ userLogged, product }) => {
     if(qty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
-        text: 'La cantidad es Mayor a la del Stock Disponible',
+        text: 'La cantidad es Mayor a la del Stock Disponible !',
         icon: 'error',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#d97706'
