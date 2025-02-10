@@ -23,6 +23,7 @@ import ProductCatalogScreen from './screens/ProductCatalogScreen';
 import 'antd/dist/antd.min.css';
 import '@fontsource/playball';
 import '@fontsource-variable/playfair-display';
+import '@fontsource-variable/ubuntu-sans';
 import TopButton from './components/TopButton';
 
 // Componente de transición para vistas

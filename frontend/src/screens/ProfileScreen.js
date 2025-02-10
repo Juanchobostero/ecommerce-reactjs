@@ -60,7 +60,7 @@ const ProfileScreen = () => {
   return (
     <Row>
         <Col md={3}>
-            <h2>Mis Datos</h2>
+            <h2 className='ubuntu'>Mis Datos</h2>
             {message && <Message variant='danger'>{message}</Message>}
             {error && <Message variant='danger'>{error}</Message>}
             {success && <Message variant='success'>Perfil Actualizado !</Message>}
@@ -120,7 +120,7 @@ const ProfileScreen = () => {
             </Form>
         </Col>
         <Col md={9}>
-            <h2>Mis Pedidos</h2>
+            <h2 className='ubuntu'>Mis Pedidos</h2>
             {loadingOrders 
                 ? <Loader /> 
                 : errorOrders 

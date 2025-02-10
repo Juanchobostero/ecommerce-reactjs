@@ -65,7 +65,7 @@ const ProductScreen = () => {
                     <Col md={6}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h3 className='prod-name'>{product.name}</h3>
+                                <h3 className='ubuntu prod-name'>{product.name}</h3>
                             </ListGroup.Item>
                             <ListGroup.Item>
                                 <Rating 
@@ -84,7 +84,7 @@ const ProductScreen = () => {
                 </Row>
                 <Row>
                     <Col md={6}>
-                        <h2>Reseñas</h2>
+                        <h2 className='ubuntu'>Reseñas</h2>
                         {product.reviews.length === 0 && <Message>No hay reseñas</Message>}
                         <ListGroup variant='flush'>
                             {product.reviews.map(review => (
@@ -100,7 +100,7 @@ const ProductScreen = () => {
                                 </ListGroup.Item>
                             ))}
                             <ListGroup.Item>
-                                <h2>Escribir una reseña</h2>
+                                <h2 className='ubuntu'>Escribir una reseña</h2>
                                 {errorProductReview && (
                                     <Message variant='danger'>{errorProductReview}</Message>
                                 )}

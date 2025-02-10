@@ -100,7 +100,7 @@ const OrderDetailsScreen = () => {
                     <Col md={8}>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Envío</h2>
+                                <h2 className='ubuntu'>Envío</h2>
                                 <p>
                                     <strong><b>Usuario: </b></strong>{order.user.name}
                                 </p>
@@ -133,7 +133,7 @@ const OrderDetailsScreen = () => {
                             </ListGroup.Item> */}
 
                             <ListGroup.Item>
-                                <h2>Detalle del Pedido</h2>
+                                <h2 className='ubuntu'>Detalle del Pedido</h2>
                                 {order.orderItems.length === 0 
                                     ? (<Message>No hay Pedidos</Message>)
                                     : (<ListGroup variant='flush'>
@@ -152,12 +152,12 @@ const OrderDetailsScreen = () => {
 
                                                         <Col>
                                                             <Link to={`/product/${item.product}`}>
-                                                                <span className='playball-font text-amber-900'>{item.name}</span>
+                                                                <span className='ubuntu text-amber-900'>{item.name}</span>
                                                             </Link>
                                                         </Col>
 
                                                         <Col md={4}>
-                                                        <span className='playball-font text-amber-950 font-extrabold'>{item.qty} x ${item.price} = ${item.qty * item.price}</span>
+                                                        <span className='ubuntu text-amber-950 font-extrabold'>{item.qty} x ${item.price} = ${item.qty * item.price}</span>
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
@@ -174,7 +174,7 @@ const OrderDetailsScreen = () => {
                         <Card>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item>
-                                    <h2>Resumen</h2>
+                                    <h2 className='ubuntu'>Resumen</h2>
                                 </ListGroup.Item>
 
                                 <ListGroup.Item>

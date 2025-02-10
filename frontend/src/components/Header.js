@@ -29,7 +29,7 @@ const Header = () => {
         <LinkContainer to={'/'}>
           <Navbar.Brand>
             <img 
-              src="/images/logo.png" 
+              src="/images/logo2.png" 
               alt="Logo" 
               className="h-auto w-auto transition-transform duration-300 ease-in-out hover:scale-110 hover:opacity-80"
               style={{ maxHeight: '70px' }}
@@ -38,18 +38,17 @@ const Header = () => {
         </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-          <h1 className='font-black'>El Promesero</h1>
           <Nav className="ml-auto nav-elem relative z-20">
             <LinkContainer to="/catalogo">
               <Nav.Link
-                className="text-white font-semibold hover:opacity-80 transition-opacity duration-300"
+                className="ubuntu text-white font-semibold hover:opacity-80 transition-opacity duration-300"
               >
                 Productos
               </Nav.Link>
             </LinkContainer>
             <LinkContainer to="/cart">
               <Nav.Link
-                className="relative text-white font-semibold hover:opacity-80 transition-opacity duration-300"
+                className="ubuntu relative text-white font-semibold hover:opacity-80 transition-opacity duration-300"
               >
                 <div className="relative inline-block">
                   {/* Icono del carrito */}
@@ -68,7 +67,7 @@ const Header = () => {
             {userInfo && userInfo.name ? (
               <NavDropdown
                 title={
-                  <span className="text-white font-semibold hover:opacity-80 transition-opacity duration-300">
+                  <span className="ubuntu text-white font-semibold hover:opacity-80 transition-opacity duration-300">
                     {userInfo.name}
                   </span>
                 }
@@ -77,14 +76,14 @@ const Header = () => {
               >
                 <LinkContainer to="/profile">
                   <NavDropdown.Item
-                    className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                    className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                   >
                     Perfil
                   </NavDropdown.Item>
                 </LinkContainer>
                 <NavDropdown.Item
                   onClick={logoutHandler}
-                  className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                  className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                 >
                   Cerrar Sesión
                 </NavDropdown.Item>
@@ -92,7 +91,7 @@ const Header = () => {
             ) : (
               <LinkContainer to="/login">
                 <Nav.Link
-                  className="text-white font-semibold hover:opacity-80 transition-opacity duration-300"
+                  className="ubuntu text-white font-semibold hover:opacity-80 transition-opacity duration-300"
                 >
                   <i className="fas fa-user"></i> Login
                 </Nav.Link>
@@ -102,7 +101,7 @@ const Header = () => {
             {userInfo && userInfo.isAdmin && (
               <NavDropdown
                 title={
-                  <span className="text-white font-semibold hover:opacity-80 transition-opacity duration-300">
+                  <span className="ubuntu text-white font-semibold hover:opacity-80 transition-opacity duration-300">
                     Paneles
                   </span>
                 }
@@ -111,28 +110,28 @@ const Header = () => {
               >
                 <LinkContainer to="/admin/userlist">
                   <NavDropdown.Item
-                    className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                    className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                   >
                     Usuarios
                   </NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/admin/productlist">
                   <NavDropdown.Item
-                    className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                    className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                   >
                     Productos
                   </NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/admin/orderlist">
                   <NavDropdown.Item
-                    className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                    className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                   >
-                    Ordenes
+                    Pedidos
                   </NavDropdown.Item>
                 </LinkContainer>
                 <LinkContainer to="/admin/reports">
                   <NavDropdown.Item
-                    className="bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
+                    className="ubuntu bg-amber-950 text-white font-semibold hover:bg-amber-600 hover:opacity-90 transition-all duration-300"
                   >
                     Reportes
                   </NavDropdown.Item>

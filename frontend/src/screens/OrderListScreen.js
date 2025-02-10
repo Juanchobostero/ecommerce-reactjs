@@ -32,7 +32,7 @@ const OrderListScreen = () => {
     
     return (
         <Fragment>
-            <h1>Orders</h1>
+            <h1 className='ubuntu font-bold'>Pedidos</h1>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <>
                     <ListGroup variant='flush'>

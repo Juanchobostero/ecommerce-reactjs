@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap';
+import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem } from 'react-bootstrap';
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import Swal from 'sweetalert2';
@@ -17,8 +17,29 @@ const CartScreen = () => {
   const { cartItems } = cart
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart(id))
   };
+
+  const handleAddToCart = (product, qty) => {
+    const currentItem = cartItems.find(item => item.product === product)
+    const currentQty = currentItem ? currentItem.qty : 0
+    const newTotalItems = cartItems.reduce((acc, item) => acc + item.qty, 0) - currentQty + qty
+    const limit = 5
+  
+    if (newTotalItems > limit) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'El límite es de hasta 40 alfajores!',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+        confirmButtonColor: '#d97706'
+      });
+      return
+    } else {
+      dispatch(addToCart(product, qty))
+    }
+  };
+  
 
   const checkoutHandler = () => {
     if(userInfo && userInfo.name) {
@@ -58,20 +79,18 @@ const CartScreen = () => {
                     </Col>
                     <Col md={3}>
                       <Link 
-                        className='item-name text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
+                        className='ubuntu font-bold text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
                         to={`/product/${item.product}`}>{item.name}</Link>
                     </Col>
                     <Col md={2}>
-                      <span className='playball-font font-extrabold text-amber-950'>${item.price}</span>
+                      <span className='ubuntu font-extrabold text-amber-950'>${item.price}</span>
                     </Col>
                     <Col md={2}>
                       <Form.Control 
                         as='select' 
                         value={item.qty} 
                         onChange={(e) =>
-                          dispatch(
-                            addToCart(item.product, Number(e.target.value))
-                          )
+                          handleAddToCart(item.product, Number(e.target.value))
                         }
                       >
                         {[...Array(Number(item.countInStock)).keys()].map((x) => (
@@ -100,10 +119,18 @@ const CartScreen = () => {
         <Card>
           <ListGroup variant='flush'>
             <ListGroup.Item className='bg-amber-100'>
-              <h2>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
+              <h2 className='ubuntu'>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
                 items
               </h2>
-              <span className='playball-font font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
+              <span className='ubuntu font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
+            </ListGroup.Item>
+            <ListGroup.Item className='bg-amber-100'>
+              <strong>
+                Restantes disponibles: 
+                  <span className='ubuntu cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
+                    <b>{40 - (cartItems.reduce((acc, item) => acc + item.qty, 0))}</b>
+                  </span>
+              </strong>
             </ListGroup.Item>
             <ListGroup.Item className='bg-amber-100' >
               <Button
