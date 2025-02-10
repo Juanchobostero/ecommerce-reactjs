@@ -17,27 +17,29 @@ const CartScreen = () => {
   const { cartItems } = cart
 
   const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+    dispatch(removeFromCart(id))
   };
 
   const handleAddToCart = (product, qty) => {
-    const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0)
+    const currentItem = cartItems.find(item => item.product === product)
+    const currentQty = currentItem ? currentItem.qty : 0
+    const newTotalItems = cartItems.reduce((acc, item) => acc + item.qty, 0) - currentQty + qty
     const limit = 5
-    const condition = totalItems > limit
-    
-    if(condition) {
+  
+    if (newTotalItems > limit) {
       Swal.fire({
         title: 'Error!',
-        text: 'El límite es de hasta 40 alfajores !',
+        text: 'El límite es de hasta 40 alfajores!',
         icon: 'error',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#d97706'
-      })
+      });
       return
     } else {
       dispatch(addToCart(product, qty))
     }
-  }
+  };
+  
 
   const checkoutHandler = () => {
     if(userInfo && userInfo.name) {
