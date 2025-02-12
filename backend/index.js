@@ -20,9 +20,11 @@ const app = express()
 const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3420',
-    'https://ecommerce-reactjs-chi.vercel.app', // PROD
+    'https://ecommerce-reactjs-chi.vercel.app', // PROD vercel
     'https://ecommerce-reactjs-client-git-juancho-juanchobosteros-projects.vercel.app', //JC TEST
-    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app' // QA
+    'https://ecommerce-reactjs-client-git-test-juanchobosteros-projects.vercel.app', // QA
+    'https://www.elpromesero.com', // PROD
+    'https://elpromesero.com' // PROD
 ]
 
 const corsOptions = {
