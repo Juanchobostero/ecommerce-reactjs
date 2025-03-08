@@ -40,7 +40,7 @@ const PlaceOrderScreen = () => {
 
     const sendEmail = (order) => {
         emailjs.init("user_oJelKtrrrc8lIdPaF2FHz")
-        emailjs.send("service_16zymxt", "template_mcvuce9", {
+        emailjs.send("service_bztw9ba", "template_mcvuce9", {
             from_name: "EL PROMESERO",
             subject: `Se ha generado un nuevo Pedido`,
             message: `El usuario: ${userInfo.name} ha realizado el pedido N°: ${order}.`,

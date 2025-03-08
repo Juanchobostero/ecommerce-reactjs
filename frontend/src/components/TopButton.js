@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 const TopButton = () => {
 
     function topFunction() {
@@ -18,11 +20,15 @@ const TopButton = () => {
     function scrollFunction() {
         if (mybutton && (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20)) {
             mybutton.style.display = "block";
-            mybutton.style.zIndex = "500";
+            mybutton.style.zIndex = "2000";
         } else if (mybutton) {
             mybutton.style.display = "none";
         }
     }
+
+    useEffect(() => {
+        console.log("TopButton montado");
+      }, []);
 
     return (
         <button class="bg-black/50" id="myBtn" title="Go to top">

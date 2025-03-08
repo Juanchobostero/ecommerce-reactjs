@@ -101,7 +101,7 @@ h3 {
     flex-direction: column;
     justify-content: space-between;
     padding: 5px; /* Reducir el padding */
-    border-radius: 10px; /* Añadir bordes redondeados */
+    border-radius: 5px; /* Añadir bordes redondeados */
   }
   
   .custom-card-img {
@@ -167,13 +167,7 @@ h3 {
     outline: none; /* Remove outline */
     color: white; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
-    padding: 15px; /* Some padding */
-    border-radius: 10px; /* Rounded corners */
     font-size: 18px; /* Increase font size */
-}
-
-#myBtn:hover {
-    background-color: #555; /* Add a dark-grey background on hover */
 }
 
 @media (prefers-reduced-motion: reduce) {
