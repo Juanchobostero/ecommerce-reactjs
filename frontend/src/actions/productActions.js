@@ -103,7 +103,7 @@ export const deleteProduct = (id) => async (
     }
 };
 
-export const createProduct = () => async (
+export const createProduct = (product) => async (
     dispatch, 
     getState
 ) => {
@@ -120,7 +120,7 @@ export const createProduct = () => async (
             }
         };
 
-        const { data } = await axios.post(`${url}/api/products`, {}, config);
+        const { data } = await axios.post(`${url}/api/products`, product, config);
 
         dispatch({ 
             type: PRODUCT_CREATE_SUCCESS,

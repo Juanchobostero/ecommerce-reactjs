@@ -1,22 +1,21 @@
-import React, { Fragment } from 'react';
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
+import React from 'react';
+import { Row, Col, ListGroup } from 'react-bootstrap';
 
 const About = () => {
     return (
-        <Fragment>
-            <Row className='w-full mt-8'>
-                <Col md={12}>
-                    <ListGroup variant='flush'>
-                        <ListGroup.Item className='rounded-md bg-amber-100'>
-                            <h1 className="text-lg font-bold">¿Quienes Somos?</h1>
-                            <p class="mb-3 text-black-500 dark:text-black-700">Somos una empresa familiar dedicada a la creación de alfajores artesanales en San Luis del Palmar, Corrientes. Inspirados en las tradiciones y sabores de nuestra región, elaboramos cada alfajor con pasión, ingredientes seleccionados y el auténtico toque casero que nos caracteriza.</p>
-                        </ListGroup.Item>
-                    </ListGroup>
-                </Col>
+        <div className='py-1 px-2 mt-4'>
+            <ListGroup variant="flush">
+                <ListGroup.Item className="rounded-md bg-amber-950 text-amber-100 font-source text-justify py-2 px-4">
+                    <h1 className="text-lg font-bold mb-3">¿Quiénes Somos?</h1>
+                    <p className="text-sm text-gray-300 leading-relaxed">
+                        Somos una empresa familiar de San Luis del Palmar, Corrientes, especializada en alfajores artesanales. 
+                        Nos inspiramos en las tradiciones locales para ofrecer un producto auténtico, elaborado con ingredientes 
+                        seleccionados y un toque casero inigualable.
+                    </p>
+                </ListGroup.Item>
+            </ListGroup>
+        </div>
+    );
+};
 
-            </Row>
-        </Fragment>
-    )
-}
-
-export default About
+export default About;

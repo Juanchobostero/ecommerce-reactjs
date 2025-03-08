@@ -8,7 +8,7 @@ const Footer = () => {
   const handleClose = () => setShowModal(false);
 
   return (
-    <footer style={{ backgroundColor: '#5e3c23', color: '#fff', padding: '20px 0' }}>
+    <footer className='bg-amber-950 text-white py-3'>
       <Container>
         <Row>
           <Col className="text-center py-2">
@@ -19,7 +19,7 @@ const Footer = () => {
           <Col className="text-center py-3">
             {/* Instagram */}
             <div style={{ display: 'inline-block', margin: '0 15px', textAlign: 'center' }}>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
+              <a href="https://www.instagram.com/el_promesero/" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" style={{ display: 'block', margin: '1rem auto' }}>
                   <path fill="#fff" d="(Insert Facebook SVG path here)" />
                 </svg>
@@ -27,14 +27,14 @@ const Footer = () => {
               </a>
             </div>
             {/* Facebook */}
-            <div className='hover:' style={{ display: 'inline-block', margin: '0 15px', textAlign: 'center' }}>
+            {/* <div className='hover:' style={{ display: 'inline-block', margin: '0 15px', textAlign: 'center' }}>
               <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" style={{ display: 'block', margin: '1rem auto' }}>
                   <path fill="#fff" d="(Insert Facebook SVG path here)" />
                 </svg>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="url(#a)" height="30" width="30"><defs><linearGradient x1="50%" x2="50%" y1="97.078%" y2="0%" id="a"><stop offset="0%" stop-color="#0062E0"/><stop offset="100%" stop-color="#19AFFF"/></linearGradient></defs><path d="M15 35.8C6.5 34.3 0 26.9 0 18 0 8.1 8.1 0 18 0s18 8.1 18 18c0 8.9-6.5 16.3-15 17.8l-1-.8h-4l-1 .8z"/><path fill="#FFF" d="m25 23 .8-5H21v-3.5c0-1.4.5-2.5 2.7-2.5H26V7.4c-1.3-.2-2.7-.4-4-.4-4.1 0-7 2.5-7 7v4h-4.5v5H15v12.7c1 .2 2 .3 3 .3s2-.1 3-.3V23h4z"/></svg>
               </a>
-            </div>
+            </div> */}
             {/* WhatsApp */}
             <div style={{ display: 'inline-block', margin: '0 15px', textAlign: 'center' }}>
               <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
@@ -80,6 +80,7 @@ const Footer = () => {
             <Col className="text-center py-1">
               <button 
                 type="button" 
+                onClick={() => window.open('https://www.linkedin.com/in/martinezjc93/', '_blank', 'noopener,noreferrer')} 
                 class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2">
                 <svg
                   className='size-4 md:size-6'
@@ -96,7 +97,8 @@ const Footer = () => {
                 <span className='ml-2'>Juan Cruz Martínez</span>
               </button>
               <button 
-                type="button" 
+                type="button"
+                onClick={() => window.open('https://www.linkedin.com/in/martinezjc93/', '_blank', 'noopener,noreferrer')}
                 class="text-white bg-[#24292F] hover:bg-[#24292F]/90 focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 me-2 mb-2">
                 <svg
                   className='size-4 md:size-6'
@@ -115,8 +117,8 @@ const Footer = () => {
             </Col>
           </Row>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+          <Modal.Footer className='align-center'>
+            <Button variant="secondary" className='mx-auto' onClick={handleClose}>
               Cerrar
             </Button>
           </Modal.Footer>

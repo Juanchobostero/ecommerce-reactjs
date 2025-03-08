@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, ListGroup } from 'react-bootstrap';
+import { Table, Button, ListGroup, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -36,10 +36,25 @@ const UserListScreen = () => {
             dispatch(deleteUser(id));
         }
     }
+
+    const createUserHandler = () => {
+        navigate(`/register`);
+    }
     
     return (
         <>
-            <h1>Usuarios <Tag color="green">{users ? users.length : '0'}</Tag></h1>
+            <Row className='align-items-center'>
+                <Col>
+                    <h1>USUARIOS</h1>
+                </Col>
+                <Col className='text-right'>
+                    <Button 
+                        className='my-3 bg-amber-700 text-white' 
+                        onClick={createUserHandler}>
+                        <i className='fas fa-plus'></i> Nuevo Usuario
+                    </Button>
+                </Col>
+            </Row>
             {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <>
                     <ListGroup variant='flush'>
@@ -53,7 +68,6 @@ const UserListScreen = () => {
                             >
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>NOMBRE</th>
                                         <th>CORREO</th>
                                         <th>ES ADMIN</th>
@@ -64,8 +78,7 @@ const UserListScreen = () => {
                                 <tbody>
                                     {users.map(user => (
                                         <tr key={user._id}>
-                                            <td>{user._id}</td>
-                                            <td>{user.name}</td>
+                                            <td><b>{user.name}</b></td>
                                             <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
                                             <td>
                                                 {user.isAdmin 
