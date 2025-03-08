@@ -54,12 +54,12 @@ const OrderDetailsScreen = () => {
 
     const sendEmail = () => {
         emailjs.init("user_oJelKtrrrc8lIdPaF2FHz")
-        emailjs.send("service_16zymxt", "template_6213qyo", {
+        emailjs.send("service_bztw9ba", "template_6213qyo", {
             to_email: order.user.email,
             from_name: "EL PROMESERO",
             subject: `PEDIDO N°: ${order._id} DESPACHADO`,
             message: `Su Pedido fue Despachado con éxito. 
-                Lo recibirá en su domicilio en aproximadamente ${order.days} días. Atte. El Promesero.`,
+                Lo recibirá en su domicilio en aproximadamente ${order.days} días.`,
         })
         .then((response) => {
             Swal.fire({

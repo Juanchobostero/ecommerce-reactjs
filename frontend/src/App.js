@@ -26,12 +26,11 @@ import '@fontsource-variable/playfair-display';
 import '@fontsource-variable/ubuntu-sans';
 import '@fontsource/source-sans-pro';
 import TopButton from './components/TopButton';
-import { FloatingWhatsApp } from 'react-floating-whatsapp'
+import { useSelector } from 'react-redux';
 
 // Componente de transición para vistas
 const TransitionWrapper = ({ children }) => {
   const location = useLocation();
-
   React.useEffect(() => {
     if ('startViewTransition' in document) {
       document.startViewTransition(() => {
@@ -86,10 +85,9 @@ function App() {
                 <Route path="/catalogo/page/:pageNumber" element={<ProductCatalogScreen />} />
                 <Route path="/" element={<HomeScreen />} />
               </Routes>
-              {/* 
-               */}
             </TransitionWrapper>
           </Container>
+          
         </main>
         <Footer />
       </div>

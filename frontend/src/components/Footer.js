@@ -37,7 +37,7 @@ const Footer = () => {
             </div> */}
             {/* WhatsApp */}
             <div style={{ display: 'inline-block', margin: '0 15px', textAlign: 'center' }}>
-              <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
+              <a href="https://wa.me/5493795004254" target="_blank" rel="noopener noreferrer" style={{ color: '#fff', textDecoration: 'none' }}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 256 256" style={{ display: 'block', margin: '0 auto' }}>
                   <path fill="#fff" d="(Insert WhatsApp SVG path here)" />
                 </svg>
