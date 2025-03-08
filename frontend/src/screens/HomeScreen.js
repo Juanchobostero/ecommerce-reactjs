@@ -9,9 +9,9 @@ import Meta from '../components/Meta';
 import ComprarButton from '../components/ComprarButton';
 import About from '../components/About';
 import Location from '../components/Location';
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 const HomeScreen = () => {
-
   const dispatch = useDispatch()
   const params = useParams()
   const keyword = params.keyword;
@@ -23,50 +23,53 @@ const HomeScreen = () => {
     error, 
   } = productList
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const cards = [
-    <div key="1" className="p-6">
+    <div key="1" className="p-3">
       <img
         src={'/images/primera.jpeg'}
         alt="noticia alfajores principal"
         style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
       />
-      <h3>No te los podes perder</h3>
+      <h1 className='font-source font-extrabold mt-1'>NOTICIA #1</h1>
       <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
-    <div key="2" className="p-6">
+    <div key="2" className="p-3">
       <img
         src={'/images/primera.jpeg'}
         alt="noticia alfajores principal"
         style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
       />
-      <h3>No te los podes perder</h3>
+      <h1 className='font-source font-extrabold mt-1'>NOTICIA #2</h1>
       <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
-    <div key="3" className="p-6">
+    <div key="3" className="p-3">
       <img
         src={'/images/primera.jpeg'}
         alt="noticia alfajores principal"
         style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
       />
-      <h3>No te los podes perder</h3>
+      <h1 className='font-source font-extrabold mt-1'>NOTICIA #3</h1>
       <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
-    <div key="4" className="p-6">
+    <div key="4" className="p-3">
       <img
         src={'/images/primera.jpeg'}
         alt="noticia alfajores principal"
         style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
       />
-      <h3>No te los podes perder</h3>
+      <h1 className='font-source font-extrabold mt-1'>NOTICIA #4</h1>
       <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
     </div>,
-    <div key="5" className="p-6">
+    <div key="5" className="p-3">
       <img
         src={'/images/primera.jpeg'}
         alt="noticia alfajores principal"
         style={{ width: '100%', maxHeight: '150px', objectFit: 'cover'}}
       />
-      <h3>No te los podes perder</h3>
+      <h1 className='font-source font-extrabold mt-1'>NOTICIA #5</h1>
       <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
   </div>,
   ];
@@ -76,9 +79,9 @@ const HomeScreen = () => {
   }, [dispatch, keyword, pageNumber]);
 
   return (
-    <>
+    <div className='font-source'>
       <Meta />
-      {!keyword ? <Carousel cards={cards} /> : <Link to='/' className='btn btn-light'>Volver</Link>}
+      <Carousel slides={cards} className="shadow-2xl" />
       <br></br>
       { loading 
         ? (<Loader />) 
@@ -95,10 +98,31 @@ const HomeScreen = () => {
               <Row className="justify-content-center align-items-center">
                   <Location />
               </Row>
+
+              {!userInfo && (
+                <div className="relative">
+                  {/* WhatsApp Floating Button */}
+                  <div
+                    className="fixed bottom-4 right-4 z-[1000]"
+                      //onClick={() => setShowTooltip(false)}
+                    // onMouseLeave={() => setShowTooltip(false)}
+                  >
+                    <FloatingWhatsApp
+                      phoneNumber="+543794921315"
+                      accountName="EL PROMESERO"
+                      avatar="/images/logo2.png"
+                      statusMessage="Normalmente respondo en unos minutos"
+                      chatMessage="¡Hola! ¿Querés un Usuario para Comprar?"
+                      notification={false}
+                    />
+                  </div>
+              </div>
+              )}
+              
             </>
           ) }
       
-    </>
+    </div>
   )
 }
 

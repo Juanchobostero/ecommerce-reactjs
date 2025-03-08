@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listOrders } from '../actions/orderActions';
+import { format, toZonedTime } from 'date-fns-tz'
+import { es } from 'date-fns/locale'
 
 const OrderListScreen = () => {
 
@@ -20,6 +22,16 @@ const OrderListScreen = () => {
 
     const userDelete = useSelector((state) => state.userDelete);
     const { success: successDelete } = userDelete;
+
+    const formatDate = (dateString, formatString = "dd/MM/yyyy HH:mm:ss") => {
+        if (!dateString) return ""
+        
+        const timeZone = "America/Argentina/Buenos_Aires"
+        const date = new Date(dateString)
+        const zonedDate = toZonedTime(date, timeZone)
+        
+        return format(zonedDate, formatString, { locale: es })
+    }
 
     useEffect(() => {
         if(userInfo && userInfo.isAdmin) {
@@ -46,12 +58,12 @@ const OrderListScreen = () => {
                             >
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>NAME</th>
-                                        <th>DATE</th>
+                                        <th>N°</th>
+                                        <th>CLIENTE</th>
+                                        <th>FECHA ALTA</th>
                                         <th>TOTAL</th>
-                                        <th>PAID</th>
-                                        <th>DELIVERED</th>
+                                        <th>DESPACHADO</th>
+                                        <th>ENTREGADO</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -64,14 +76,14 @@ const OrderListScreen = () => {
                                             <td>{order.createdAt.substring(0, 10)}</td>
                                             <td>${order.totalPrice}</td>
                                             <td>
-                                                {order.isPaid 
-                                                    ? (order.paidAt.substring(0, 10)) 
+                                                {order.isDispatched 
+                                                    ? (formatDate(order.dispatchedAt, "dd/MM/yyyy")) 
                                                     : (<i className='fas fa-times' style={{color: 'red'}}></i>)
                                                 }
                                             </td>
                                             <td>
                                                 {order.isDelivered 
-                                                    ? (order.deliveredAt.substring(0, 10)) 
+                                                    ? (formatDate(order.deliveredAt, "dd/MM/yyyy")) 
                                                     : (<i className='fas fa-times' style={{color: 'red'}}></i>)
                                                 }
                                             </td>
@@ -79,7 +91,7 @@ const OrderListScreen = () => {
                                                 <LinkContainer to={`/order/${order._id}`}>
                                                     <Button 
                                                         variant='dark'
-                                                        className='btn-sm bg-amber-400'
+                                                        className='btn-sm bg-amber-400 hover:bg-amber-600'
                                                     >
                                                         <i className='fas fa-edit'></i>Detalles
                                                     </Button>

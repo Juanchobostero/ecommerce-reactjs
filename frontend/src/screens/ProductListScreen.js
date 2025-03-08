@@ -75,7 +75,7 @@ const ProductListScreen = () => {
     }
 
     const createProductHandler = () => {
-        dispatch(createProduct());
+        navigate(`/admin/product/new`);
     }
     
     return (
@@ -113,7 +113,6 @@ const ProductListScreen = () => {
                                         <th>NOMBRE</th>
                                         <th>PRECIO</th>
                                         <th>STOCK</th>
-                                        <th>MARCA</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -121,7 +120,7 @@ const ProductListScreen = () => {
                                 <tbody>
                                     {products.map(product => (
                                         <tr key={product._id}>
-                                            <td>{product._id}</td>
+                                            <td>{product.code}</td>
                                             <td>{product.name}</td>
                                             <td>
                                                 ${product.price}
@@ -131,12 +130,11 @@ const ProductListScreen = () => {
                                             >
                                                 {product.countInStock}
                                             </td>
-                                            <td>{product.brand}</td>
                                             <td>
                                                 <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                                     <Button 
                                                         variant='dark'
-                                                        className='btn-sm bg-amber-400'
+                                                        className='btn-sm bg-amber-400 hover:bg-amber-600'
                                                     >
                                                         <i className='fas fa-edit'></i>
                                                     </Button>
@@ -144,7 +142,7 @@ const ProductListScreen = () => {
                                                 <Button
                                                     variant='dark'
                                                     className='btn-sm bg-red-600'
-                                                    onClick={() => deleteHandler(product)}
+                                                    onClick={() => deleteHandler(product._id)}
                                                 >
                                                     <i className='fas fa-trash'></i>
                                                 </Button>

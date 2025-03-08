@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -36,50 +36,45 @@ const LoginScreen = () => {
   }
   
   return (
-    <FormContainer>
-        <h1>Iniciar Sesión</h1>
-        {error && <Message variant='danger'>{error}</Message>}
-        {loading && <Loader />}
-        <Form onSubmit={submitHandler}>
-            <Form.Group controlId='email'>
-                <Form.Label>Correo</Form.Label>
-                <Form.Control 
-                    type='email' 
-                    placeholder='Ingresar correo' 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    >
-                    </Form.Control>
-            </Form.Group>
+    <div className='mt-20'>
+      <FormContainer>
+            <ListGroup.Item>
+              <h1 className='mb-6'>Iniciar Sesión</h1>
+              {error && <Message variant='danger'>{error}</Message>}
+              {loading && <Loader />}
+              <Form onSubmit={submitHandler}>
+                  <Form.Group controlId='email'>
+                      <Form.Label>Correo</Form.Label>
+                      <Form.Control
+                          className="bg-gray-100 border border-gray-600 rounded-md"
+                          type='email' 
+                          placeholder='Ingresar correo' 
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          >
+                          </Form.Control>
+                  </Form.Group>
 
-            <Form.Group controlId='password'>
-                <Form.Label>Contraseña</Form.Label>
-                <Form.Control 
-                    type='password' 
-                    placeholder='Ingresar contraseña' 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    >
-                    </Form.Control>
-            </Form.Group>
+                  <Form.Group controlId='password'>
+                      <Form.Label>Contraseña</Form.Label>
+                      <Form.Control
+                          className="bg-gray-100 border border-gray-600 rounded-md"
+                          type='password' 
+                          placeholder='Ingresar contraseña' 
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          >
+                          </Form.Control>
+                  </Form.Group>
 
-            <Button className='btn btn-block bg-amber-600 mt-4' type='submit' variant='primary'>
-                Acceder
-            </Button>
-        </Form>
-
-        <Row className='py-3'>
-            <Col>
-                <span className='text-amber-100'>Sos nuevo ? </span>
-                  <Link 
-                    className='item-name text-amber-500 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
-                    to={redirect ? `/register?redirect=${redirect}` : '/register'}
-                  >
-                    REGISTRATE
-                  </Link>
-            </Col>
-        </Row>
-    </FormContainer>
+                  <Button className='btn btn-block bg-green-600 mt-4' type='submit' variant='primary'>
+                      Acceder
+                  </Button>
+              </Form>
+            </ListGroup.Item>
+          </FormContainer>
+    </div>
+    
   )
 }
 

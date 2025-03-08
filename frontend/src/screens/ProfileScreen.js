@@ -58,69 +58,76 @@ const ProfileScreen = () => {
   }
   
   return (
-    <Row>
+    <Row className='mt-4 flex flex-row p-0 font-source'>
         <Col md={3}>
-            <h2 className='ubuntu'>Mis Datos</h2>
-            {message && <Message variant='danger'>{message}</Message>}
-            {error && <Message variant='danger'>{error}</Message>}
-            {success && <Message variant='success'>Perfil Actualizado !</Message>}
-            {loading && <Loader />}
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name'>
-                    <Form.Label>Nombre</Form.Label>
-                        <Form.Control 
-                            type='name' 
-                            placeholder='Ingresar Nombre' 
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
+            <ListGroup.Item className='p-2 w-4/4'>
+                <h2 className='font-source'>Mis Datos</h2>
+                {message && <Message variant='danger'>{message}</Message>}
+                {error && <Message variant='danger'>{error}</Message>}
+                {success && <Message variant='success'>Perfil Actualizado !</Message>}
+                {loading && <Loader />}
+                <Form onSubmit={submitHandler}>
+                    <Form.Group controlId='name'>
+                        <Form.Label>Nombre</Form.Label>
+                            <Form.Control
+                                className="bg-gray-400 border border-gray-600 rounded-md font-bold focus:ring-0 focus:border-gray-700"
+                                disabled 
+                                type='name' 
+                                placeholder='Ingresar Nombre' 
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                >
+                            </Form.Control>
+                    </Form.Group>
+                    <Form.Group controlId='email'>
+                        <Form.Label>Correo</Form.Label>
+                        <Form.Control
+                            className="bg-gray-400 border border-gray-600 rounded-md font-bold focus:ring-0 focus:border-gray-700"
+                            disabled 
+                            type='email' 
+                            placeholder='Ingresar Correo' 
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             >
-                        </Form.Control>
-                </Form.Group>
-                <Form.Group controlId='email'>
-                    <Form.Label>Correo</Form.Label>
-                    <Form.Control 
-                        type='email' 
-                        placeholder='Ingresar Correo' 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        >
-                        </Form.Control>
-                </Form.Group>
+                            </Form.Control>
+                    </Form.Group>
 
-                <Form.Group controlId='password'>
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control 
-                        type='password' 
-                        placeholder='Ingresar Contraseña' 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        >
-                        </Form.Control>
-                </Form.Group>
+                    <Form.Group controlId='password'>
+                        <Form.Label>Contraseña</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
+                            type='password' 
+                            placeholder='Nueva Contraseña' 
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </Form.Group>
 
                 <Form.Group controlId='confirmPassword'>
                     <Form.Label>Confirmar Contraseña</Form.Label>
-                    <Form.Control 
+                    <Form.Control
+                        className="bg-gray-100 border border-gray-600 rounded-md"
                         type='password' 
                         placeholder='Repetir Contraseña' 
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        >
-                        </Form.Control>
+                    />
                 </Form.Group>
 
-                <Button 
-                    type='submit' 
-                    variant='primary'
-                    className='btn-block mt-2 bg-amber-900 text-white'
-                >
-                    Actualizar
-                </Button>
+                    <Button 
+                        type='submit' 
+                        variant='primary'
+                        className='bg-amber-700 btn-block mt-2 hover:bg-amber-900'
+                    >
+                        Actualizar
+                    </Button>
 
-            </Form>
+                </Form>
+            </ListGroup.Item>
         </Col>
         <Col md={9}>
-            <h2 className='ubuntu'>Mis Pedidos</h2>
+        <ListGroup.Item className='p-2 w-4/4'>
+            <h2 className='font-source'>Mis Pedidos</h2>
             {loadingOrders 
                 ? <Loader /> 
                 : errorOrders 
@@ -138,9 +145,9 @@ const ProfileScreen = () => {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>CREACIÓN</th>
+                                            <th>FECHA ALTA</th>
                                             <th>TOTAL</th>
-                                            <th>PAGADO</th>
+                                            <th>DESPACHADO</th>
                                             <th>ENTREGADO</th>
                                             <th></th>
                                         </tr>
@@ -152,8 +159,8 @@ const ProfileScreen = () => {
                                                 <td>{order._id}</td>
                                                 <td>{order.createdAt.substring(0, 10)}</td>
                                                 <td>{order.totalPrice}</td>
-                                                <td>{order.isPaid 
-                                                        ? order.paidAt.substring(0, 10) 
+                                                <td>{order.isDispatched 
+                                                        ? order.dispatchedAt.substring(0, 10) 
                                                         : (
                                                             <i 
                                                                 className='fas fa-times' 
@@ -173,8 +180,7 @@ const ProfileScreen = () => {
                                                 <td>
                                                     <LinkContainer to={`/order/${order._id}`}>
                                                         <Button 
-                                                            variant='light'
-                                                            className='btn-sm'
+                                                            className='btn-sm bg-amber-700 hover:bg-amber-900'
                                                         >
                                                             DETALLES
                                                         </Button>
@@ -189,6 +195,7 @@ const ProfileScreen = () => {
                         </>
                     )
                 }
+            </ListGroup.Item>
         </Col>
     </Row>
   )
