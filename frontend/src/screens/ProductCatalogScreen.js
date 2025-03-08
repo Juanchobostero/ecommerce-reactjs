@@ -53,11 +53,11 @@ const ProductCatalogScreen = () => {
           ? (<Message variant='danger'>{error}</Message>) 
           : (
             <>
-              <ListGroup.Item className='mt-8 bg-amber-950 rounded-md py-2 px-10'>
+              <ListGroup.Item className='mt-8 mb-8 bg-amber-950 rounded-md py-2 px-10'>
                 <div class="relative h-full w-full bg-slate-950"></div>
                 <div class="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3e3e3e,transparent)]"></div>
                 <Row className='flex flex-col'>
-                  <span className='text-4xl font-source text-amber-100 mt-2'>Nuestros Productos</span>
+                  <span className='text-3xl font-source text-amber-100 mt-2'>Nuestros Productos</span>
                   <span className="flex items-center text-sm font-source text-amber-100 mt-2">
                   ℹ️ <i>Podes comprar solo hasta <b>28 unidades</b> por caja</i></span>
                 </Row>
