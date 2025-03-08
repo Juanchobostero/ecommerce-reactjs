@@ -46,7 +46,8 @@ const Header = () => {
                 Productos
               </Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/cart">
+            {userInfo && userInfo.name && (
+              <LinkContainer to="/cart">
               <Nav.Link
                 className="ubuntu relative text-white font-semibold hover:opacity-80 transition-opacity duration-300"
               >
@@ -55,7 +56,7 @@ const Header = () => {
                   <i className="fas fa-shopping-cart"></i>
 
                   {/* Badge con la cantidad de items */}
-                  {(cartItems.length > 0) && (
+                  {(cartItems && cartItems.length > 0) && (
                     <span className="absolute top-0 right-4 transform translate-x-1/2 -translate-y-1/2 px-2 py-1 text-xs font-bold text-white bg-green-600 rounded-full">
                       {cartItems.reduce((acc, item) => acc + (item.qty || 0), 0)}
                     </span>
@@ -63,7 +64,7 @@ const Header = () => {
                 </div>
                 Carrito 
               </Nav.Link>
-            </LinkContainer>
+            </LinkContainer>)}
             {userInfo && userInfo.name ? (
               <NavDropdown
                 title={

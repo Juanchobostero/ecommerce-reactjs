@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import Product from '../models/productModel.js';
 
 // @desc Create new order
 // @route POST /api/orders
@@ -10,7 +11,6 @@ const addOrderItems = asyncHandler( async (req, res) => {
         shippingAddress,
         paymentMethod,
         itemsPrice,
-        taxPrice,
         shippingPrice,
         totalPrice
     } = req.body;
@@ -26,12 +26,23 @@ const addOrderItems = asyncHandler( async (req, res) => {
             shippingAddress,
             paymentMethod,
             itemsPrice,
-            taxPrice,
             shippingPrice,
             totalPrice
         });
 
-        const createdOrder = await order.save();
+        const createdOrder = await order.save()
+
+        // Actualizar el stock de los productos
+        for (const item of orderItems) {
+            const product = await Product.findById(item.product)
+            if (product) {
+                product.countInStock -= item.qty
+                await product.save()
+            } else {
+                res.status(404)
+                throw new Error(`Product not found: ${item.product}`)
+            }
+        }
 
         res.status(201).json(createdOrder);
     }
@@ -54,18 +65,17 @@ const getOrderById = asyncHandler( async (req, res) => {
 // @desc Update order to paid
 // @route GET /api/orders/:id/pay
 // @access Private
-const updateOrderToPaid = asyncHandler( async (req, res) => {
+const updateOrderToDispatched = asyncHandler( async (req, res) => {
     const order = await Order.findById(req.params.id);
 
+    const {
+        daysToDispatch
+    } = req.body
+
     if(order) {
-        order.isPaid = true;
-        order.paidAt = Date.now();
-        order.paymentResult = {
-            id: req.body.id,
-            status: req.body.status,
-            update_time: req.body.update_time,
-            email_address: req.body.email_address
-        };
+        order.isDispatched = true;
+        order.dispatchedAt = Date.now();
+        order.days = daysToDispatch;
 
         const updatedOrder = await order.save();
         
@@ -114,7 +124,7 @@ const updateOrderToDelivered = asyncHandler( async (req, res) => {
 export { 
     addOrderItems, 
     getOrderById, 
-    updateOrderToPaid, 
+    updateOrderToDispatched, 
     getMyOrders,
     getOrders,
     updateOrderToDelivered 

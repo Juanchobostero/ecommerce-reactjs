@@ -24,21 +24,29 @@ const Product = ({ userLogged, product }) => {
         text: 'La cantidad es Mayor a la del Stock Disponible !',
         icon: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#d97706'
+        background: '#fff',
+        customClass: {
+            title: 'font-source',
+            popup: 'font-source',
+        }
       })
       return
     }
 
     const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
-    const limit = 5
+    const limit = 28
 
     if(cartPlusQtyUpdated > limit) {
       Swal.fire({
         title: 'Error!',
-        text: 'El límite es de hasta 40 alfajores !',
+        text: `El límite es de hasta ${limit} alfajores !`,
         icon: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#d97706'
+        background: '#fff',
+        customClass: {
+            title: 'font-source',
+            popup: 'font-source',
+        }
       })
       return
     }
@@ -50,17 +58,21 @@ const Product = ({ userLogged, product }) => {
       text: `Se ha actualizado tu Carrito`,
       confirmButtonText: "OK",
       confirmButtonColor: '#b45309',
-      background: '#fef3c7'
+      background: '#fff',
+        customClass: {
+            title: 'font-source',
+            popup: 'font-source',
+        }
     });
     return
   };
 
   return (
     <>
-      <Card className="custom-card my-3 py-1 rounded bg-amber-100">
+      <Card className="custom-card my-8 py-2 bg-white">
         <div className={`${userLogged && 'relative '}cursor-pointer`}>
           <Card.Img
-            className="custom-card-img"
+            className="custom-card-img cursor-pointer"
             src={product.image}
             variant="top"
           />

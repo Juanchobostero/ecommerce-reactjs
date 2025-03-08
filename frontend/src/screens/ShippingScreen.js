@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, ListGroup } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import FormContainer from '../components/FormContainer';
 import CheckoutSteps from '../components/CheckoutSteps';
@@ -28,10 +28,12 @@ const ShippingScreen = () => {
     return (
         <FormContainer>
             <CheckoutSteps className="mt-3" step1 step2 />
-            <h1>Envío</h1>
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId='address' className='mb-3'>
-                        <Form.Control 
+            <ListGroup className='bg-white py-4 px-8 rounded-md shadow-md'>
+                <h1>Envío</h1>
+                <Form onSubmit={submitHandler}>
+                    <Form.Group controlId='address' className='mb-3'>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
                             type='address' 
                             placeholder='Ingresar Dirección' 
                             value={address}
@@ -39,10 +41,11 @@ const ShippingScreen = () => {
                             onChange={(e) => setAddress(e.target.value)}
                             >
                         </Form.Control>
-                </Form.Group>
+                    </Form.Group>
 
-                <Form.Group controlId='city' className='mb-3'>
-                        <Form.Control 
+                    <Form.Group controlId='city' className='mb-3'>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
                             type='city' 
                             placeholder='Ingresar Ciudad' 
                             value={city}
@@ -50,10 +53,11 @@ const ShippingScreen = () => {
                             onChange={(e) => setCity(e.target.value)}
                             >
                         </Form.Control>
-                </Form.Group>
+                    </Form.Group>
 
-                <Form.Group controlId='postalCode' className='mb-3'>
-                        <Form.Control 
+                    <Form.Group controlId='postalCode' className='mb-3'>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
                             type='postalcode' 
                             placeholder='Ingresar Código Postal' 
                             value={postalCode}
@@ -61,10 +65,11 @@ const ShippingScreen = () => {
                             onChange={(e) => setPostalCode(e.target.value)}
                             >
                         </Form.Control>
-                </Form.Group>
+                    </Form.Group>
 
-                <Form.Group controlId='country' className='mb-3'>
-                        <Form.Control 
+                    <Form.Group controlId='country' className='mb-3'>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
                             type='country' 
                             placeholder='Ingresar País' 
                             value={country}
@@ -72,15 +77,16 @@ const ShippingScreen = () => {
                             onChange={(e) => setCountry(e.target.value)}
                             >
                         </Form.Control>
-                </Form.Group>
-                <Button 
-                    type='submit' 
-                    variant='primary' 
-                    className='my-3 bg-amber-700 text-white' 
-                >
-                    Continuar
-                </Button>
-            </Form>
+                    </Form.Group>
+                    <Button 
+                        type='submit' 
+                        variant='primary' 
+                        className='btn-block my-3 bg-amber-700 text-white' 
+                    >
+                        Continuar
+                    </Button>
+                </Form>
+            </ListGroup>
         </FormContainer>
     )
 }

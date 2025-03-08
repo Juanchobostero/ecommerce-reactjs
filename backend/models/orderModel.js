@@ -25,21 +25,6 @@ const orderSchema = mongoose.Schema({
         postalCode: { type: String, required: true },
         country: { type: String, required: true }
     },
-    paymentMethod: {
-        type: String,
-        required: false
-    },
-    paymentResult: {
-        id: { type: String },
-        status: { type: String },
-        update_time: { type: String },
-        email_address: { type: String }
-    },
-    taxPrice: {
-        type: Number,
-        required: true,
-        default: 0.0
-    },
     shippingPrice: {
         type: Number,
         required: true,
@@ -50,14 +35,14 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: 0.0
     },
-    isPaid: {
+    isDispatched: {
         type: Boolean,
         required: true,
         default: false
     },
-    paidAt: {
+    dispatchedAt: {
         type: Date
-    },
+    }, 
     isDelivered: {
         type: Boolean,
         required: true,
@@ -65,7 +50,12 @@ const orderSchema = mongoose.Schema({
     },
     deliveredAt: {
         type: Date
-    }
+    },
+    days: {
+        type: Number,
+        required: true,
+        default: 0
+    },
 }, {
     timestamps: true
 });

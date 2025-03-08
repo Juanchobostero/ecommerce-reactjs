@@ -24,15 +24,20 @@ const CartScreen = () => {
     const currentItem = cartItems.find(item => item.product === product)
     const currentQty = currentItem ? currentItem.qty : 0
     const newTotalItems = cartItems.reduce((acc, item) => acc + item.qty, 0) - currentQty + qty
-    const limit = 5
+    const limit = 28
   
     if (newTotalItems > limit) {
       Swal.fire({
         title: 'Error!',
-        text: 'El límite es de hasta 40 alfajores!',
+        text: `El límite de compra es hasta ${limit} productos por pedido. Por favor, revisa tu carrito.`,
         icon: 'error',
         confirmButtonText: 'Ok',
-        confirmButtonColor: '#d97706'
+        confirmButtonColor: '#d97706',
+        background: '#fff',
+        customClass: {
+            title: 'font-source',
+            popup: 'font-source',
+        }
       });
       return
     } else {
@@ -51,7 +56,11 @@ const CartScreen = () => {
         icon: 'error',
         confirmButtonText: 'Ok',
         confirmButtonColor: '#d97706',
-        background: '#fef3c7'
+        background: '#fff',
+        customClass: {
+            title: 'font-source',
+            popup: 'font-source',
+        }
       })
       return
     }
@@ -60,13 +69,15 @@ const CartScreen = () => {
   return (
     <Row className='mt-4'>
       <Col md={8}>
-        <h1 className='font-extrabold'>Tu carrito</h1>
         {cartItems.length === 0 
           ? <Message>Tu carrito está vacío <Link to='/'>Volver</Link></Message>
           : (
-            <ListGroup variant='flush'>
+            <ListGroup className='bg-white py-2 px-4'>
+              <Row>
+                <h1 className='font-source text-3xl text-amber-950 ml-[2rem] mb-4'>Carrito</h1>
+              </Row>
               {cartItems.map(item => (
-                <ListGroup.Item className='bg-amber-100' key={item.product}>
+                <ListGroup.Item className='bg-white' key={item.product}>
                   <Row>
                     <Col md={2}>
                       <Image 
@@ -79,11 +90,11 @@ const CartScreen = () => {
                     </Col>
                     <Col md={3}>
                       <Link 
-                        className='ubuntu font-bold text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
+                        className='font-source font-bold text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' 
                         to={`/product/${item.product}`}>{item.name}</Link>
                     </Col>
                     <Col md={2}>
-                      <span className='ubuntu font-extrabold text-amber-950'>${item.price}</span>
+                      <span className='font-source font-extrabold text-amber-950'>${item.price}</span>
                     </Col>
                     <Col md={2}>
                       <Form.Control 
@@ -103,7 +114,7 @@ const CartScreen = () => {
                     <Col md={2}>
                           <Button 
                             type='button' 
-                            variant='light'
+                            className='bg-red-600'
                             onClick={() => removeFromCartHandler(item.product)}
                           >
                             <i className='fas fa-trash'></i>
@@ -117,22 +128,22 @@ const CartScreen = () => {
       </Col>
       <Col md={4}>
         <Card>
-          <ListGroup variant='flush'>
-            <ListGroup.Item className='bg-amber-100'>
-              <h2 className='ubuntu'>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
+          <ListGroup className='bg-white py-2 px-4'>
+            <ListGroup.Item>
+              <h2 className='font-source'>Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) 
                 items
               </h2>
-              <span className='ubuntu font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
+              <span className='font-source font-bold text-base'>${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}</span>                  
             </ListGroup.Item>
-            <ListGroup.Item className='bg-amber-100'>
+            <ListGroup.Item>
               <strong>
                 Restantes disponibles: 
-                  <span className='ubuntu cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
-                    <b>{40 - (cartItems.reduce((acc, item) => acc + item.qty, 0))}</b>
+                  <span className='font-source cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
+                    <b>{28 - (cartItems.reduce((acc, item) => acc + item.qty, 0))}</b>
                   </span>
               </strong>
             </ListGroup.Item>
-            <ListGroup.Item className='bg-amber-100' >
+            <ListGroup.Item>
               <Button
                 type='button'
                 className='btn btn-block bg-amber-600'

@@ -6,9 +6,6 @@ import {
     ORDER_DETAILS_REQUEST,
     ORDER_DETAILS_SUCCESS,
     ORDER_DETAILS_FAIL,
-    ORDER_PAY_REQUEST,
-    ORDER_PAY_SUCCESS,
-    ORDER_PAY_FAIL,
     ORDER_LIST_MY_REQUEST,
     ORDER_LIST_MY_SUCCESS,
     ORDER_LIST_MY_FAIL,
@@ -17,7 +14,10 @@ import {
     ORDER_LIST_FAIL,
     ORDER_DELIVER_SUCCESS,
     ORDER_DELIVER_FAIL,
-    ORDER_DELIVER_REQUEST
+    ORDER_DELIVER_REQUEST,
+    ORDER_DISPATCH_REQUEST,
+    ORDER_DISPATCH_SUCCESS,
+    ORDER_DISPATCH_FAIL
 } from "../constants/orderConstants";
 import { CART_DROP } from "../constants/cartConstants";
 
@@ -92,10 +92,11 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
     }
 };
 
-export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
+// Cambia por action dispatchOrder. Antes era payOrder
+export const dispatchOrder = (id, daysToDispatch) => async (dispatch, getState) => {
     try {
         dispatch({
-            type: ORDER_PAY_REQUEST,
+            type: ORDER_DISPATCH_REQUEST,
         });
 
         const { userLogin: { userInfo } } = getState();
@@ -107,16 +108,16 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
             }
         };
 
-        const { data } = await axios.put(`${url}/api/orders/${id}/pay`, paymentResult, config);
+        const { data } = await axios.put(`${url}/api/orders/${id}/dispatch`, { daysToDispatch }, config);
 
         dispatch({
-            type: ORDER_PAY_SUCCESS,
+            type: ORDER_DISPATCH_SUCCESS,
             payload: data
         });
 
     } catch(error) {
         dispatch({
-            type: ORDER_PAY_FAIL,
+            type: ORDER_DISPATCH_FAIL,
             payload: error.response && error.response.data.message 
                 ? error.response.data.message 
                 : error.message

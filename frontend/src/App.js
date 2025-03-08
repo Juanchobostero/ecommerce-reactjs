@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import Footer from './components/Footer';
@@ -24,7 +24,9 @@ import 'antd/dist/antd.min.css';
 import '@fontsource/playball';
 import '@fontsource-variable/playfair-display';
 import '@fontsource-variable/ubuntu-sans';
+import '@fontsource/source-sans-pro';
 import TopButton from './components/TopButton';
+import { FloatingWhatsApp } from 'react-floating-whatsapp'
 
 // Componente de transición para vistas
 const TransitionWrapper = ({ children }) => {
@@ -45,14 +47,14 @@ function App() {
   return (
     <Router>
       <div
-        className="relative bg-no-repeat bg-cover bg-fixed"
+        className="relative bg-no-repeat bg-cover bg-fixed w-full h-full"
         style={{
           backgroundImage: "url('/images/background-alfajores-10.jpeg')",
           backgroundSize: "cover",
         }}
       >
         <div
-          className="absolute inset-0 bg-black opacity-100"
+          className="absolute inset-0 bg-amber-950 opacity-100"
           style={{
             zIndex: -1, // Para asegurarse de que no se superponga con el contenido
           }}
@@ -76,6 +78,7 @@ function App() {
                 <Route path="/admin/productlist" element={<ProductListScreen />} exact />
                 <Route path="/admin/productlist/:pageNumber" element={<ProductListScreen />} exact />
                 <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
+                <Route path="/admin/product/new" element={<ProductEditScreen />} />
                 <Route path="/admin/orderlist" element={<OrderListScreen />} />
                 <Route path="/admin/reports" element={<ReportScreen />} />
                 <Route path="/search/:keyword" element={<HomeScreen />} exact />
@@ -83,7 +86,8 @@ function App() {
                 <Route path="/catalogo/page/:pageNumber" element={<ProductCatalogScreen />} />
                 <Route path="/" element={<HomeScreen />} />
               </Routes>
-              <TopButton className={"z-1000"}/>
+              {/* 
+               */}
             </TransitionWrapper>
           </Container>
         </main>
