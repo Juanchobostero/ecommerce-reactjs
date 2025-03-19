@@ -51,7 +51,7 @@ const ProfileScreen = () => {
     e.preventDefault();
 
     if(password !== confirmPassword) {
-        setMessage('Passwords do not match !')
+        setMessage('Las contraseñas no coinciden !')
     } else {
         dispatch(updateUserProfile({ id: user._id, name, email, password }))
     }

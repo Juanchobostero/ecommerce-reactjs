@@ -33,23 +33,23 @@ const Product = ({ userLogged, product }) => {
       return
     }
 
-    const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
-    const limit = 28
+    // const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
+    // const limit = 20
 
-    if(cartPlusQtyUpdated > limit) {
-      Swal.fire({
-        title: 'Error!',
-        text: `El límite es de hasta ${limit} alfajores !`,
-        icon: 'error',
-        confirmButtonText: 'Ok',
-        background: '#fff',
-        customClass: {
-            title: 'font-source',
-            popup: 'font-source',
-        }
-      })
-      return
-    }
+    // if(cartPlusQtyUpdated < limit) {
+    //   Swal.fire({
+    //     title: 'Error!',
+    //     text: `El limite de compra mínimo es de ${limit} productos (1 CAJA) por pedido. Por favor, revisa tu carrito.`,
+    //     icon: 'error',
+    //     confirmButtonText: 'Ok',
+    //     background: '#fff',
+    //     customClass: {
+    //         title: 'font-source',
+    //         popup: 'font-source',
+    //     }
+    //   })
+    //   return
+    // }
 
     dispatch(addToCart(product._id, qty))
 

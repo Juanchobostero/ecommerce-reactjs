@@ -59,7 +59,7 @@ const OrderDetailsScreen = () => {
             from_name: "EL PROMESERO",
             subject: `PEDIDO N°: ${order._id} DESPACHADO`,
             message: `Su Pedido fue Despachado con éxito. 
-                Lo recibirá en su domicilio en aproximadamente ${order.days} días.`,
+                Lo recibirá en su domicilio en aproximadamente ${daysToDispatch} días.`,
         })
         .then((response) => {
             Swal.fire({
@@ -305,7 +305,7 @@ const OrderDetailsScreen = () => {
                                     </Button>
                                 </ListGroup.Item>
                             )}
-                            {userInfo && userInfo.isAdmin && order.isDispatched && order.isDelivered && (
+                            {userInfo && userInfo.isAdmin && (
                                 <ListGroup.Item>
                                     <Button
                                         type="button"

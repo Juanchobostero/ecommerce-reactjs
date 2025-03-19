@@ -59,7 +59,7 @@ const ProductCatalogScreen = () => {
                 <Row className='flex flex-col'>
                   <span className='text-3xl font-source text-amber-100 mt-2'>Nuestros Productos</span>
                   <span className="flex items-center text-sm font-source text-amber-100 mt-2">
-                  ℹ️ <i>Podes comprar solo hasta <b>28 unidades</b> por caja</i></span>
+                  ℹ️ <i>Podes comprar solo hasta <b>20 unidades</b> por caja</i></span>
                 </Row>
                 <Row>
                   {products.map(product => (
