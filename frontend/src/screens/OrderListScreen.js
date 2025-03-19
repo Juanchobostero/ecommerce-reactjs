@@ -22,7 +22,7 @@ const OrderListScreen = () => {
     const [estadoFiltro, setEstadoFiltro] = useState('');
     const [fechaFiltro, setFechaFiltro] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 2;
+    const itemsPerPage = 5;
 
     useEffect(() => {
         if (userInfo?.isAdmin) {
@@ -61,7 +61,6 @@ const OrderListScreen = () => {
             <ListGroup.Item className='bg-amber-100 mt-4 py-4 px-8'>
                 <Row className='flex flex-row gap-8 px-4 py-3'>
                     <h1 className='ubuntu font-bold'>Pedidos</h1>
-                    <strong className='ubuntu font-inherit text-xl ml-20'>Filtros: </strong>
                     <Col md={3}>
                         <Form.Control as="select" value={estadoFiltro} onChange={(e) => setEstadoFiltro(e.target.value)}>
                             <option value="">Todos</option>

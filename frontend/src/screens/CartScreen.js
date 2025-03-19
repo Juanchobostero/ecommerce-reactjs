@@ -5,16 +5,18 @@ import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../actions/cartActions';
 import Swal from 'sweetalert2';
+import axios from 'axios'; // Para realizar la llamada a la API
 
 const CartScreen = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const [restantes, setRestantes] = useState(20);
+  const [productsWithDiscount, setProductsWithDiscount] = useState({});
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
-  
+
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
@@ -89,7 +91,26 @@ const CartScreen = () => {
     const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
     const limit = 20;
     setRestantes(totalItems % limit === 0 ? 0 : limit - (totalItems % limit));
+
+    const url = process.env.NODE_ENV === 'development' 
+    ? 'http://localhost:5000' 
+    : process.env.REACT_APP_URI_API_PRODUCTION;
+
+    // Hacer la llamada a la API para obtener descuentos
+    cartItems.forEach(async (item) => {
+      try {
+        const response = await axios.get(`${url}/api/products/${item.product}`);
+        setProductsWithDiscount(prevState => ({
+          ...prevState,
+          [item.product]: response.data.discount,
+        }));
+      } catch (error) {
+        console.error('Error al obtener el producto:', error);
+      }
+    });
   }, [cartItems]);
+
+  console.log(cartItems);
 
   return (
     <Row className='mt-4'>
@@ -107,7 +128,7 @@ const CartScreen = () => {
               <ListGroup.Item className='bg-white' key={item.product}>
                 <Row>
                   <Col md={2}>
-                    <Image className="w-40 h-20" src={item.image} alt={item.name} fluid rounder />
+                    <Image className="w-40 h-20" src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
                     <Link className='font-source font-bold text-amber-950 hover:text-amber-600 opacity-80 transition-opacity duration-300' to={`/product/${item.product}`}>
@@ -115,7 +136,15 @@ const CartScreen = () => {
                     </Link>
                   </Col>
                   <Col md={2}>
-                    <span className='font-source font-extrabold text-amber-950'>${item.price}</span>
+                    {/* Verificar si el producto tiene descuento y calcular el nuevo precio */}
+                    <span className={`font-source font-extrabold text-amber-950 ${productsWithDiscount[item.product] > 0 ? 'line-through' : ''}`}>
+                      ${item.price}
+                    </span>
+                    {productsWithDiscount[item.product] > 0 && (
+                      <span className='font-source font-bold text-green-600 ml-2'>
+                        ${((item.price - (item.price * productsWithDiscount[item.product] / 100)).toFixed(2))}
+                      </span>
+                    )}
                   </Col>
                   <Col md={2}>
                     <Form.Control 
@@ -145,14 +174,18 @@ const CartScreen = () => {
       <Col md={4}>
         <Card>
           <ListGroup className='bg-white py-2 px-4'>
-            <ListGroup.Item>
-              <h2 className='font-source'>
-                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items
-              </h2>
-              <span className='font-source font-bold text-base'>
-                ${cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2)}
-              </span>                  
-            </ListGroup.Item>
+          <ListGroup.Item>
+            <h2 className='font-source'>
+              Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)}) items
+            </h2>
+            <span className='font-source font-bold text-3xl'>
+              ${cartItems.reduce((acc, item) => {
+                const discount = productsWithDiscount[item.product] || 0; // Obtén el descuento del producto, si existe
+                const priceAfterDiscount = item.price - (item.price * discount / 100); // Calcula el precio con descuento
+                return acc + item.qty * priceAfterDiscount; // Suma el precio con descuento
+              }, 0).toFixed(2)}
+            </span>
+          </ListGroup.Item>
 
             <ListGroup.Item>
               <strong>Para completar la caja te faltan: </strong>
