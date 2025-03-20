@@ -28,7 +28,8 @@ import {
     orderDetailsReducer, 
     orderListMyReducer, 
     orderListReducer, 
-    orderDispatchReducer 
+    orderDispatchReducer, 
+    orderCancelReducer
 } from './reducers/orderReducers';
 
 const reducer = combineReducers({
@@ -54,7 +55,8 @@ const reducer = combineReducers({
     orderDispatch: orderDispatchReducer,
     orderListMy: orderListMyReducer,
     orderList: orderListReducer,
-    orderDeliver: orderDeliverReducer
+    orderDeliver: orderDeliverReducer,
+    orderCancel: orderCancelReducer
 });
 
 const categoriesFromStorage = localStorage.getItem('categoriesInfo') 

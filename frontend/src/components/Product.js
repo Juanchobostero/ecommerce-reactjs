@@ -110,12 +110,12 @@ const Product = ({ userLogged, product }) => {
         <Card.Body className="custom-card-body">
           <Link to={`/product/${product._id}`}>
             <Card.Title as="div" className="custom-card-title">
-              <strong className="ubuntu text-amber-950">{product.name}</strong>
+              <strong className="font-source text-amber-950">{product.name}</strong>
             </Card.Title>
           </Link>
 
           {/* Mostrar el precio con descuento si existe */}
-          <Card.Text as="h3" className="ubuntu custom-card-price">
+          <Card.Text as="h3" className="font-source custom-card-price">
             {product.discount > 0 ? (
               <>
                 <span className="text-gray-500 line-through text-lg mr-2">
@@ -160,7 +160,7 @@ const Product = ({ userLogged, product }) => {
               </button>
             ) : (
               <>
-                <div className="ubuntu flex flex-row gap-2">
+                <div className="font-source flex flex-row gap-2">
                   <Form.Control
                     as="select"
                     value={qty}
