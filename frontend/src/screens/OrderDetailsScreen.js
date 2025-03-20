@@ -4,7 +4,7 @@ import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getOrderDetails, dispatchOrder, deliverOrder } from '../actions/orderActions';
+import { getOrderDetails, dispatchOrder, deliverOrder, cancelOrder } from '../actions/orderActions';
 import { ORDER_CANCEL_RESET, ORDER_DELIVER_RESET, ORDER_DISPATCH_RESET } from '../constants/orderConstants';
 import emailjs from '@emailjs/browser';
 import { format, toZonedTime } from 'date-fns-tz';
@@ -343,7 +343,7 @@ const OrderDetailsScreen = () => {
                                 </ListGroup.Item>
 
                                 {loadingDispatch && <Loader />}
-                                {userInfo && userInfo.isAdmin && !order.isDispatched && (
+                                {userInfo && userInfo.isAdmin && !order.isDispatched && !order.disabled && (
                                     <ListGroup.Item className="p-3">
                                         <label 
                                             htmlFor="daysToDispatch" 
@@ -371,7 +371,7 @@ const OrderDetailsScreen = () => {
                                 )}
 
                                 {loadingDeliver && <Loader />}
-                                {userInfo && userInfo.isAdmin && !order.isDelivered && (
+                                {userInfo && userInfo.isAdmin && !order.isDelivered && !order.disabled && (
                                     <ListGroup.Item>
                                         <Button
                                             disabled={!order.isDelivered && !order.isDispatched}
@@ -394,15 +394,17 @@ const OrderDetailsScreen = () => {
                                                 Generar PDF
                                             </Button>
                                         </ListGroup.Item>
-                                        <ListGroup.Item>
-                                        <Button
-                                            type="button"
-                                            className="generate-pdf-button w-full mt-3 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200"
-                                            onClick={handleCancelOrder}
-                                        >
-                                            CANCELAR PEDIDO
-                                        </Button>
-                                    </ListGroup.Item>
+                                        {!order.disabled && (
+                                            <ListGroup.Item>
+                                                <Button
+                                                    type="button"
+                                                    className="generate-pdf-button w-full mt-3 bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 transition duration-200"
+                                                    onClick={handleCancelOrder}
+                                                >
+                                                    CANCELAR PEDIDO
+                                                </Button>
+                                            </ListGroup.Item>
+                                        )}
                                     </>
                                 )}
                             </ListGroup>
