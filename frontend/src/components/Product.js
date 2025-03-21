@@ -18,15 +18,15 @@ const Product = ({ userLogged, product }) => {
   const handleClose = () => setShowModal(false)
 
   const handleAddToCart = () => {
-    // Verificar si el producto ya está en el carrito
-    const existingCartItem = cartItems.find((item) => item._id === product._id)
-    const newQty = existingCartItem ? existingCartItem.qty + qty : qty
+    const existingCartItem = cartItems.find((item) => item.product === product._id); // 👈 Asegúrate de que coincida el identificador
+    const currentQtyInCart = existingCartItem ? existingCartItem.qty : 0;
+    const totalQty = currentQtyInCart + qty; // Sumar la cantidad nueva
   
-    // Validar que la cantidad total no supere el stock disponible
-    if (newQty > product.countInStock) {
+    // 🚨 Validación estricta para evitar que se pase del stock
+    if (totalQty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
-        text: 'La cantidad seleccionada supera el stock disponible.',
+        text: `🚨 Stock insuficiente.`,
         icon: 'error',
         confirmButtonText: 'Ok',
         background: '#fff',
@@ -38,8 +38,7 @@ const Product = ({ userLogged, product }) => {
       return;
     }
   
-    // Agregar o actualizar el producto en el carrito
-    dispatch(addToCart(product._id, newQty));
+    dispatch(addToCart(product._id, qty)); // 👈 Importante: enviar solo `qty`, no `totalQty`
   
     Swal.fire({
       title: "✅",
@@ -54,7 +53,7 @@ const Product = ({ userLogged, product }) => {
     });
   };
   
-
+  
   return (
     <>
       <Card className="custom-card my-8 py-2 bg-white">

@@ -86,31 +86,34 @@ const CartScreen = () => {
     navigate('/shipping');
   };
 
-  // Recalcular productos restantes al cambiar cartItems
   useEffect(() => {
-    const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
-    const limit = 20;
-    setRestantes(totalItems % limit === 0 ? 0 : limit - (totalItems % limit));
-
-    const url = process.env.NODE_ENV === 'development' 
-    ? 'http://localhost:5000' 
-    : process.env.REACT_APP_URI_API_PRODUCTION;
-
-    // Hacer la llamada a la API para obtener descuentos
-    cartItems.forEach(async (item) => {
+    const fetchDiscounts = async () => {
+      const url = process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:5000' 
+        : process.env.REACT_APP_URI_API_PRODUCTION;
+  
       try {
-        const response = await axios.get(`${url}/api/products/${item.product}`);
-        setProductsWithDiscount(prevState => ({
-          ...prevState,
-          [item.product]: response.data.discount,
-        }));
+        const requests = cartItems.map(item => 
+          axios.get(`${url}/api/products/${item.product}`)
+        );
+        const responses = await Promise.all(requests);
+  
+        const discountData = responses.reduce((acc, response, index) => {
+          acc[cartItems[index].product] = response.data.discount;
+          return acc;
+        }, {});
+  
+        setProductsWithDiscount(discountData);
       } catch (error) {
-        console.error('Error al obtener el producto:', error);
+        console.error('Error al obtener los productos con descuento:', error);
       }
-    });
+    };
+  
+    if (cartItems.length > 0) {
+      fetchDiscounts();
+    }
   }, [cartItems]);
-
-  console.log(cartItems);
+  
 
   return (
     <Row className='mt-4'>

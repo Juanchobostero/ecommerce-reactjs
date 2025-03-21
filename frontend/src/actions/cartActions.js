@@ -14,6 +14,9 @@ const url = process.env.NODE_ENV === 'development'
 export const addToCart = (id, qty) => async (dispatch, getState) => {
     const { data } = await axios.get(`${url}/api/products/${id}`);
 
+    // Buscar si el producto ya está en el carrito
+    const existingItem = getState().cart.cartItems.find(item => item.product === id);
+
     dispatch({
         type: CART_ADD_ITEM,
         payload: {
@@ -22,12 +25,13 @@ export const addToCart = (id, qty) => async (dispatch, getState) => {
             image: data.image,
             price: data.price,
             countInStock: data.countInStock,
-            qty
+            qty: existingItem ? existingItem.qty + qty : qty // ✅ Sumar cantidad si ya existe
         }
     });
 
     localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
-}
+};
+    
 
 export const removeFromCart = (id) => (dispatch, getState) => {
     dispatch({
