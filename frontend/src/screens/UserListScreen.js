@@ -7,6 +7,8 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { deleteUser, listUsers } from '../actions/userActions';
 import { Tag } from 'antd';
+import { format, toZonedTime } from 'date-fns-tz'
+import { es } from 'date-fns/locale'
 
 const UserListScreen = () => {
 
@@ -21,6 +23,14 @@ const UserListScreen = () => {
 
     const userDelete = useSelector((state) => state.userDelete);
     const { success: successDelete } = userDelete;
+
+    const formatDate = (dateString, formatString = "dd/MM/yyyy HH:mm:ss") => {
+        if (!dateString) return "";
+        const timeZone = "America/Argentina/Buenos_Aires";
+        const date = new Date(dateString);
+        const zonedDate = toZonedTime(date, timeZone);
+        return format(zonedDate, formatString, { locale: es });
+    };
 
     useEffect(() => {
         if(userInfo && userInfo.isAdmin) {
@@ -73,6 +83,7 @@ const UserListScreen = () => {
                                             <th>NOMBRE</th>
                                             <th>CORREO</th>
                                             <th>ES ADMIN</th>
+                                            <th>FECHA ALTA</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -88,6 +99,7 @@ const UserListScreen = () => {
                                                         : (<i className='fas fa-times' style={{color: 'red'}}></i>)
                                                     }
                                                 </td>
+                                                <td>{formatDate(user.createdAt, "dd/MM/yyyy")}</td>
                                                 <td>
                                                     <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                                         <Button 

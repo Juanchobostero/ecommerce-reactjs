@@ -56,6 +56,14 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: 0
     },
+    disabled: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    disabledAt: {
+        type: Date
+    }
 }, {
     timestamps: true
 });

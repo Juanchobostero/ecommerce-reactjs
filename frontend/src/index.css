@@ -121,7 +121,7 @@ h3 {
   
   
   .custom-card-body {
-    padding: 5px;
+    padding: auto;
     text-align: center;
   }
   

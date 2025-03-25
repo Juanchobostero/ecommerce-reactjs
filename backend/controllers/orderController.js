@@ -86,6 +86,38 @@ const updateOrderToDispatched = asyncHandler( async (req, res) => {
     }
 });
 
+// @access Private
+const cancelOrder = asyncHandler( async (req, res) => {
+    const order = await Order.findById(req.params.id);
+
+    // Necesito los items para volver a sumar el stock restado :_
+    const { orderItems } = req.body;
+
+    if(order) {
+        order.disabled = true
+        order.disabledAt = Date.now()
+
+        const updatedOrder = await order.save()
+        
+        res.json(updatedOrder);
+
+        // Actualizar el stock de los productos
+        for (const item of orderItems) {
+            const product = await Product.findById(item.product)
+            if (product) {
+                product.countInStock += item.qty
+                await product.save()
+            } else {
+                res.status(404)
+                throw new Error(`Product not found: ${item.product}`)
+            }
+        }
+    } else {
+        res.status(404);
+        throw new Error('Order not found !')
+    }
+});
+
 // @desc Get logged in user orders
 // @route GET /api/orders/myorders
 // @access Private
@@ -127,5 +159,6 @@ export {
     updateOrderToDispatched, 
     getMyOrders,
     getOrders,
-    updateOrderToDelivered 
+    updateOrderToDelivered,
+    cancelOrder 
 };

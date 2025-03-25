@@ -18,15 +18,14 @@ const Product = ({ userLogged, product }) => {
   const handleClose = () => setShowModal(false)
 
   const handleAddToCart = () => {
-    // Verificar si el producto ya está en el carrito
-    const existingCartItem = cartItems.find((item) => item._id === product._id)
-    const newQty = existingCartItem ? existingCartItem.qty + qty : qty
-  
-    // Validar que la cantidad total no supere el stock disponible
-    if (newQty > product.countInStock) {
+    const existingCartItem = cartItems.find((item) => item.product === product._id);
+    const currentQtyInCart = existingCartItem ? existingCartItem.qty : 0;
+    const totalQty = currentQtyInCart + qty;
+
+    if (totalQty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
-        text: 'La cantidad seleccionada supera el stock disponible.',
+        text: `🚨 Stock insuficiente.`,
         icon: 'error',
         confirmButtonText: 'Ok',
         background: '#fff',
@@ -37,10 +36,9 @@ const Product = ({ userLogged, product }) => {
       });
       return;
     }
-  
-    // Agregar o actualizar el producto en el carrito
-    dispatch(addToCart(product._id, newQty));
-  
+
+    dispatch(addToCart(product._id, qty, false)); // 👈 Importante: enviar `replace` como `false` para sumar la cantidad
+
     Swal.fire({
       title: "✅",
       text: "Se ha actualizado tu Carrito",
@@ -53,7 +51,6 @@ const Product = ({ userLogged, product }) => {
       }
     });
   };
-  
 
   return (
     <>
@@ -110,12 +107,12 @@ const Product = ({ userLogged, product }) => {
         <Card.Body className="custom-card-body">
           <Link to={`/product/${product._id}`}>
             <Card.Title as="div" className="custom-card-title">
-              <strong className="ubuntu text-amber-950">{product.name}</strong>
+              <strong className="font-source text-amber-950">{product.name}</strong>
             </Card.Title>
           </Link>
 
           {/* Mostrar el precio con descuento si existe */}
-          <Card.Text as="h3" className="ubuntu custom-card-price">
+          <Card.Text as="h3" className="font-source custom-card-price">
             {product.discount > 0 ? (
               <>
                 <span className="text-gray-500 line-through text-lg mr-2">
@@ -160,7 +157,7 @@ const Product = ({ userLogged, product }) => {
               </button>
             ) : (
               <>
-                <div className="ubuntu flex flex-row gap-2">
+                <div className="font-source flex flex-row gap-2">
                   <Form.Control
                     as="select"
                     value={qty}

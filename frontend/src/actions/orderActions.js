@@ -17,7 +17,10 @@ import {
     ORDER_DELIVER_REQUEST,
     ORDER_DISPATCH_REQUEST,
     ORDER_DISPATCH_SUCCESS,
-    ORDER_DISPATCH_FAIL
+    ORDER_DISPATCH_FAIL,
+    ORDER_CANCEL_REQUEST,
+    ORDER_CANCEL_SUCCESS,
+    ORDER_CANCEL_FAIL
 } from "../constants/orderConstants";
 import { CART_DROP } from "../constants/cartConstants";
 
@@ -118,6 +121,36 @@ export const dispatchOrder = (id, daysToDispatch) => async (dispatch, getState) 
     } catch(error) {
         dispatch({
             type: ORDER_DISPATCH_FAIL,
+            payload: error.response && error.response.data.message 
+                ? error.response.data.message 
+                : error.message
+        });
+    }
+};
+
+// Cambia por action dispatchOrder. Antes era payOrder
+export const cancelOrder = (order) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_CANCEL_REQUEST,
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`
+            }
+        }
+
+        await axios.put(`${url}/api/orders/${order._id}/cancel`, order, config);
+
+        dispatch({  type: ORDER_CANCEL_SUCCESS });
+
+    } catch(error) {
+        dispatch({
+            type: ORDER_CANCEL_FAIL,
             payload: error.response && error.response.data.message 
                 ? error.response.data.message 
                 : error.message
