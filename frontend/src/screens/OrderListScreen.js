@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Table, Button, ListGroup, Row, Col, Form } from 'react-bootstrap';
+import { Table, Button, ListGroup, Row, Col, Form, FormLabel } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -20,7 +20,8 @@ const OrderListScreen = () => {
     const { userInfo } = userLogin || {};
 
     const [estadoFiltro, setEstadoFiltro] = useState('');
-    const [fechaFiltro, setFechaFiltro] = useState('');
+    const [fechaDesdeFiltro, setFechaDesdeFiltro] = useState('');
+    const [fechaHastaFiltro, setFechaHastaFiltro] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 5;
 
@@ -43,9 +44,16 @@ const OrderListScreen = () => {
     const filteredOrders = orders.filter(order => {
         const matchEstado = !estadoFiltro || 
             (estadoFiltro === 'despachado' && order.isDispatched) ||
-            (estadoFiltro === 'entregado' && order.isDelivered);
-        const matchFecha = !fechaFiltro || order.createdAt.substring(0, 10) === fechaFiltro;
-        return matchEstado && matchFecha;
+            (estadoFiltro === 'entregado' && order.isDelivered) ||
+            (estadoFiltro === 'baja' && order.disabled)
+        
+        const formattedFechaDesdeFiltro = fechaDesdeFiltro ? formatDate(fechaDesdeFiltro, "yyyy-MM-dd'T'HH:mm:ss") : '';
+        const formattedFechaHastaFiltro = fechaHastaFiltro ? formatDate(fechaHastaFiltro + 'T23:59:59', "yyyy-MM-dd'T'HH:mm:ss") : '';
+        
+        const matchFechaDesde = !formattedFechaDesdeFiltro || new Date(order.createdAt) >= new Date(formattedFechaDesdeFiltro);
+        const matchFechaHasta = !formattedFechaHastaFiltro || new Date(order.createdAt) <= new Date(formattedFechaHastaFiltro);
+        
+        return matchEstado && matchFechaDesde && matchFechaHasta;
     });
 
     const pageCount = Math.ceil(filteredOrders.length / itemsPerPage);
@@ -62,14 +70,35 @@ const OrderListScreen = () => {
                 <Row className='flex flex-row gap-8 px-4 py-3'>
                     <h1 className='ubuntu font-bold'>Pedidos</h1>
                     <Col md={3}>
-                        <Form.Control as="select" value={estadoFiltro} onChange={(e) => setEstadoFiltro(e.target.value)}>
+                        <FormLabel>Estado</FormLabel>
+                        <Form.Control 
+                            as="select" 
+                            value={estadoFiltro} 
+                            onChange={(e) => setEstadoFiltro(e.target.value)}
+                        >
                             <option value="">Todos</option>
                             <option value="despachado">Despachado</option>
                             <option value="entregado">Entregado</option>
+                            <option value="baja">Cancelado</option>
                         </Form.Control>
                     </Col>
                     <Col md={3}>
-                        <Form.Control type="date" value={fechaFiltro} onChange={(e) => setFechaFiltro(e.target.value)} />
+                        <FormLabel>Fecha Desde</FormLabel>
+                        <Form.Control 
+                            type="date" 
+                            value={fechaDesdeFiltro} 
+                            onChange={(e) => setFechaDesdeFiltro(e.target.value)} 
+                            placeholder="Desde" 
+                        />
+                    </Col>
+                    <Col md={3}>
+                        <FormLabel>Fecha Hasta</FormLabel>
+                        <Form.Control 
+                            type="date" 
+                            value={fechaHastaFiltro} 
+                            onChange={(e) => setFechaHastaFiltro(e.target.value)} 
+                            placeholder="Hasta" 
+                        />
                     </Col>
                 </Row>
 
@@ -97,7 +126,7 @@ const OrderListScreen = () => {
                                         <tr key={order._id}>
                                             <td>{order._id}</td>
                                             <td>{order.user?.name || 'Sin cliente'}</td>
-                                            <td>{order.createdAt?.substring(0, 10) || '-'}</td>
+                                            <td>{formatDate(order.createdAt, "dd/MM/yyyy")}</td>
                                             <td>${order.totalPrice}</td>
                                             <td>{order.isDispatched ? formatDate(order.dispatchedAt, "dd/MM/yyyy") : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>
                                             <td>{order.isDelivered ? formatDate(order.deliveredAt, "dd/MM/yyyy") : <i className='fas fa-times' style={{ color: 'red' }}></i>}</td>

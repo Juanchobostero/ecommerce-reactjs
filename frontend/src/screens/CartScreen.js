@@ -11,7 +11,7 @@ const CartScreen = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [restantes, setRestantes] = useState(20);
+  const [restantes, setRestantes] = useState(24);
   const [productsWithDiscount, setProductsWithDiscount] = useState({});
 
   const userLogin = useSelector((state) => state.userLogin);
@@ -27,7 +27,7 @@ const CartScreen = () => {
 
   // Función para agregar productos al carrito
   const handleAddToCart = (product, qty) => {
-    dispatch(addToCart(product, qty));
+    dispatch(addToCart(product, qty, true)); // ✅ Reemplazar cantidad
   };
 
   // Manejo del checkout
@@ -49,7 +49,7 @@ const CartScreen = () => {
     }
 
     const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
-    const limit = 20;
+    const limit = 24;
 
     if (totalItems < limit) {
       Swal.fire({
@@ -67,7 +67,7 @@ const CartScreen = () => {
       return;
     }
 
-    if (restantes !== 0 && restantes !== 20) {
+    if (restantes !== 0 && restantes !== 24) {
       Swal.fire({
         title: 'Error!',
         text: `Te faltan ${restantes} productos para completar una caja.`,
@@ -113,7 +113,13 @@ const CartScreen = () => {
       fetchDiscounts();
     }
   }, [cartItems]);
-  
+
+  useEffect(() => {
+    const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
+    const limit = 24;
+    const remaining = limit - (totalItems % limit);
+    setRestantes(remaining === limit ? 0 : remaining);
+  }, [cartItems]);
 
   return (
     <Row className='mt-4'>
@@ -193,14 +199,14 @@ const CartScreen = () => {
             <ListGroup.Item>
               <strong>Para completar la caja te faltan: </strong>
               <span className='font-source cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
-                <b>{restantes === 20 ? 0 : restantes}</b>
+                <b>{restantes === 24 ? 0 : restantes}</b>
               </span>
             </ListGroup.Item>
 
             <ListGroup.Item>
               <strong>Total Cajas: </strong>
               <span className='font-source cursor-pointer hover:opacity-50 transition-all rounded-sm border-green-950 bg-green-300 p-1 text-xl text-green-900'>
-                <b>{Math.floor(cartItems.reduce((acc, item) => acc + item.qty, 0) / 20)}</b>
+                <b>{Math.floor(cartItems.reduce((acc, item) => acc + item.qty, 0) / 24)}</b>
               </span>
             </ListGroup.Item>
 

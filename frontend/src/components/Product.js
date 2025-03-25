@@ -18,11 +18,10 @@ const Product = ({ userLogged, product }) => {
   const handleClose = () => setShowModal(false)
 
   const handleAddToCart = () => {
-    const existingCartItem = cartItems.find((item) => item.product === product._id); // 👈 Asegúrate de que coincida el identificador
+    const existingCartItem = cartItems.find((item) => item.product === product._id);
     const currentQtyInCart = existingCartItem ? existingCartItem.qty : 0;
-    const totalQty = currentQtyInCart + qty; // Sumar la cantidad nueva
-  
-    // 🚨 Validación estricta para evitar que se pase del stock
+    const totalQty = currentQtyInCart + qty;
+
     if (totalQty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
@@ -37,9 +36,9 @@ const Product = ({ userLogged, product }) => {
       });
       return;
     }
-  
-    dispatch(addToCart(product._id, qty)); // 👈 Importante: enviar solo `qty`, no `totalQty`
-  
+
+    dispatch(addToCart(product._id, qty, false)); // 👈 Importante: enviar `replace` como `false` para sumar la cantidad
+
     Swal.fire({
       title: "✅",
       text: "Se ha actualizado tu Carrito",
@@ -52,8 +51,7 @@ const Product = ({ userLogged, product }) => {
       }
     });
   };
-  
-  
+
   return (
     <>
       <Card className="custom-card my-8 py-2 bg-white">

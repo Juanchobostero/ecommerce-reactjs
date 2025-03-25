@@ -14,6 +14,7 @@ import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { CART_DROP } from '../constants/cartConstants';
 import axios from 'axios';
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 const OrderDetailsScreen = () => {
     const orderRef = useRef();
@@ -215,7 +216,7 @@ const OrderDetailsScreen = () => {
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
                                 <h1>Pedido N°: <b>{order._id}</b></h1>
-                                <h3 className='ubuntu font-extrabold'>Datos del Pedido</h3>
+                                <h3 className='font-source font-extrabold'>Datos del Pedido</h3>
                                 <p>
                                     <strong><b>Usuario: </b></strong>{order.user.name}
                                 </p>
@@ -234,7 +235,7 @@ const OrderDetailsScreen = () => {
 
                                 {order.isDispatched 
                                     ? (
-                                        <div className='mb-2 flex flex-col ubuntu'>
+                                        <div className='mb-2 flex flex-col font-source'>
                                             <strong className='text-green-600 font-semibold mb-2'>
                                                 ✅ Despachado el {formatDate(order.dispatchedAt, "dd/MM/yyyy")} a las {formatDate(order.dispatchedAt, "HH:mm:ss")}
                                             </strong>
@@ -242,30 +243,30 @@ const OrderDetailsScreen = () => {
                                         </div>
                                     )
                                     : (
-                                        <div className='mb-2 flex flex-col ubuntu'>
-                                            <strong className='text-red-600 font-semibold ubuntu'>❌ No Despachado</strong>
+                                        <div className='mb-2 flex flex-col font-source'>
+                                            <strong className='text-red-600 font-semibold font-source'>❌ No Despachado</strong>
                                         </div>
                                     )
                                 }
 
                                 {order.isDelivered 
                                     ? (
-                                        <div className='mb-2 flex flex-col ubuntu'>
-                                            <strong className='text-green-600 font-semibold ubuntu'>
+                                        <div className='mb-2 flex flex-col font-source'>
+                                            <strong className='text-green-600 font-semibold font-source'>
                                                 ✅ Entregado el {formatDate(order.deliveredAt, "dd/MM/yyyy")}
                                             </strong>
                                         </div>
                                     ) 
                                     : (
-                                        <div className='mb-2 flex flex-col ubuntu'>
-                                            <strong className='text-red-600 font-semibold ubuntu'>❌ No entregado</strong>
+                                        <div className='mb-2 flex flex-col font-source'>
+                                            <strong className='text-red-600 font-semibold font-source'>❌ No entregado</strong>
                                         </div>
                                     )
                                 }
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                                <h3 className='ubuntu font-extrabold'>Detalle del Pedido</h3>
+                                <h3 className='font-source font-extrabold'>Detalle del Pedido</h3>
                                 {order.orderItems.length === 0 
                                     ? (<Message>No hay Pedidos</Message>)
                                     : (
@@ -283,11 +284,11 @@ const OrderDetailsScreen = () => {
                                                         </Col>
                                                         <Col>
                                                             <Link to={`/product/${item.product}`}>
-                                                                <span className='ubuntu text-amber-900'>{item.name}</span>
+                                                                <span className='font-source text-amber-900'>{item.name}</span>
                                                             </Link>
                                                         </Col>
                                                         <Col md={4}>
-                                                            <span className='ubuntu text-amber-950 font-extrabold'>
+                                                            <span className='font-source text-amber-950 font-extrabold'>
                                                                 {item.qty} x ${item.price}
                                                                 {productsWithDiscount[item.product] > 0 && (
                                                                     <span className="text-red-500"> (-{productsWithDiscount[item.product]}%)</span>
@@ -309,7 +310,7 @@ const OrderDetailsScreen = () => {
                         <Card>
                             <ListGroup variant='flush'>
                                 <ListGroup.Item className='p-0.5'>
-                                    <h2 className='ubuntu'>Resumen</h2>
+                                    <h2 className='font-source'>Resumen</h2>
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
@@ -355,9 +356,10 @@ const OrderDetailsScreen = () => {
                                             id="daysToDispatch"
                                             type="number" 
                                             value={daysToDispatch} 
-                                            onChange={(e) => setDaysToDispatch(Number(e.target.value))}
+                                            onChange={(e) => setDaysToDispatch(Math.max(0, Number(e.target.value)))}
                                             placeholder="Días para despachar Pedido" 
                                             className="w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                                            min="0"
                                         />
                                         <Button
                                             disabled={Number(daysToDispatch) === 0}
@@ -367,7 +369,7 @@ const OrderDetailsScreen = () => {
                                         >
                                             Despachar Pedido
                                         </Button>
-                                    </ListGroup.Item>
+                                </ListGroup.Item>
                                 )}
 
                                 {loadingDeliver && <Loader />}
@@ -411,6 +413,19 @@ const OrderDetailsScreen = () => {
                         </Card>
                     </Col>
                 </Row>
+            <div className="relative">
+                <div className="fixed bottom-4 right-4 z-[10]">
+                    <FloatingWhatsApp
+                        className={`${(userInfo && userInfo.name && userInfo.isAdmin) ? 'hidden' : 'block'}`}
+                        phoneNumber="+543795004254"
+                        accountName="EL PROMESERO"
+                        avatar="/images/logo2.png"
+                        statusMessage="Normalmente respondo en unos minutos"
+                        chatMessage="¡Hola! ¿Tuviste algún problema con tu Pedido? Contactanos."
+                        notification={false}
+                    />
+                </div>
+            </div>
             </div>
     );
 };

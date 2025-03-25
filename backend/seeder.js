@@ -1,13 +1,9 @@
-import mongoose from "mongoose";
 import dotenv from 'dotenv';
-import colors from 'colors';
 import users from "./data/users.js";
-import products from "./data/products.js";
 import User from './models/userModel.js';
 import Product from './models/productModel.js';
 import Order from './models/orderModel.js';
 import connectDB from "./config/db.js";
-import categories from "./data/categories.js";
 import ProductCategory from "./models/productCategoryModel.js";
 
 dotenv.config();
@@ -23,16 +19,6 @@ const importData = async () => {
 
         const createdUsers = await User.insertMany(users);
         const adminUser = createdUsers[0]._id;
-
-        // const sampleProducts = products.map(product => {
-        //     return { 
-        //         ...product, 
-        //         user: adminUser, 
-        //         category: sampleCategory,
-        //     }
-        // });
-
-        // await Product.insertMany(sampleProducts);
 
         console.log('Data imported !'.green.inverse);
         process.exit();

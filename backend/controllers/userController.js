@@ -15,6 +15,10 @@ const authUser = asyncHandler( async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            city: user.city,
+            address: user.address,
+            postalCode: user.postalCode,
+            country: user.country,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });
@@ -28,7 +32,15 @@ const authUser = asyncHandler( async (req, res) => {
 // @route POST /api/users
 // @access Public
 const registerUser = asyncHandler( async (req, res) => {
-    const { name, email, password } = req.body;
+    const { 
+        name, 
+        email, 
+        password,
+        city,
+        address,
+        postalCode,
+        country 
+    } = req.body;
 
     const userExists = await User.findOne({ email });
 
@@ -40,7 +52,11 @@ const registerUser = asyncHandler( async (req, res) => {
     const user = await User.create({
         name,
         email,
-        password
+        password,
+        city,
+        address,
+        postalCode,
+        country
     });
 
     if(user) {
@@ -48,6 +64,10 @@ const registerUser = asyncHandler( async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            city: user.city,
+            address: user.address,
+            postalCode: user.postalCode,
+            country: user.country,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });  
@@ -68,6 +88,10 @@ const getUserProfile = asyncHandler( async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            city: user.city,
+            address: user.address,
+            postalCode: user.postalCode,
+            country: user.country,
             isAdmin: user.isAdmin
         });
     } else {
@@ -85,6 +109,10 @@ const updateUserProfile = asyncHandler( async (req, res) => {
     if(user){
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+        user.city = req.body.city || user.city;
+        user.address = req.body.address || user.address;
+        user.postalCode = req.body.postalCode || user.postalCode;
+        user.country = req.body.country || user.country;
 
         if (req.body.password) {
             user.password = req.body.password;
@@ -96,6 +124,10 @@ const updateUserProfile = asyncHandler( async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            city: user.city,
+            address: user.address,
+            postalCode: user.postalCode,
+            country: user.country,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });
@@ -152,6 +184,10 @@ const updateUser = asyncHandler( async (req, res) => {
     if(user){
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+        user.city = req.body.city || user.city;
+        user.address = req.body.address || user.address;
+        user.postalCode = req.body.postalCode || user.postalCode;
+        user.country = req.body.country || user.country;
         user.isAdmin = req.body.isAdmin;
 
         const updatedUser = await user.save();
@@ -160,6 +196,10 @@ const updateUser = asyncHandler( async (req, res) => {
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
+            city: updatedUser.city,
+            address: updatedUser.address,
+            postalCode: updatedUser.postalCode,
+            country: updatedUser.country,
             isAdmin: updatedUser.isAdmin
         });
     } else {
