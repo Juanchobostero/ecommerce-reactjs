@@ -18,53 +18,38 @@ const Product = ({ userLogged, product }) => {
   const handleClose = () => setShowModal(false)
 
   const handleAddToCart = () => {
-    if(qty > product.countInStock) {
+    const existingCartItem = cartItems.find((item) => item.product === product._id);
+    const currentQtyInCart = existingCartItem ? existingCartItem.qty : 0;
+    const totalQty = currentQtyInCart + qty;
+
+    if (totalQty > product.countInStock) {
       Swal.fire({
         title: 'Error!',
-        text: 'La cantidad es Mayor a la del Stock Disponible !',
+        text: `🚨 Stock insuficiente.`,
         icon: 'error',
         confirmButtonText: 'Ok',
         background: '#fff',
         customClass: {
-            title: 'font-source',
-            popup: 'font-source',
+          title: 'font-source',
+          popup: 'font-source',
         }
-      })
-      return
+      });
+      return;
     }
 
-    const cartPlusQtyUpdated = cartItems.reduce((acc, item) => acc + item.qty, 0) + qty
-    const limit = 28
-
-    if(cartPlusQtyUpdated > limit) {
-      Swal.fire({
-        title: 'Error!',
-        text: `El límite es de hasta ${limit} alfajores !`,
-        icon: 'error',
-        confirmButtonText: 'Ok',
-        background: '#fff',
-        customClass: {
-            title: 'font-source',
-            popup: 'font-source',
-        }
-      })
-      return
-    }
-
-    dispatch(addToCart(product._id, qty))
+    dispatch(addToCart(product._id, qty, false)); // 👈 Importante: enviar `replace` como `false` para sumar la cantidad
 
     Swal.fire({
       title: "✅",
-      text: `Se ha actualizado tu Carrito`,
+      text: "Se ha actualizado tu Carrito",
       confirmButtonText: "OK",
       confirmButtonColor: '#b45309',
       background: '#fff',
-        customClass: {
-            title: 'font-source',
-            popup: 'font-source',
-        }
+      customClass: {
+        title: 'font-source',
+        popup: 'font-source',
+      }
     });
-    return
   };
 
   return (
@@ -106,78 +91,114 @@ const Product = ({ userLogged, product }) => {
               ) 
                 
           }
+
+          {
+            (product.discount > 0) && (
+              <button
+                type="button" 
+                className=" cursor-pointer absolute bottom-1 left-1 text-white bg-amber-950 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center dark:bg-amber-950 dark:hover:bg-amber-700 dark:focus:ring-amber-800"
+              >
+                {product.discount} % OFF
+              </button>
+            )
+          }
           
         </div>
         <Card.Body className="custom-card-body">
           <Link to={`/product/${product._id}`}>
             <Card.Title as="div" className="custom-card-title">
-              <strong className="ubuntu text-amber-950">{product.name}</strong>
+              <strong className="font-source text-amber-950">{product.name}</strong>
             </Card.Title>
           </Link>
-          <Card.Text as="h3" className="ubuntu custom-card-price">
-            ${product.price}
+
+          {/* Mostrar el precio con descuento si existe */}
+          <Card.Text as="h3" className="font-source custom-card-price">
+            {product.discount > 0 ? (
+              <>
+                <span className="text-gray-500 line-through text-lg mr-2">
+                  ${product.price}
+                </span>
+                <span className="text-amber-600 text-xl font-bold">
+                  ${product.price - (product.price * product.discount) / 100}
+                </span>
+              </>
+            ) : (
+              <span>${product.price}</span>
+            )}
           </Card.Text>
+
           <Card.Title as="div" className="mt-[-1rem] p-1">
-            {
-              !userLogged 
-                ? (
-                  <button
-                    onClick={handleShow} 
-                    type="button" 
-                    className=" text-white bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800"
-                  >
-                  <svg
-                    className="w-6 h-6 text-gray-800 dark:text-white"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
-                    />
-                    <path
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
+            {!userLogged ? (
+              <button
+                onClick={handleShow}
+                type="button"
+                className="text-white bg-amber-700 hover:bg-amber-800 focus:ring-4 focus:outline-none focus:ring-amber-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800"
+              >
+                <svg
+                  className="w-6 h-6 text-gray-800 dark:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"
+                  />
+                  <path
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                </svg>
               </button>
-              ) : (
-                <>
-                  <div className='ubuntu flex flex-row gap-2'>
-                    <Form.Control 
-                      as='select' 
-                      value={qty} 
-                      onChange={(e) => setQty(Number(e.target.value))}
-                      className="w-full md:w-28 h-10"
+            ) : (
+              <>
+                <div className="font-source flex flex-row gap-2">
+                  <Form.Control
+                    as="select"
+                    value={qty}
+                    onChange={(e) => setQty(Number(e.target.value))}
+                    className="w-full md:w-28 h-10"
+                  >
+                    {[...Array(Number(product.countInStock)).keys()].map((x) => (
+                      <option key={x + 1} value={x + 1}>
+                        {x + 1}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <button
+                    onClick={handleAddToCart}
+                    type="button"
+                    className="text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                  >
+                    <svg
+                      className="w-8 h-6 text-gray-800 dark:text-white"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
                     >
-                      {[...Array(Number(product.countInStock)).keys()].map((x) => (
-                        <option key={x + 1} value={x + 1}>
-                          {x + 1}
-                        </option>
-                      ))}
-                    </Form.Control>
-                    <button
-                        onClick={handleAddToCart} 
-                        type="button" 
-                        className=" text-white bg-green-400 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-sm text-sm p-1 text-center inline-flex items-center me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                    >
-                        <svg class="w-8 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
-                        </svg>
-                    </button>
-                  </div>
-                  
-                </>
-              ) }
-            
-            </Card.Title>
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              </>
+            )}
+          </Card.Title>
         </Card.Body>
+
       </Card>
 
       {/* Modal */}

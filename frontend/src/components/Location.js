@@ -18,7 +18,6 @@ const Location = () => {
         setSelectedBranch(branch);
     };
 
-
     useEffect(() => {
         const { coords, name } = selectedBranch;
         const map = L.map('map').setView(coords, 13)
@@ -27,14 +26,22 @@ const Location = () => {
             attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
         }).addTo(map)
 
+        // Crear un icono personalizado
+        const customIcon = new L.Icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png', // Imagen predeterminada o personalizada
+            iconSize: [25, 41], // Tamaño del icono
+            iconAnchor: [12, 41], // Ancla del icono
+            popupAnchor: [0, -41], // Ancla del popup
+        });
+
         L.circle(coords, {
             color: 'red',
             fillColor: '#f03',
             fillOpacity: 0.5,
-            radius: 500
+            radius: 25
         }).addTo(map);
 
-        L.marker(coords).addTo(map).bindPopup(`${name}`)
+        L.marker(coords, { icon: customIcon }).addTo(map).bindPopup(`${name}`)
         .openPopup();
 
         return () => {

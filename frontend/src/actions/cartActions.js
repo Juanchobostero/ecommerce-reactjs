@@ -11,23 +11,27 @@ const url = process.env.NODE_ENV === 'development'
     ? 'http://localhost:5000' 
     : process.env.REACT_APP_URI_API_PRODUCTION
 
-export const addToCart = (id, qty) => async (dispatch, getState) => {
-    const { data } = await axios.get(`${url}/api/products/${id}`);
-
-    dispatch({
-        type: CART_ADD_ITEM,
-        payload: {
-            product: data._id,
-            name: data.name,
-            image: data.image,
-            price: data.price,
-            countInStock: data.countInStock,
-            qty
-        }
-    });
-
-    localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
-}
+    export const addToCart = (id, qty, replace = false) => async (dispatch, getState) => {
+        const { data } = await axios.get(`${url}/api/products/${id}`);
+    
+        // Buscar si el producto ya está en el carrito
+        const existingItem = getState().cart.cartItems.find(item => item.product === id);
+    
+        dispatch({
+            type: CART_ADD_ITEM,
+            payload: {
+                product: data._id,
+                name: data.name,
+                image: data.image,
+                price: data.price,
+                countInStock: data.countInStock,
+                qty: existingItem && !replace ? existingItem.qty + qty : qty // ✅ Sumar cantidad si ya existe y no se reemplaza
+            }
+        });
+    
+        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+    };
+    
 
 export const removeFromCart = (id) => (dispatch, getState) => {
     dispatch({

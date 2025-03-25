@@ -93,15 +93,15 @@ h3 {
 
 .custom-card {
     font-family: 'Source Sans Pro', sans-serif;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     font-size: 1rem;
-    width: 95%;
-    max-height: 320px; /* Reducir altura */
+    width: 100%;
+    max-height: 350px; /* Reducir altura */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px; /* Reducir el padding */
-    border-radius: 5px; /* Añadir bordes redondeados */
+    border-radius: 2px; /* Añadir bordes redondeados */
   }
   
   .custom-card-img {
@@ -121,7 +121,7 @@ h3 {
   
   
   .custom-card-body {
-    padding: 5px;
+    padding: auto;
     text-align: center;
   }
   

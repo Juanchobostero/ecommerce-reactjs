@@ -72,8 +72,9 @@ const ProductEditScreen = () => {
     if (!String(name).trim()) return 'El nombre no puede estar vacío';
     if (!String(code).trim()) return 'El campo Código no puede estar vacío';
     if (!String(description).trim()) return 'El campo Descripción no puede estar vacío';
-    if (price <= 0) return 'El precio debe ser un número mayor a 0'
+    if (price <= 0) return 'El precio debe ser un número mayor a 0';
     if (countInStock <= 0) return 'El stock ingresado debe ser mayor a 0';
+    if (discount < 0 || discount > 100) return 'El descuento debe estar entre 0 y 100';
     return null;
   };
   
@@ -201,13 +202,14 @@ const ProductEditScreen = () => {
               </Form.Group>
 
               <Form.Group>
-                <Form.Label>Descuento</Form.Label>
-                <Form.Control 
-                  className='h-8 border-solid rounded-md border-2 border-gray-300' 
+                <Form.Label>Descuento (%)</Form.Label>
+                <Form.Control
+                  className='h-8 border-solid rounded-md border-2 border-gray-300'
                   type='number'
-                  min="0" 
-                  value={discount} 
-                  onChange={(e) => setDiscount(e.target.value)} 
+                  min="0"
+                  max="100"
+                  value={discount}
+                  onChange={(e) => setDiscount(Math.min(Math.max(Number(e.target.value), 0), 100))}
                 />
               </Form.Group>
 

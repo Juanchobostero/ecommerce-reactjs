@@ -8,12 +8,17 @@ import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import { listMyOrders } from '../actions/orderActions';
+import { FloatingWhatsApp } from 'react-floating-whatsapp';
 
 const ProfileScreen = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('');
   const [message, setMessage] = useState(null);
 
   const navigate = useNavigate();
@@ -42,18 +47,21 @@ const ProfileScreen = () => {
         } else {
             setName(user.name);
             setEmail(user.email);
+            setAddress(user.address);
+            setCity(user.city);
+            setPostalCode(user.postalCode);
+            setCountry(user.country);
         }
     }
   }, [dispatch, navigate, userInfo, user, success]);
-  
 
   const submitHandler = (e) => {
     e.preventDefault();
 
     if(password !== confirmPassword) {
-        setMessage('Passwords do not match !')
+        setMessage('Las contraseñas no coinciden !')
     } else {
-        dispatch(updateUserProfile({ id: user._id, name, email, password }))
+        dispatch(updateUserProfile({ id: user._id, name, email, password, address, city, postalCode, country }))
     }
   }
   
@@ -91,7 +99,46 @@ const ProfileScreen = () => {
                             >
                             </Form.Control>
                     </Form.Group>
-
+                    <Form.Group controlId='address'>
+                        <Form.Label>Dirección</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
+                            type='text' 
+                            placeholder='Ingresar Dirección' 
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId='city'>
+                        <Form.Label>Ciudad</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
+                            type='text' 
+                            placeholder='Ingresar Ciudad' 
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId='postalCode'>
+                        <Form.Label>Código Postal</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
+                            type='text' 
+                            placeholder='Ingresar Código Postal' 
+                            value={postalCode}
+                            onChange={(e) => setPostalCode(e.target.value)}
+                        />
+                    </Form.Group>
+                    <Form.Group controlId='country'>
+                        <Form.Label>País</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md" 
+                            type='text' 
+                            placeholder='Ingresar País' 
+                            value={country}
+                            onChange={(e) => setCountry(e.target.value)}
+                        />
+                    </Form.Group>
                     <Form.Group controlId='password'>
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control
@@ -102,18 +149,16 @@ const ProfileScreen = () => {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </Form.Group>
-
-                <Form.Group controlId='confirmPassword'>
-                    <Form.Label>Confirmar Contraseña</Form.Label>
-                    <Form.Control
-                        className="bg-gray-100 border border-gray-600 rounded-md"
-                        type='password' 
-                        placeholder='Repetir Contraseña' 
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </Form.Group>
-
+                    <Form.Group controlId='confirmPassword'>
+                        <Form.Label>Confirmar Contraseña</Form.Label>
+                        <Form.Control
+                            className="bg-gray-100 border border-gray-600 rounded-md"
+                            type='password' 
+                            placeholder='Repetir Contraseña' 
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                    </Form.Group>
                     <Button 
                         type='submit' 
                         variant='primary'
@@ -121,7 +166,6 @@ const ProfileScreen = () => {
                     >
                         Actualizar
                     </Button>
-
                 </Form>
             </ListGroup.Item>
         </Col>
@@ -152,7 +196,6 @@ const ProfileScreen = () => {
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    
                                     <tbody>
                                         {orders.map(order => (
                                             <tr key={order._id}>
@@ -192,11 +235,24 @@ const ProfileScreen = () => {
                                 </Table>
                             </ListGroup.Item>
                         </ListGroup>
-                        </>
-                    )
+                        </>)
                 }
             </ListGroup.Item>
         </Col>
+
+        <div className="relative">
+            <div className="fixed bottom-4 right-4 z-[10]">
+                <FloatingWhatsApp
+                    className={`${(userInfo && userInfo.name && userInfo.isAdmin) ? 'hidden' : 'block'}`}
+                    phoneNumber="+543795004254"
+                    accountName="EL PROMESERO"
+                    avatar="/images/logo2.png"
+                    statusMessage="Normalmente respondo en unos minutos"
+                    chatMessage="¡Hola! ¿Tuviste algún problema con tu Pedido? Contactanos."
+                    notification={false}
+                />
+            </div>
+        </div>
     </Row>
   )
 }

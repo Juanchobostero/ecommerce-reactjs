@@ -12,6 +12,10 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [country, setCountry] = useState('');
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -56,11 +60,19 @@ const RegisterScreen = () => {
         showMessage('El correo electrónico no es válido.');
     } else if (password !== confirmPassword) {
         showMessage('Las contraseñas no coinciden.');
-    } else if (name === '' || email === '' || password === '' || confirmPassword === '') {
+    } else if (name === '' || email === '' || password === '' || confirmPassword === '' || address === '' || city === '' || postalCode === '' || country === '') {
         showMessage('Todos los campos son obligatorios.');
     } else {
         setMessage(null);
-        dispatch(register(name, email, password));
+        dispatch(register({
+            name, 
+            email, 
+            password,
+            address,
+            city,
+            postalCode,
+            country
+        }));
     }
   };
   
@@ -73,46 +85,110 @@ const RegisterScreen = () => {
             {error && <Message variant='danger'>{error}</Message>}
             {loading && <Loader />}
             <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name' className='mb-3'>
-                    <FormLabel>Nombre</FormLabel>
-                    <Form.Control
-                        className="bg-gray-100 border border-gray-600 rounded-md" 
-                        type='text' 
-                        placeholder='Ingresar Nombre' 
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group controlId='email' className='mb-3'>
-                    <FormLabel>Correo</FormLabel>
-                    <Form.Control
-                        className="bg-gray-100 border border-gray-600 rounded-md" 
-                        type='email' 
-                        placeholder='Ingresar Correo' 
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group controlId='password' className='mb-3'>
-                    <FormLabel>Contraseña</FormLabel>
-                    <Form.Control
-                        className="bg-gray-100 border border-gray-600 rounded-md" 
-                        type='password' 
-                        placeholder='Ingresar Contraseña' 
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </Form.Group>
-                <Form.Group controlId='confirmPassword' className='mb-3'>
-                    <FormLabel>Confirmar Contraseña</FormLabel>
-                    <Form.Control
-                        className="bg-gray-100 border border-gray-600 rounded-md" 
-                        type='password' 
-                        placeholder='Confirmar Contraseña' 
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </Form.Group>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='name' className='mb-3'>
+                            <FormLabel>Nombre</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar Nombre' 
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='email' className='mb-3'>
+                            <FormLabel>Correo</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='email' 
+                                placeholder='Ingresar Correo' 
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='password' className='mb-3'>
+                            <FormLabel>Contraseña</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='password' 
+                                placeholder='Ingresar Contraseña' 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='confirmPassword' className='mb-3'>
+                            <FormLabel>Confirmar Contraseña</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='password' 
+                                placeholder='Confirmar Contraseña' 
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='address' className='mb-3'>
+                            <FormLabel>Dirección</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar Dirección' 
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='city' className='mb-3'>
+                            <FormLabel>Ciudad</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar Ciudad' 
+                                value={city}
+                                onChange={(e) => setCity(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='postalCode' className='mb-3'>
+                            <FormLabel>Código Postal</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar Código Postal' 
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group controlId='country' className='mb-3'>
+                            <FormLabel>País</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar País' 
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
                 <Button 
                     className='btn btn-block bg-green-600 mt-4' 
                     type='submit' 
