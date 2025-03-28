@@ -22,6 +22,7 @@ const OrderListScreen = () => {
     const [estadoFiltro, setEstadoFiltro] = useState('');
     const [fechaDesdeFiltro, setFechaDesdeFiltro] = useState('');
     const [fechaHastaFiltro, setFechaHastaFiltro] = useState('');
+    const [numeroFiltro, setNumeroFiltro] = useState(''); // Nuevo estado para el filtro de número
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 5;
 
@@ -45,15 +46,17 @@ const OrderListScreen = () => {
         const matchEstado = !estadoFiltro || 
             (estadoFiltro === 'despachado' && order.isDispatched) ||
             (estadoFiltro === 'entregado' && order.isDelivered) ||
-            (estadoFiltro === 'baja' && order.disabled)
+            (estadoFiltro === 'baja' && order.disabled);
         
         const formattedFechaDesdeFiltro = fechaDesdeFiltro ? formatDate(fechaDesdeFiltro, "yyyy-MM-dd'T'HH:mm:ss") : '';
         const formattedFechaHastaFiltro = fechaHastaFiltro ? formatDate(fechaHastaFiltro + 'T23:59:59', "yyyy-MM-dd'T'HH:mm:ss") : '';
         
         const matchFechaDesde = !formattedFechaDesdeFiltro || new Date(order.createdAt) >= new Date(formattedFechaDesdeFiltro);
         const matchFechaHasta = !formattedFechaHastaFiltro || new Date(order.createdAt) <= new Date(formattedFechaHastaFiltro);
+
+        const matchNumero = !numeroFiltro || order.number.toString().includes(numeroFiltro); // Filtro por número de pedido
         
-        return matchEstado && matchFechaDesde && matchFechaHasta;
+        return matchEstado && matchFechaDesde && matchFechaHasta && matchNumero;
     });
 
     const pageCount = Math.ceil(filteredOrders.length / itemsPerPage);
@@ -100,6 +103,15 @@ const OrderListScreen = () => {
                             placeholder="Hasta" 
                         />
                     </Col>
+                    <Col md={3}>
+                        <FormLabel>Número de Pedido</FormLabel>
+                        <Form.Control 
+                            type="text" 
+                            value={numeroFiltro} 
+                            onChange={(e) => setNumeroFiltro(e.target.value)} 
+                            placeholder="Buscar por número" 
+                        />
+                    </Col>
                 </Row>
 
                 {loading ? (
@@ -124,7 +136,7 @@ const OrderListScreen = () => {
                                 <tbody>
                                     {currentOrders.map(order => (
                                         <tr key={order._id}>
-                                            <td>{order._id}</td>
+                                            <td><b>{order.number}</b></td>
                                             <td>{order.user?.name || 'Sin cliente'}</td>
                                             <td>{formatDate(order.createdAt, "dd/MM/yyyy")}</td>
                                             <td>${order.totalPrice}</td>

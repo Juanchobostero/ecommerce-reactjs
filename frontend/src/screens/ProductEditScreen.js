@@ -22,6 +22,7 @@ const ProductEditScreen = () => {
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null)
+  const [stockChange, setStockChange] = useState(0);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -222,6 +223,47 @@ const ProductEditScreen = () => {
                   value={countInStock} 
                   onChange={(e) => setCountInStock(e.target.value ? Number(e.target.value) : '')} />
               </Form.Group>
+
+              
+              <div className="col-span-2 flex items-center gap-2">
+                <Form.Label className="col-span-1 text-right">Modificar Stock</Form.Label>
+                <Form.Control 
+                  type="number"
+                  className="h-8 w-20 border-solid rounded-sm border-2 border-gray-300 text-center text-sm p-1"
+                  value={stockChange}
+                  onChange={(e) => {
+                    const value = Math.max(0, Number(e.target.value)); // Evitar valores menores a 0
+                    setStockChange(value);
+                  }}
+                />
+
+                <button 
+                  type="button" 
+                  className="px-2 py-1 bg-red-600 text-white rounded-sm"
+                  onClick={() => {
+                    if (stockChange <= countInStock) { // Validar que no se reste más del stock actual
+                      setCountInStock(prev => Math.max(0, prev - stockChange));
+                    } else {
+                      Swal.fire({
+                        title: 'Error!',
+                        text: 'No puedes restar más del stock disponible.',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                      });
+                    }
+                  }}
+                >
+                  -
+                </button>
+
+                <button 
+                  type="button" 
+                  className="px-2 py-1 bg-green-600 text-white rounded-sm"
+                  onClick={() => setCountInStock(prev => prev + stockChange)} // Incrementar stock sin restricciones
+                >
+                  +
+                </button>
+              </div>
 
               <Form.Group className='md:col-span-2'>
                 <Form.Label>Descripción</Form.Label>

@@ -187,128 +187,150 @@ const OrderDetailsScreen = () => {
     const generatePDF = () => {
         const input = orderRef.current;
         const pdfButton = document.querySelector('.generate-pdf-button');
+        const noPdfElements = document.querySelectorAll('.no-pdf');
+    
+        // Ocultar elementos con la clase "no-pdf"
+        noPdfElements.forEach(el => el.style.display = 'none');
         if (pdfButton) pdfButton.style.display = 'none';
-
+    
         html2canvas(input, { scale: 3 }).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF('p', 'mm', 'a4');
+    
             const imgWidth = 210; // A4 width in mm
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
             pdf.addImage(imgData, 'PNG', 0, 10, imgWidth, imgHeight);
-            pdf.save(`Pedido_${order._id}.pdf`);
+            pdf.save(`Pedido_${order.number}.pdf`);
+    
+            // Restaurar visibilidad después de generar el PDF
+            noPdfElements.forEach(el => el.style.display = '');
+            if (pdfButton) pdfButton.style.display = 'block';
         });
-
-        if (pdfButton) pdfButton.style.display = 'block';
     };
+    
 
     return (
         loading 
             ? <Loader /> 
             : error ? <Message variant='danger'>{error}</Message> 
             : 
-            <div 
-                ref={orderRef} 
-                id="order-details"
-                className='mt-3 cursor-pointer'
-            >
-                <Row>
-                    <Col md={8}>
-                        <ListGroup variant='flush'>
-                            <ListGroup.Item>
-                                <h1>Pedido N°: <b>{order._id}</b></h1>
-                                <h3 className='font-source font-extrabold'>Datos del Pedido</h3>
-                                <p>
-                                    <strong><b>Usuario: </b></strong>{order.user.name}
-                                </p>
-                                <p>
-                                    <strong><b>Correo: </b></strong>
-                                    <a 
-                                        className='text-sky-900'
-                                        href={`mailto:${order.user.email}`}>{order.user.email}</a>
-                                </p>
-                                <p>
-                                    <strong><b>Dirección: </b></strong>
-                                    {order.shippingAddress.address}, {order.shippingAddress.city} 
-                                    {order.shippingAddress.postalCode}, {' '}
-                                    {order.shippingAddress.country}
-                                </p>
+                <>
+                    <Row>
+                        <Col md={8}>
+                            <ListGroup 
+                                ref={orderRef}
+                                id="order-details" 
+                                variant='flush'
+                                className="bg-white shadow-md rounded-md p-4 mt-4"
+                            >
+                                <ListGroup.Item>
+                                    <div className="flex items-center gap-2">
+                                        {/* Logo a la izquierda */}
+                                        <img 
+                                            alt="Logo" 
+                                            className="w-10 h-10 object-contain"
+                                            src="/images/logo2.png" 
+                                            style={{ maxHeight: '70px' }}
+                                        />
 
-                                {order.isDispatched 
-                                    ? (
-                                        <div className='mb-2 flex flex-col font-source'>
+                                        {/* Texto del pedido */}
+                                        <h1 className="text-amber-600">
+                                            Pedido <b>#{order.number}</b>
+                                        </h1>
+                                    </div>
+                                    <h3 className='font-source font-extrabold'>Datos del Pedido</h3>
+                                    <p>
+                                        <strong><b>Nombre Completo: </b></strong>{order.user.name}
+                                    </p>
+                                    <p>
+                                        <strong><b>Correo: </b></strong>
+                                        <a
+                                            className='text-sky-900'
+                                            href={`mailto:${order.user.email}`}>{order.user.email}</a>
+                                    </p>
+                                    <p>
+                                        <strong><b>Dirección: </b></strong>
+                                        {order.shippingAddress.address}, {order.shippingAddress.city}
+                                        {order.shippingAddress.postalCode}, {' '}
+                                        {order.shippingAddress.country}
+                                    </p>
+
+                                    {order.isDispatched ? (
+                                        <div className='mb-2 flex flex-col font-source no-pdf'>
                                             <strong className='text-green-600 font-semibold mb-2'>
                                                 ✅ Despachado el {formatDate(order.dispatchedAt, "dd/MM/yyyy")} a las {formatDate(order.dispatchedAt, "HH:mm:ss")}
                                             </strong>
                                             <strong><b>Días para Entrega: {order.days}</b></strong>
                                         </div>
-                                    )
-                                    : (
-                                        <div className='mb-2 flex flex-col font-source'>
+                                    ) : (
+                                        <div className='mb-2 flex flex-col font-source no-pdf'>
                                             <strong className='text-red-600 font-semibold font-source'>❌ No Despachado</strong>
                                         </div>
-                                    )
-                                }
+                                    )}
 
-                                {order.isDelivered 
-                                    ? (
-                                        <div className='mb-2 flex flex-col font-source'>
+                                    {order.isDelivered ? (
+                                        <div className='mb-2 flex flex-col font-source no-pdf'>
                                             <strong className='text-green-600 font-semibold font-source'>
                                                 ✅ Entregado el {formatDate(order.deliveredAt, "dd/MM/yyyy")}
                                             </strong>
                                         </div>
-                                    ) 
-                                    : (
-                                        <div className='mb-2 flex flex-col font-source'>
+                                    ) : (
+                                        <div className='mb-2 flex flex-col font-source no-pdf'>
                                             <strong className='text-red-600 font-semibold font-source'>❌ No entregado</strong>
                                         </div>
-                                    )
-                                }
-                            </ListGroup.Item>
+                                    )}
 
-                            <ListGroup.Item>
-                                <h3 className='font-source font-extrabold'>Detalle del Pedido</h3>
-                                {order.orderItems.length === 0 
-                                    ? (<Message>No hay Pedidos</Message>)
-                                    : (
-                                        <ListGroup variant='flush'>
-                                            {order.orderItems.map((item, index) => (
-                                                <ListGroup.Item key={index}>
-                                                    <Row>
-                                                        <Col md={1}>
-                                                            <Image 
-                                                                src={item.image} 
-                                                                alt={item.name}
-                                                                fluid
-                                                                rounded
-                                                            />
-                                                        </Col>
-                                                        <Col>
-                                                            <Link to={`/product/${item.product}`}>
-                                                                <span className='font-source text-amber-900'>{item.name}</span>
-                                                            </Link>
-                                                        </Col>
-                                                        <Col md={4}>
-                                                            <span className='font-source text-amber-950 font-extrabold'>
-                                                                {item.qty} x ${item.price}
-                                                                {productsWithDiscount[item.product] > 0 && (
-                                                                    <span className="text-red-500"> (-{productsWithDiscount[item.product]}%)</span>
-                                                                )}
-                                                                = ${calculateItemPrice(item)}
-                                                            </span>
-                                                        </Col>
-                                                    </Row>
-                                                </ListGroup.Item>
-                                            ))}
-                                        </ListGroup>
-                                    )
-                                }
-                            </ListGroup.Item>
-                        </ListGroup>
-                    </Col>
+                                    <div className='my-2 flex flex-col font-source'>
+                                        <strong><b>Teléfono: </b><i>{order.user.tel}</i></strong>
+                                    </div>
 
-                    <Col md={4}>
-                        <Card>
-                            <ListGroup variant='flush'>
+                                    <div className='my-2 flex flex-col font-source'>
+                                        <strong><b>FECHA: </b><i>{formatDate(order.createdAt, "dd/MM/yyyy")}</i></strong>
+                                    </div>
+                                </ListGroup.Item>
+
+                                <ListGroup.Item className='no-pdf'>
+                                    <h3 className='font-source font-extrabold'>Detalle del Pedido</h3>
+                                    {order.orderItems.length === 0
+                                        ? (<Message>No hay Pedidos</Message>)
+                                        : (
+                                            <ListGroup variant='flush'>
+                                                {order.orderItems.map((item, index) => (
+                                                    <ListGroup.Item key={index}>
+                                                        <Row>
+                                                            <Col md={1}>
+                                                                <Image
+                                                                    src={item.image}
+                                                                    alt={item.name}
+                                                                    fluid
+                                                                    rounded />
+                                                            </Col>
+                                                            <Col>
+                                                                <Link to={`/product/${item.product}`}>
+                                                                    <span className='font-source text-amber-900'>{item.name}</span>
+                                                                </Link>
+                                                            </Col>
+                                                            <Col md={4}>
+                                                                <span className='font-source text-amber-950 font-extrabold'>
+                                                                    {item.qty} x ${item.price}
+                                                                    {productsWithDiscount[item.product] > 0 && (
+                                                                        <span className="text-red-500"> (-{productsWithDiscount[item.product]}%)</span>
+                                                                    )}
+                                                                    = ${calculateItemPrice(item)}
+                                                                </span>
+                                                            </Col>
+                                                        </Row>
+                                                    </ListGroup.Item>
+                                                ))}
+                                            </ListGroup>
+                                        )}
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </Col>
+
+                        <Col md={4}>
+                            <Card className="bg-white shadow-md rounded-md p-4 mt-4">
                                 <ListGroup.Item className='p-0.5'>
                                     <h2 className='font-source'>Resumen</h2>
                                 </ListGroup.Item>
@@ -346,30 +368,29 @@ const OrderDetailsScreen = () => {
                                 {loadingDispatch && <Loader />}
                                 {userInfo && userInfo.isAdmin && !order.isDispatched && !order.disabled && (
                                     <ListGroup.Item className="p-3">
-                                        <label 
-                                            htmlFor="daysToDispatch" 
+                                        <label
+                                            htmlFor="daysToDispatch"
                                             className="block text-gray-700 mb-1"
                                         >
                                             Ingresar cantidad de días para entrega
                                         </label>
-                                        <input 
+                                        <input
                                             id="daysToDispatch"
-                                            type="number" 
-                                            value={daysToDispatch} 
+                                            type="number"
+                                            value={daysToDispatch}
                                             onChange={(e) => setDaysToDispatch(Math.max(0, Number(e.target.value)))}
-                                            placeholder="Días para despachar Pedido" 
+                                            placeholder="Días para despachar Pedido"
                                             className="w-full p-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                                            min="0"
-                                        />
+                                            min="0" />
                                         <Button
                                             disabled={Number(daysToDispatch) === 0}
                                             type="button"
-                                            className={`${daysToDispatch === 0 ? 'cursor-not-allowed': ''} w-full mt-3 bg-green-500 text-white py-2 px-4 rounded-md ${(daysToDispatch === 0) ? 'hover:bg-grey-300' : 'hover:bg-green-300' } green-600 transition duration-200`}
+                                            className={`${daysToDispatch === 0 ? 'cursor-not-allowed' : ''} w-full mt-3 bg-green-500 text-white py-2 px-4 rounded-md ${(daysToDispatch === 0) ? 'hover:bg-grey-300' : 'hover:bg-green-300'} green-600 transition duration-200`}
                                             onClick={dispatchHandler}
                                         >
                                             Despachar Pedido
                                         </Button>
-                                </ListGroup.Item>
+                                    </ListGroup.Item>
                                 )}
 
                                 {loadingDeliver && <Loader />}
@@ -378,7 +399,7 @@ const OrderDetailsScreen = () => {
                                         <Button
                                             disabled={!order.isDelivered && !order.isDispatched}
                                             type='button'
-                                            className={`${(!order.isDelivered && !order.isDispatched) ? 'cursor-not-allowed': ''} w-full mt-1 bg-green-500 text-white py-2 px-4 rounded-md ${(!order.isDelivered && !order.isDispatched) ? 'hover:bg-grey-300' : 'hover:bg-green-300' } green-600 transition duration-200`}
+                                            className={`${(!order.isDelivered && !order.isDispatched) ? 'cursor-not-allowed' : ''} w-full mt-1 bg-green-500 text-white py-2 px-4 rounded-md ${(!order.isDelivered && !order.isDispatched) ? 'hover:bg-grey-300' : 'hover:bg-green-300'} green-600 transition duration-200`}
                                             onClick={deliverHandler}
                                         >
                                             Marcar como ENTREGADO
@@ -409,24 +430,23 @@ const OrderDetailsScreen = () => {
                                         )}
                                     </>
                                 )}
-                            </ListGroup>
-                        </Card>
-                    </Col>
-                </Row>
-            <div className="relative">
-                <div className="fixed bottom-4 right-4 z-[10]">
-                    <FloatingWhatsApp
-                        className={`${(userInfo && userInfo.name && userInfo.isAdmin) ? 'hidden' : 'block'}`}
-                        phoneNumber="+543795004254"
-                        accountName="EL PROMESERO"
-                        avatar="/images/logo2.png"
-                        statusMessage="Normalmente respondo en unos minutos"
-                        chatMessage="¡Hola! ¿Tuviste algún problema con tu Pedido? Contactanos."
-                        notification={false}
-                    />
-                </div>
-            </div>
-            </div>
+                            </Card>
+                        </Col>
+                    </Row>
+                    <div className="relative">
+                        <div className="fixed bottom-4 right-4 z-[10]">
+                            <FloatingWhatsApp
+                                className={`${(userInfo && userInfo.name && userInfo.isAdmin) ? 'hidden' : 'block'}`}
+                                phoneNumber="+543795004254"
+                                accountName="EL PROMESERO"
+                                avatar="/images/logo2.png"
+                                statusMessage="Normalmente respondo en unos minutos"
+                                chatMessage="¡Hola! ¿Tuviste algún problema con tu Pedido? Contactanos."
+                                notification={false} />
+                        </div>
+                    </div>
+                </>
+            
     );
 };
 

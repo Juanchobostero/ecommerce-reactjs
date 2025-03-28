@@ -16,6 +16,7 @@ const RegisterScreen = () => {
   const [city, setCity] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [country, setCountry] = useState('');
+  const [tel, setTel] = useState(''); // Nuevo estado para el campo tel
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -44,6 +45,11 @@ const RegisterScreen = () => {
     return emailRegex.test(email);
   };
 
+  const validateTel = (tel) => {
+    const telRegex = /^[0-9]{7,15}$/; // Acepta números de teléfono de 7 a 15 dígitos
+    return telRegex.test(tel);
+  };
+
   const showMessage = (msg) => {
     setMessage(msg);
     setTimeout(() => {
@@ -58,9 +64,11 @@ const RegisterScreen = () => {
         showMessage('El nombre no puede contener números ni caracteres especiales.');
     } else if (!validateEmail(email)) {
         showMessage('El correo electrónico no es válido.');
+    } else if (!validateTel(tel)) {
+        showMessage('El número de teléfono no es válido. Debe contener entre 7 y 15 dígitos.');
     } else if (password !== confirmPassword) {
         showMessage('Las contraseñas no coinciden.');
-    } else if (name === '' || email === '' || password === '' || confirmPassword === '' || address === '' || city === '' || postalCode === '' || country === '') {
+    } else if (name === '' || email === '' || password === '' || confirmPassword === '' || address === '' || city === '' || postalCode === '' || country === '' || tel === '') {
         showMessage('Todos los campos son obligatorios.');
     } else {
         setMessage(null);
@@ -71,7 +79,8 @@ const RegisterScreen = () => {
             address,
             city,
             postalCode,
-            country
+            country,
+            tel // Incluye el campo tel en el objeto enviado al backend
         }));
     }
   };
@@ -88,7 +97,7 @@ const RegisterScreen = () => {
                 <Row>
                     <Col md={6}>
                         <Form.Group controlId='name' className='mb-3'>
-                            <FormLabel>Nombre</FormLabel>
+                            <FormLabel>Nombre Completo</FormLabel>
                             <Form.Control
                                 className="bg-gray-100 border border-gray-600 rounded-md" 
                                 type='text' 
@@ -185,6 +194,20 @@ const RegisterScreen = () => {
                                 placeholder='Ingresar País' 
                                 value={country}
                                 onChange={(e) => setCountry(e.target.value)}
+                            />
+                        </Form.Group>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col md={6}>
+                        <Form.Group controlId='tel' className='mb-3'>
+                            <FormLabel>Teléfono</FormLabel>
+                            <Form.Control
+                                className="bg-gray-100 border border-gray-600 rounded-md" 
+                                type='text' 
+                                placeholder='Ingresar Teléfono' 
+                                value={tel}
+                                onChange={(e) => setTel(e.target.value)}
                             />
                         </Form.Group>
                     </Col>
