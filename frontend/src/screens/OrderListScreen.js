@@ -70,14 +70,22 @@ const OrderListScreen = () => {
     return (
         <Fragment>
             <ListGroup.Item className='bg-amber-100 mt-4 py-4 px-8'>
-                <Row className='flex flex-row gap-8 px-4 py-3'>
-                    <h1 className='ubuntu font-bold'>Pedidos</h1>
-                    <Col md={3}>
+                {/* Fila para el título */}
+                <Row className='mb-3'>
+                    <Col>
+                        <h1 className='font-source font-bold text-center'>Pedidos</h1>
+                    </Col>
+                </Row>
+
+                {/* Fila para los filtros */}
+                <Row className='flex flex-wrap gap-3 px-4 py-3'>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Estado</FormLabel>
                         <Form.Control 
                             as="select" 
                             value={estadoFiltro} 
                             onChange={(e) => setEstadoFiltro(e.target.value)}
+                            className="text-sm"
                         >
                             <option value="">Todos</option>
                             <option value="despachado">Despachado</option>
@@ -85,35 +93,39 @@ const OrderListScreen = () => {
                             <option value="baja">Cancelado</option>
                         </Form.Control>
                     </Col>
-                    <Col md={3}>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Fecha Desde</FormLabel>
                         <Form.Control 
                             type="date" 
                             value={fechaDesdeFiltro} 
                             onChange={(e) => setFechaDesdeFiltro(e.target.value)} 
                             placeholder="Desde" 
+                            className="text-sm"
                         />
                     </Col>
-                    <Col md={3}>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Fecha Hasta</FormLabel>
                         <Form.Control 
                             type="date" 
                             value={fechaHastaFiltro} 
                             onChange={(e) => setFechaHastaFiltro(e.target.value)} 
                             placeholder="Hasta" 
+                            className="text-sm"
                         />
                     </Col>
-                    <Col md={3}>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Número de Pedido</FormLabel>
                         <Form.Control 
                             type="text" 
                             value={numeroFiltro} 
                             onChange={(e) => setNumeroFiltro(e.target.value)} 
                             placeholder="Buscar por número" 
+                            className="text-sm"
                         />
                     </Col>
                 </Row>
 
+                {/* Tabla de pedidos */}
                 {loading ? (
                     <Loader />
                 ) : error ? (

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form, Button, ListGroup } from 'react-bootstrap';
+import { Form, Button, ListGroup, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
@@ -21,7 +21,7 @@ const ProductEditScreen = () => {
   const [countInStock, setCountInStock] = useState('');
   const [description, setDescription] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null)
+  const [previewImage, setPreviewImage] = useState(null);
   const [stockChange, setStockChange] = useState(0);
 
   const navigate = useNavigate();
@@ -37,6 +37,7 @@ const ProductEditScreen = () => {
     error: errorUpdate, 
     success: successUpdate 
   } = useSelector(state => state.productUpdate);
+
   const { 
     loading: loadingCreate, 
     error: errorCreate, 
@@ -45,13 +46,12 @@ const ProductEditScreen = () => {
 
   useEffect(() => {
     if (successUpdate) {
-      dispatch({ type: PRODUCT_UPDATE_RESET })
-      navigate('/admin/productlist')
-    } else if(successCreate) { 
-        dispatch({ type: PRODUCT_CREATE_RESET })
-        navigate('/admin/productlist')
-    } 
-    else{
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      navigate('/admin/productlist');
+    } else if (successCreate) {
+      dispatch({ type: PRODUCT_CREATE_RESET });
+      navigate('/admin/productlist');
+    } else {
       if (productId) {
         if (!product || product._id !== productId) {
           dispatch(listProductDetails(productId));
@@ -63,11 +63,11 @@ const ProductEditScreen = () => {
           setDiscount(product.discount);
           setCountInStock(product.countInStock);
           setDescription(product.description);
+          setPreviewImage(product.image); // Mostrar la imagen actual como vista previa
         }
       }
     }
   }, [dispatch, navigate, productId, product, successUpdate, successCreate]);
-  
 
   const validateFields = () => {
     if (!String(name).trim()) return 'El nombre no puede estar vacío';
@@ -78,7 +78,6 @@ const ProductEditScreen = () => {
     if (discount < 0 || discount > 100) return 'El descuento debe estar entre 0 y 100';
     return null;
   };
-  
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -87,7 +86,7 @@ const ProductEditScreen = () => {
       Swal.fire({ title: 'Error!', text: errorMsg, icon: 'error', confirmButtonText: 'Ok' });
       return;
     }
-  
+
     const productData = {
       name,
       user: userInfo._id,
@@ -98,7 +97,7 @@ const ProductEditScreen = () => {
       description,
       countInStock: Number(countInStock),
     };
-  
+
     if (productId) {
       dispatch(updateProduct({
         _id: productId,
@@ -108,25 +107,24 @@ const ProductEditScreen = () => {
       dispatch(createProduct(productData));
     }
   };
-  
 
   const uploadFileHandler = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     // Crear una URL temporal para la vista previa
     setPreviewImage(URL.createObjectURL(file));
-  
+
     const formData = new FormData();
     formData.append('image', file);
     setUploading(true);
-  
+
     try {
       const config = { headers: { 'Content-Type': 'multipart/form-data' } };
       const url = process.env.NODE_ENV === 'development'
         ? 'http://localhost:5000'
         : process.env.REACT_APP_URI_API_PRODUCTION;
-  
+
       const { data } = await axios.post(`${url}/api/upload`, formData, config);
       setImage(data);
     } catch (error) {
@@ -146,7 +144,35 @@ const ProductEditScreen = () => {
       </Button>
       <ListGroup.Item className='bg-white mb-8'>
         <FormContainer>
-          <h1>{productId ? 'Editar Producto' : 'Crear Producto' }</h1>
+          <h1 className="text-center">{productId ? 'Editar Producto' : 'Crear Producto'}</h1>
+
+          {/* Vista previa de la imagen centrada */}
+          {/* Vista previa de la imagen centrada */}
+          {productId && previewImage && (
+            <div className="flex flex-col items-center mt-4">
+              <div 
+                className="relative group cursor-pointer w-48 h-48 md:w-64 md:h-64"
+                onClick={() => document.getElementById('fileInput').click()} // Simular clic en el input file
+              >
+                <img 
+                  src={previewImage} 
+                  alt="Vista previa" 
+                  className="w-full h-full object-cover rounded-md border border-gray-300"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md">
+                  <span className="text-white text-sm">Actualizar Imagen</span>
+                </div>
+              </div>
+              <input 
+                type="file" 
+                id="fileInput" 
+                className="hidden" 
+                onChange={uploadFileHandler} 
+                accept="image/*"
+              />
+            </div>
+          )}
+
           {loadingUpdate && <Loader />}
           {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
           {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
@@ -162,35 +188,15 @@ const ProductEditScreen = () => {
               </Form.Group>
 
               <Form.Group>
-              <Form.Label>Precio</Form.Label>
-              <Form.Control
+                <Form.Label>Precio</Form.Label>
+                <Form.Control
                   type='number'
                   min="0"
                   className='h-8 border-solid rounded-sm border-2 border-gray-300' 
                   value={price}
                   onChange={(e) => setPrice(e.target.value ? Number(e.target.value) : '')}
-              />
+                />
               </Form.Group>
-
-              <Form.Group>
-              <Form.Label>Imagen</Form.Label>
-              <input 
-                type="file" 
-                className="form-control h-auto border-solid rounded-sm border-2 border-gray-300" 
-                onChange={uploadFileHandler} 
-                accept="image/*"
-              />
-              {previewImage && (
-                <div className="mt-2">
-                  <img 
-                    src={previewImage} 
-                    alt="Vista previa" 
-                    className="w-32 h-32 object-cover rounded-sm border border-gray-300"
-                  />
-                </div>
-              )}
-              {uploading && <Loader />}
-            </Form.Group>
 
               <Form.Group>
                 <Form.Label>Código</Form.Label>
@@ -214,56 +220,80 @@ const ProductEditScreen = () => {
                 />
               </Form.Group>
 
-              <Form.Group>
-                <Form.Label>Stock</Form.Label>
-                <Form.Control 
-                  type='number'
-                  min="0" 
-                  className='h-8 border-solid rounded-md border-2 border-gray-300' 
-                  value={countInStock} 
-                  onChange={(e) => setCountInStock(e.target.value ? Number(e.target.value) : '')} />
-              </Form.Group>
+              <Row className="align-items-center">
+                {/* Form.Group para Stock */}
+                <Col xs={12} md={6}>
+                  <Form.Group>
+                    <Form.Label>Stock</Form.Label>
+                    <Form.Control 
+                      type="number"
+                      min="0"
+                      className="h-8 border-solid rounded-md border-2 border-gray-300"
+                      value={countInStock}
+                      onChange={(e) => setCountInStock(e.target.value ? Number(e.target.value) : '')}
+                    />
+                  </Form.Group>
+                </Col>
 
-              
-              <div className="col-span-2 flex items-center gap-2">
-                <Form.Label className="col-span-1 text-right">Modificar Stock</Form.Label>
-                <Form.Control 
-                  type="number"
-                  className="h-8 w-20 border-solid rounded-sm border-2 border-gray-300 text-center text-sm p-1"
-                  value={stockChange}
-                  onChange={(e) => {
-                    const value = Math.max(0, Number(e.target.value)); // Evitar valores menores a 0
-                    setStockChange(value);
-                  }}
-                />
+                {/* Form.Group para Modificar Stock */}
+                {productId && (
+                  <Col xs={12} md={6}>
+                    <Form.Group>
+                      <Form.Label>Modificar Stock</Form.Label>
+                      <div className="d-flex align-items-center gap-2">
+                        <Form.Control 
+                          type="number"
+                          className="h-8 w-20 border-solid rounded-sm border-2 border-gray-300 text-center text-sm p-1"
+                          value={stockChange}
+                          onChange={(e) => {
+                            const value = Math.max(0, Number(e.target.value)); // Evitar valores menores a 0
+                            setStockChange(value);
+                          }}
+                        />
+                        <button 
+                          type="button"
+                          className="px-2 py-1 bg-red-600 text-white rounded-sm"
+                          onClick={() => {
+                            if (stockChange <= countInStock) { // Validar que no se reste más del stock actual
+                              setCountInStock(prev => Math.max(0, prev - stockChange));
+                            } else {
+                              Swal.fire({
+                                title: 'Error!',
+                                text: 'No puedes restar más del stock disponible.',
+                                icon: 'error',
+                                confirmButtonText: 'Ok'
+                              });
+                            }
+                          }}
+                        >
+                          -
+                        </button>
+                        <button 
+                          type="button"
+                          className="px-2 py-1 bg-green-600 text-white rounded-sm"
+                          onClick={() => setCountInStock(prev => prev + stockChange)} // Incrementar stock sin restricciones
+                        >
+                          +
+                        </button>
+                      </div>
+                    </Form.Group>
+                  </Col>
+                )}
+              </Row>
 
-                <button 
-                  type="button" 
-                  className="px-2 py-1 bg-red-600 text-white rounded-sm"
-                  onClick={() => {
-                    if (stockChange <= countInStock) { // Validar que no se reste más del stock actual
-                      setCountInStock(prev => Math.max(0, prev - stockChange));
-                    } else {
-                      Swal.fire({
-                        title: 'Error!',
-                        text: 'No puedes restar más del stock disponible.',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                      });
-                    }
-                  }}
-                >
-                  -
-                </button>
-
-                <button 
-                  type="button" 
-                  className="px-2 py-1 bg-green-600 text-white rounded-sm"
-                  onClick={() => setCountInStock(prev => prev + stockChange)} // Incrementar stock sin restricciones
-                >
-                  +
-                </button>
-              </div>
+              {
+                !productId && (
+                  <Form.Group className="mt-1">
+                    <Form.Label>Subir Imagen</Form.Label>
+                    <Form.Control 
+                      type="file" 
+                      onChange={uploadFileHandler} 
+                      accept="image/*"
+                      className="border-solid rounded-md border-2 border-gray-300"
+                    />
+                  </Form.Group>
+                )
+              }
 
               <Form.Group className='md:col-span-2'>
                 <Form.Label>Descripción</Form.Label>

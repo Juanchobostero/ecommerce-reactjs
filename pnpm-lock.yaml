@@ -58,7 +58,7 @@ importers:
         version: 4.0.0(cloudinary@2.6.0)
       react-scripts:
         specifier: ^5.0.1
-        version: 5.0.1(@babel/plugin-syntax-flow@7.26.0(@babel/core@7.26.10))(@babel/plugin-transform-react-jsx@7.25.9(@babel/core@7.26.10))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@19.0.0)(type-fest@0.21.3)(typescript@4.9.5)
+        version: 5.0.1(@babel/plugin-syntax-flow@7.26.0(@babel/core@7.26.10))(@babel/plugin-transform-react-jsx@7.25.9(@babel/core@7.26.10))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@19.1.0)(type-fest@0.21.3)(typescript@4.9.5)
     devDependencies:
       concurrently:
         specifier: ^7.2.1
@@ -143,8 +143,8 @@ packages:
     resolution: {integrity: sha512-uGCqr47fnthkqwq5luNl2dksgcpHHjSXz2jUra7TXtFOpqvnhOW8qXjoa1ivlkq8qhqlaZwCzPdbcN0lXpmLzQ==}
     engines: {node: '>=18.0.0'}
 
-  '@aws-sdk/credential-providers@3.777.0':
-    resolution: {integrity: sha512-t1UyC1dUa4aph+kFixR0+5naKtDYZEtN2+PrDig4l1IvxJlD5rRRGodcVqi1duQjqfvhBwa7UPiHz5M4eRli7g==}
+  '@aws-sdk/credential-providers@3.778.0':
+    resolution: {integrity: sha512-Yy1RSBvoDp/iqGDpmgy5/YnSP2ac9NxTv3wdAjKlqVVStlKWU9nG8MPHZRfy01oPNJ5YWZL9stxHjNKC9hg9eg==}
     engines: {node: '>=18.0.0'}
 
   '@aws-sdk/middleware-host-header@3.775.0':
@@ -3286,8 +3286,8 @@ packages:
     resolution: {integrity: sha512-D5JbOMBIR/TVZkubHT+OyT2705QvogUW4IBn6nHd756OwieSF9aDYFj4dv6HHEVGYbHaLETa3WggZYWWMyy3ZQ==}
     engines: {node: '>=10'}
 
-  html-entities@2.5.3:
-    resolution: {integrity: sha512-D3AfvN7SjhTgBSA8L1BN4FpPzuEd06uy4lHwSoRWr0lndi9BKaNzPLKGOWZ2ocSGguozr08TTb2jhCLHaemruw==}
+  html-entities@2.5.5:
+    resolution: {integrity: sha512-24CG9o869vSa86BGCf7x65slrAztzFTU5VBQzEIwqjhKuB4zCC7xlH/7NCcZ1EN5MdmGx9lUqugfutuT6J+jKQ==}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -4254,8 +4254,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nwsapi@2.2.19:
-    resolution: {integrity: sha512-94bcyI3RsqiZufXjkr3ltkI86iEl+I7uiHVDtcq9wJUTwYQJ5odHDeSzkkrRzi80jJ8MaeZgqKjH1bAWAFw9bA==}
+  nwsapi@2.2.20:
+    resolution: {integrity: sha512-/ieB+mDe4MrrKMT8z+mQL8klXydZWGR5Dowt4RAGKbJ3kIGEx3X4ljUo+6V73IXtUPWgfOlU5B9MlGxFO5T+cA==}
 
   oauth-sign@0.9.0:
     resolution: {integrity: sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==}
@@ -5021,8 +5021,8 @@ packages:
       typescript:
         optional: true
 
-  react@19.0.0:
-    resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
+  react@19.1.0:
+    resolution: {integrity: sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==}
     engines: {node: '>=0.10.0'}
 
   read-cache@1.0.0:
@@ -6416,7 +6416,7 @@ snapshots:
       - aws-crt
     optional: true
 
-  '@aws-sdk/credential-providers@3.777.0':
+  '@aws-sdk/credential-providers@3.778.0':
     dependencies:
       '@aws-sdk/client-cognito-identity': 3.777.0
       '@aws-sdk/core': 3.775.0
@@ -6430,8 +6430,10 @@ snapshots:
       '@aws-sdk/credential-provider-web-identity': 3.777.0
       '@aws-sdk/nested-clients': 3.777.0
       '@aws-sdk/types': 3.775.0
+      '@smithy/config-resolver': 4.1.0
       '@smithy/core': 3.2.0
       '@smithy/credential-provider-imds': 4.0.2
+      '@smithy/node-config-provider': 4.0.2
       '@smithy/property-provider': 4.0.2
       '@smithy/types': 4.2.0
       tslib: 2.8.1
@@ -7820,7 +7822,7 @@ snapshots:
       ansi-html: 0.0.9
       core-js-pure: 3.41.0
       error-stack-parser: 2.1.4
-      html-entities: 2.5.3
+      html-entities: 2.5.5
       loader-utils: 2.0.4
       react-refresh: 0.11.0
       schema-utils: 4.3.0
@@ -10451,7 +10453,7 @@ snapshots:
     dependencies:
       whatwg-encoding: 1.0.5
 
-  html-entities@2.5.3: {}
+  html-entities@2.5.5: {}
 
   html-escaper@2.0.2: {}
 
@@ -11265,7 +11267,7 @@ snapshots:
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.1
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.19
+      nwsapi: 2.2.20
       parse5: 6.0.1
       saxes: 5.0.1
       symbol-tree: 3.2.4
@@ -11576,7 +11578,7 @@ snapshots:
       mongodb-connection-string-url: 2.6.0
       socks: 2.8.4
     optionalDependencies:
-      '@aws-sdk/credential-providers': 3.777.0
+      '@aws-sdk/credential-providers': 3.778.0
       '@mongodb-js/saslprep': 1.2.0
     transitivePeerDependencies:
       - aws-crt
@@ -11695,7 +11697,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nwsapi@2.2.19: {}
+  nwsapi@2.2.20: {}
 
   oauth-sign@0.9.0: {}
 
@@ -12472,7 +12474,7 @@ snapshots:
 
   react-refresh@0.11.0: {}
 
-  react-scripts@5.0.1(@babel/plugin-syntax-flow@7.26.0(@babel/core@7.26.10))(@babel/plugin-transform-react-jsx@7.25.9(@babel/core@7.26.10))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@19.0.0)(type-fest@0.21.3)(typescript@4.9.5):
+  react-scripts@5.0.1(@babel/plugin-syntax-flow@7.26.0(@babel/core@7.26.10))(@babel/plugin-transform-react-jsx@7.25.9(@babel/core@7.26.10))(@types/babel__core@7.20.5)(eslint@8.57.1)(react@19.1.0)(type-fest@0.21.3)(typescript@4.9.5):
     dependencies:
       '@babel/core': 7.26.10
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.15(react-refresh@0.11.0)(type-fest@0.21.3)(webpack-dev-server@4.15.2(webpack@5.98.0))(webpack@5.98.0)
@@ -12506,7 +12508,7 @@ snapshots:
       postcss-normalize: 10.0.1(browserslist@4.24.4)(postcss@8.5.3)
       postcss-preset-env: 7.8.3(postcss@8.5.3)
       prompts: 2.4.2
-      react: 19.0.0
+      react: 19.1.0
       react-app-polyfill: 3.0.0
       react-dev-utils: 12.0.1(eslint@8.57.1)(typescript@4.9.5)(webpack@5.98.0)
       react-refresh: 0.11.0
@@ -12559,7 +12561,7 @@ snapshots:
       - webpack-hot-middleware
       - webpack-plugin-serve
 
-  react@19.0.0: {}
+  react@19.1.0: {}
 
   read-cache@1.0.0:
     dependencies:
@@ -13585,7 +13587,7 @@ snapshots:
       default-gateway: 6.0.3
       express: 4.21.2
       graceful-fs: 4.2.11
-      html-entities: 2.5.3
+      html-entities: 2.5.5
       http-proxy-middleware: 2.0.7(@types/express@4.17.21)
       ipaddr.js: 2.2.0
       launch-editor: 2.10.0
