@@ -6,6 +6,11 @@ const orderSchema = mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    number: {
+        type: Number,
+        required: true,
+        unique: true
+    },
     orderItems: [
         {
             name: { type: String, required: true },
@@ -40,17 +45,13 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    dispatchedAt: {
-        type: Date
-    }, 
+    dispatchedAt: { type: Date },
     isDelivered: {
         type: Boolean,
         required: true,
         default: false
     },
-    deliveredAt: {
-        type: Date
-    },
+    deliveredAt: { type: Date },
     days: {
         type: Number,
         required: true,
@@ -61,9 +62,7 @@ const orderSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    disabledAt: {
-        type: Date
-    }
+    disabledAt: { type: Date }
 }, {
     timestamps: true
 });

@@ -160,6 +160,7 @@ const CartScreen = () => {
                       as='select' 
                       value={item.qty} 
                       onChange={(e) => handleAddToCart(item.product, Number(e.target.value))}
+                      className="w-24 text-center bg-gray-100 border border-gray-600 rounded-md text-base"
                     >
                       {[...Array(Number(item.countInStock)).keys()].map((x) => (
                         <option key={x + 1} value={x + 1}>

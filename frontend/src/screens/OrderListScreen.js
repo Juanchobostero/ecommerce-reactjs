@@ -22,6 +22,7 @@ const OrderListScreen = () => {
     const [estadoFiltro, setEstadoFiltro] = useState('');
     const [fechaDesdeFiltro, setFechaDesdeFiltro] = useState('');
     const [fechaHastaFiltro, setFechaHastaFiltro] = useState('');
+    const [numeroFiltro, setNumeroFiltro] = useState(''); // Nuevo estado para el filtro de número
     const [currentPage, setCurrentPage] = useState(0);
     const itemsPerPage = 5;
 
@@ -45,15 +46,17 @@ const OrderListScreen = () => {
         const matchEstado = !estadoFiltro || 
             (estadoFiltro === 'despachado' && order.isDispatched) ||
             (estadoFiltro === 'entregado' && order.isDelivered) ||
-            (estadoFiltro === 'baja' && order.disabled)
+            (estadoFiltro === 'baja' && order.disabled);
         
         const formattedFechaDesdeFiltro = fechaDesdeFiltro ? formatDate(fechaDesdeFiltro, "yyyy-MM-dd'T'HH:mm:ss") : '';
         const formattedFechaHastaFiltro = fechaHastaFiltro ? formatDate(fechaHastaFiltro + 'T23:59:59', "yyyy-MM-dd'T'HH:mm:ss") : '';
         
         const matchFechaDesde = !formattedFechaDesdeFiltro || new Date(order.createdAt) >= new Date(formattedFechaDesdeFiltro);
         const matchFechaHasta = !formattedFechaHastaFiltro || new Date(order.createdAt) <= new Date(formattedFechaHastaFiltro);
+
+        const matchNumero = !numeroFiltro || order.number.toString().includes(numeroFiltro); // Filtro por número de pedido
         
-        return matchEstado && matchFechaDesde && matchFechaHasta;
+        return matchEstado && matchFechaDesde && matchFechaHasta && matchNumero;
     });
 
     const pageCount = Math.ceil(filteredOrders.length / itemsPerPage);
@@ -67,14 +70,22 @@ const OrderListScreen = () => {
     return (
         <Fragment>
             <ListGroup.Item className='bg-amber-100 mt-4 py-4 px-8'>
-                <Row className='flex flex-row gap-8 px-4 py-3'>
-                    <h1 className='ubuntu font-bold'>Pedidos</h1>
-                    <Col md={3}>
+                {/* Fila para el título */}
+                <Row className='mb-3'>
+                    <Col>
+                        <h1 className='font-source font-bold text-center'>Pedidos</h1>
+                    </Col>
+                </Row>
+
+                {/* Fila para los filtros */}
+                <Row className='flex flex-wrap gap-3 px-4 py-3'>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Estado</FormLabel>
                         <Form.Control 
                             as="select" 
                             value={estadoFiltro} 
                             onChange={(e) => setEstadoFiltro(e.target.value)}
+                            className="text-sm"
                         >
                             <option value="">Todos</option>
                             <option value="despachado">Despachado</option>
@@ -82,26 +93,39 @@ const OrderListScreen = () => {
                             <option value="baja">Cancelado</option>
                         </Form.Control>
                     </Col>
-                    <Col md={3}>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Fecha Desde</FormLabel>
                         <Form.Control 
                             type="date" 
                             value={fechaDesdeFiltro} 
                             onChange={(e) => setFechaDesdeFiltro(e.target.value)} 
                             placeholder="Desde" 
+                            className="text-sm"
                         />
                     </Col>
-                    <Col md={3}>
+                    <Col xs={12} sm={6} md={3}>
                         <FormLabel>Fecha Hasta</FormLabel>
                         <Form.Control 
                             type="date" 
                             value={fechaHastaFiltro} 
                             onChange={(e) => setFechaHastaFiltro(e.target.value)} 
                             placeholder="Hasta" 
+                            className="text-sm"
+                        />
+                    </Col>
+                    <Col xs={12} sm={6} md={3}>
+                        <FormLabel>Número de Pedido</FormLabel>
+                        <Form.Control 
+                            type="text" 
+                            value={numeroFiltro} 
+                            onChange={(e) => setNumeroFiltro(e.target.value)} 
+                            placeholder="Buscar por número" 
+                            className="text-sm"
                         />
                     </Col>
                 </Row>
 
+                {/* Tabla de pedidos */}
                 {loading ? (
                     <Loader />
                 ) : error ? (
@@ -124,7 +148,7 @@ const OrderListScreen = () => {
                                 <tbody>
                                     {currentOrders.map(order => (
                                         <tr key={order._id}>
-                                            <td>{order._id}</td>
+                                            <td><b>{order.number}</b></td>
                                             <td>{order.user?.name || 'Sin cliente'}</td>
                                             <td>{formatDate(order.createdAt, "dd/MM/yyyy")}</td>
                                             <td>${order.totalPrice}</td>
