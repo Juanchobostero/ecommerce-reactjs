@@ -1,11 +1,11 @@
-import asyncHandler from 'express-async-handler';
-import Order from '../models/orderModel.js';
-import Product from '../models/productModel.js';
+import asyncHandler from 'express-async-handler'
+import Order from '../models/orderModel.js'
+import Product from '../models/productModel.js'
 
 // @desc Create new order
 // @route POST /api/orders
 // @access Private
-const addOrderItems = asyncHandler( async (req, res) => {
+const addOrderItems = asyncHandler(async (req, res) => {
     const {
         orderItems,
         shippingAddress,
@@ -15,47 +15,53 @@ const addOrderItems = asyncHandler( async (req, res) => {
         totalPrice
     } = req.body;
 
-    if(orderItems && orderItems.length === 0) {
+    if (!orderItems || orderItems.length === 0) {
         res.status(400);
-        throw new Error('No order items');
-        return;
-    } else {
-        const order = new Order({
-            orderItems,
-            user: req.user._id,
-            shippingAddress,
-            paymentMethod,
-            itemsPrice,
-            shippingPrice,
-            totalPrice
-        });
-
-        const createdOrder = await order.save()
-
-        // Actualizar el stock de los productos
-        for (const item of orderItems) {
-            const product = await Product.findById(item.product)
-            if (product) {
-                product.countInStock -= item.qty
-                await product.save()
-            } else {
-                res.status(404)
-                throw new Error(`Product not found: ${item.product}`)
-            }
-        }
-
-        res.status(201).json(createdOrder);
+        throw new Error('No order items')
+        return
     }
+
+    // Tomamos el ultimo numero de orden y le sumamos 1
+    const lastOrder = await Order.findOne().sort({ number: -1 })
+    const newOrderNumber = lastOrder ? (parseInt(lastOrder.number) + 1).toString() : 1
+
+    const order = new Order({
+        number: newOrderNumber, 
+        orderItems,
+        user: req.user._id,
+        shippingAddress,
+        paymentMethod,
+        itemsPrice,
+        shippingPrice,
+        totalPrice
+    })
+
+    const createdOrder = await order.save();
+
+    // Actualizar el stock de los productos
+    for (const item of orderItems) {
+        const product = await Product.findById(item.product);
+        if (product) {
+            product.countInStock -= item.qty;
+            await product.save();
+        } else {
+            res.status(404);
+            throw new Error(`Product not found: ${item.product}`);
+        }
+    }
+
+    res.status(201).json(createdOrder);
 });
+
 
 // @desc Get order by ID
 // @route GET /api/orders/:id
 // @access Private
 const getOrderById = asyncHandler( async (req, res) => {
-    const order = await Order.findById(req.params.id).populate('user', 'name email');
+    const order = await Order.findById(req.params.id).populate('user', 'name email tel')
 
     if(order) {
-        res.json(order);
+        res.json(order)
     } else {
         res.status(404);
         throw new Error('Order not found !');

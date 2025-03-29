@@ -19,6 +19,7 @@ const authUser = asyncHandler( async (req, res) => {
             address: user.address,
             postalCode: user.postalCode,
             country: user.country,
+            tel: user.tel,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });
@@ -39,7 +40,8 @@ const registerUser = asyncHandler( async (req, res) => {
         city,
         address,
         postalCode,
-        country 
+        country,
+        tel 
     } = req.body;
 
     const userExists = await User.findOne({ email });
@@ -56,7 +58,8 @@ const registerUser = asyncHandler( async (req, res) => {
         city,
         address,
         postalCode,
-        country
+        country,
+        tel
     });
 
     if(user) {
@@ -68,6 +71,7 @@ const registerUser = asyncHandler( async (req, res) => {
             address: user.address,
             postalCode: user.postalCode,
             country: user.country,
+            tel: user.tel,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });  
@@ -92,6 +96,7 @@ const getUserProfile = asyncHandler( async (req, res) => {
             address: user.address,
             postalCode: user.postalCode,
             country: user.country,
+            tel: user.tel,
             isAdmin: user.isAdmin
         });
     } else {
@@ -107,18 +112,19 @@ const updateUserProfile = asyncHandler( async (req, res) => {
     const user = await User.findById(req.user._id);
 
     if(user){
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        user.city = req.body.city || user.city;
-        user.address = req.body.address || user.address;
-        user.postalCode = req.body.postalCode || user.postalCode;
-        user.country = req.body.country || user.country;
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.city = req.body.city || user.city
+        user.address = req.body.address || user.address
+        user.postalCode = req.body.postalCode || user.postalCode
+        user.country = req.body.country || user.country
+        user.tel = req.body.tel || user.tel
 
         if (req.body.password) {
-            user.password = req.body.password;
+            user.password = req.body.password
         }
 
-        const updatedUser = await user.save();
+        const updatedUser = await user.save()
 
         res.json({
             _id: user._id,
@@ -128,6 +134,7 @@ const updateUserProfile = asyncHandler( async (req, res) => {
             address: user.address,
             postalCode: user.postalCode,
             country: user.country,
+            tel: user.tel,
             isAdmin: user.isAdmin,
             token: generateToken(user._id)
         });
@@ -179,16 +186,17 @@ const getUserById = asyncHandler( async (req, res) => {
 // @route PUT /api/users/:id
 // @access Private/Admin
 const updateUser = asyncHandler( async (req, res) => {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id)
 
     if(user){
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        user.city = req.body.city || user.city;
-        user.address = req.body.address || user.address;
-        user.postalCode = req.body.postalCode || user.postalCode;
-        user.country = req.body.country || user.country;
-        user.isAdmin = req.body.isAdmin;
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.city = req.body.city || user.city
+        user.address = req.body.address || user.address
+        user.postalCode = req.body.postalCode || user.postalCode
+        user.country = req.body.country || user.country
+        user.tel = req.body.tel || user.tel
+        user.isAdmin = req.body.isAdmin
 
         const updatedUser = await user.save();
 
@@ -199,6 +207,7 @@ const updateUser = asyncHandler( async (req, res) => {
             city: updatedUser.city,
             address: updatedUser.address,
             postalCode: updatedUser.postalCode,
+            tel: updatedUser.tel,
             country: updatedUser.country,
             isAdmin: updatedUser.isAdmin
         });
