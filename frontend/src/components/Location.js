@@ -80,7 +80,7 @@ const Location = () => {
             <Col md={6}>
                 <Card>
                     <Card.Body>
-                        <div id="map" className="h-80 bg-amber-100"></div>
+                        <div id="map" className="h-80 bg-amber-100 z-[10]"></div>
                     </Card.Body>
                 </Card>
             </Col>

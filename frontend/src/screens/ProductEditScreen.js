@@ -283,14 +283,25 @@ const ProductEditScreen = () => {
 
               {
                 !productId && (
-                  <Form.Group className="mt-1">
-                    <Form.Label>Subir Imagen</Form.Label>
-                    <Form.Control 
-                      type="file" 
-                      onChange={uploadFileHandler} 
-                      accept="image/*"
-                      className="border-solid rounded-md border-2 border-gray-300"
-                    />
+                  <Form.Group className="mt-4 d-flex align-items-center gap-3">
+                    <div>
+                      <Form.Label>Subir Imagen</Form.Label>
+                      <Form.Control 
+                        type="file" 
+                        onChange={uploadFileHandler} 
+                        accept="image/*"
+                        className="border-solid rounded-md border-2 border-gray-300"
+                      />
+                    </div>
+                    {previewImage && (
+                      <div className='w-50'>
+                        <img 
+                          src={previewImage} 
+                          alt="Vista previa" 
+                          className="w-100 h-100 object-cover rounded-sm border border-gray-300"
+                        />
+                      </div>
+                    )}
                   </Form.Group>
                 )
               }
