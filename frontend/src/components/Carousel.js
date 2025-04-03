@@ -113,7 +113,7 @@ export default function ResponsiveSlider({ slides, className }) {
   const demoSlides = slides || [
     <div
       key="slide1"
-      className="bg-blue-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
+      className="w-full bg-blue-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
     >
       <div className="w-full h-40 md:h-48 flex items-center justify-center">
         <img

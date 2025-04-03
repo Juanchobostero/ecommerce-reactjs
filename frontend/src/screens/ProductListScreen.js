@@ -142,7 +142,7 @@ return (
                         <Table striped bordered hover responsive className='table-sm'>
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>Código</th>
                                     <th>NOMBRE</th>
                                     <th>FECHA CREACIÓN</th>
                                     <th>PRECIO</th>
@@ -153,7 +153,7 @@ return (
                             <tbody>
                                 {currentProducts.map(product => (
                                     <tr key={product._id}>
-                                        <td>{product._id}</td>
+                                        <td>{product.code}</td>
                                         <td>{product.name}</td>
                                         <td>{formatDate(product.createdAt, "dd/MM/yyyy")}</td>
                                         <td>${product.price}</td>

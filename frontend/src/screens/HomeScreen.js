@@ -53,39 +53,41 @@ const HomeScreen = () => {
   }, []); // Empty dependency array to run once after the initial render
 
   const cards = [
-    <div key="1" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md">
-      <div className="w-[95%] h-48 md:w-full flex items-center justify-center overflow-hidden">
+    <div key="1" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-[90vw] sm:max-w-md">
+      <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
         <img
           src={'/images/primera.jpeg'}
           alt="noticia alfajores principal"
-          className="w-[90%] md:w-full h-full object-cover rounded-md"
+          className="w-full h-auto max-h-48 object-cover rounded-md"
         />
+
+
       </div>
       <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #1</h1>
       <p className="text-gray-600 text-center">Tenemos los mejores y más ricos Alfajores para vos.</p>
     </div>,
-    <div key="2" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md">
-      <div className="w-[95%] h-48 md:w-full flex items-center justify-center overflow-hidden">
-        <img
-          src={'/images/primera.jpeg'}
-          alt="noticia alfajores secundaria"
-          className="w-full h-full object-cover rounded-md"
-        />
-      </div>
-      <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #2</h1>
-      <p className="text-gray-600 text-center">Descubrí nuestras nuevas variedades de sabores.</p>
-    </div>,
-    <div key="3" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md">
-      <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
-        <img
-          src={'/images/primera.jpeg'}
-          alt="noticia alfajores terciaria"
-          className="w-full h-full object-cover rounded-md"
-        />
-      </div>
-      <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #3</h1>
-      <p className="text-gray-600 text-center">¡Promociones exclusivas por tiempo limitado!</p>
-    </div>,
+    // <div key="2" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-md">
+    //   <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
+    //     <img
+    //       src={'/images/primera.jpeg'}
+    //       alt="noticia alfajores principal"
+    //       className="w-full h-auto object-cover rounded-md"
+    //     />
+    //   </div>
+    //   <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #2</h1>
+    //   <p className="text-gray-600 text-center">Descubrí nuestras nuevas variedades de sabores.</p>
+    // </div>,
+    // <div key="3" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-md">
+    //   <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
+    //   <img
+    //       src={'/images/primera.jpeg'}
+    //       alt="noticia alfajores principal"
+    //       className="w-full h-auto object-cover rounded-md"
+    //     />
+    //   </div>
+    //   <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #3</h1>
+    //   <p className="text-gray-600 text-center">¡Promociones exclusivas por tiempo limitado!</p>
+    // </div>,
   ];
   
   return (
