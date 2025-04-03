@@ -53,17 +53,96 @@ const HomeScreen = () => {
   }, []); // Empty dependency array to run once after the initial render
 
   const cards = [
-    <div key="1" className="p-3">
-      <img
-        src={'/images/primera.jpeg'}
-        alt="noticia alfajores principal"
-        style={{ width: '100%', maxHeight: '150px', objectFit: 'cover' }}
-      />
-      <h1 className='font-source font-extrabold mt-1'>NOTICIA #1</h1>
-      <p className="text-gray-600">Tenemos los mejores y mas ricos Alfajores para vos.</p>
+    <div key="1" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-[90vw] sm:max-w-md">
+      <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
+        <img
+          src={'/images/primera.jpeg'}
+          alt="noticia alfajores principal"
+          className="w-full h-auto max-h-48 object-cover rounded-md"
+        />
+
+
+      </div>
+      <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #1</h1>
+      <p className="text-gray-600 text-center">Tenemos los mejores y más ricos Alfajores para vos.</p>
     </div>,
-    // Other cards
+    // <div key="2" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-md">
+    //   <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
+    //     <img
+    //       src={'/images/primera.jpeg'}
+    //       alt="noticia alfajores principal"
+    //       className="w-full h-auto object-cover rounded-md"
+    //     />
+    //   </div>
+    //   <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #2</h1>
+    //   <p className="text-gray-600 text-center">Descubrí nuestras nuevas variedades de sabores.</p>
+    // </div>,
+    // <div key="3" className="p-2 flex flex-col items-center justify-center bg-white rounded-md shadow-md w-full max-w-md">
+    //   <div className="w-full h-40 md:h-48 flex items-center justify-center overflow-hidden">
+    //   <img
+    //       src={'/images/primera.jpeg'}
+    //       alt="noticia alfajores principal"
+    //       className="w-full h-auto object-cover rounded-md"
+    //     />
+    //   </div>
+    //   <h1 className="font-source font-extrabold mt-2 text-center">NOTICIA #3</h1>
+    //   <p className="text-gray-600 text-center">¡Promociones exclusivas por tiempo limitado!</p>
+    // </div>,
   ];
+  
+  return (
+    <div className="font-source">
+      <Meta />
+      <Carousel slides={cards} className="shadow-2xl" />
+      <br />
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant="danger">{error}</Message>
+      ) : (
+        <>
+          <Row className="justify-content-center align-items-center">
+            <ComprarButton />
+          </Row>
+          <Row className="justify-content-center align-items-center">
+            <About />
+          </Row>
+          <Row className="justify-content-center align-items-center">
+            <Location />
+          </Row>
+          <div className="relative">
+            <div className="fixed bottom-4 right-4 z-[100]">
+              <FloatingWhatsApp
+                className={`${userInfo && userInfo.name ? 'hidden' : 'block'}`}
+                phoneNumber="+543795004254"
+                accountName="EL PROMESERO"
+                avatar="/images/logo2.png"
+                statusMessage="Normalmente respondo en unos minutos"
+                chatMessage="¡Hola! ¿Querés un Usuario para Comprar?"
+                notification={false}
+              />
+            </div>
+  
+            <button
+              className="bg-amber-950 hover:bg-amber-600 fixed right-4 z-[20] p-1"
+              id="myBtn"
+              title="Go to top"
+              onClick={topFunction}
+              style={{
+                bottom: '100px',
+                marginRight: '0.5rem',
+                width: '50px',
+                height: '50px',
+                borderRadius: '50%',
+              }}
+            >
+              <i className="fas fa-arrow-up"></i>
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
 
   return (
     <div className='font-source'>
@@ -86,7 +165,7 @@ const HomeScreen = () => {
             <Location />
           </Row>
           <div className="relative">
-            <div className="fixed bottom-4 right-4 z-[10]">
+            <div className="fixed bottom-4 right-4 z-[100]">
               <FloatingWhatsApp
                 className={`${userInfo && userInfo.name ? 'hidden' : 'block'}`}
                 phoneNumber="+543795004254"

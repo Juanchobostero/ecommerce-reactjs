@@ -106,14 +106,20 @@ const OrderDetailsScreen = () => {
     const handleCancelOrder = () => {
         Swal.fire({
             title: "EL PROMESERO ✅",
-            text: `¿Estás seguro de cancelar el Pedido N° ${id}?`,
+            text: `¿Estás seguro de cancelar el Pedido N°: ${order.number}?`,
             icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Volver',
+            customClass: {
+                title: 'font-source',
+                popup: 'font-source',
+            }
         }).then((result) => { 
             if (result.isConfirmed) {
                 dispatch(cancelOrder(order));
                 Swal.fire({
                     title: 'Pedido cancelado',
-                    text: `El Pedido N° ${order._id} fue cancelado.`,
+                    text: `El Pedido N°: ${order.number} fue cancelado.`,
                     confirmButtonText: 'OK',
                     confirmButtonColor: '#b45309',
                     background: '#fff',
@@ -145,9 +151,9 @@ const OrderDetailsScreen = () => {
         emailjs.send("service_bztw9ba", "template_6213qyo", {
             to_email: order.user.email,
             from_name: "EL PROMESERO",
-            subject: `PEDIDO N°: ${order._id} DESPACHADO`,
+            subject: `PEDIDO #${order.number} DESPACHADO`,
             message: `Su Pedido fue Despachado con éxito. 
-                Lo recibirá en su domicilio en aproximadamente ${daysToDispatch} días.`,
+                Lo recibirá en: <b>${order.user.address}</b> en aproximadamente ${daysToDispatch} días.`,
         })
         .then((response) => {
             Swal.fire({

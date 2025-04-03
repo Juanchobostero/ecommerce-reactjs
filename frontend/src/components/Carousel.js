@@ -11,7 +11,6 @@ export default function ResponsiveSlider({ slides, className }) {
   const [dragOffset, setDragOffset] = useState(0)
   const sliderRef = useRef(null)
 
-  // Minimum swipe/drag distance (in px)
   const minSwipeDistance = 50
 
   const nextSlide = () => {
@@ -22,7 +21,6 @@ export default function ResponsiveSlider({ slides, className }) {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? slides.length - 1 : prevIndex - 1))
   }
 
-  // Touch event handlers
   const onTouchStart = (e) => {
     setIsDragging(true)
     setDragStartX(e.targetTouches[0].clientX)
@@ -53,7 +51,6 @@ export default function ResponsiveSlider({ slides, className }) {
     setDragOffset(0)
   }
 
-  // Mouse event handlers
   const onMouseDown = (e) => {
     e.preventDefault()
     setIsDragging(true)
@@ -92,7 +89,6 @@ export default function ResponsiveSlider({ slides, className }) {
     }
   }
 
-  // Add global mouse up handler to handle cases where mouse is released outside the slider
   useEffect(() => {
     const handleGlobalMouseUp = () => {
       if (isDragging) {
@@ -108,48 +104,70 @@ export default function ResponsiveSlider({ slides, className }) {
     }
   }, [isDragging])
 
-  // Calculate transform based on current index and drag offset
   const getTransform = () => {
     const baseTransform = -currentIndex * 100
     const dragPercent = (dragOffset / (sliderRef.current?.offsetWidth || 1)) * 100
     return `translateX(${baseTransform + dragPercent}%)`
   }
 
-  // Example usage in the component itself
   const demoSlides = slides || [
     <div
       key="slide1"
-      className="bg-blue-500 h-64 md:h-80 flex flex-col items-center justify-center text-white text-2xl font-bold"
+      className="w-full bg-blue-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
     >
-      <span>Slide 1</span>
+      <div className="w-full h-40 md:h-48 flex items-center justify-center">
+        <img
+          src="https://via.placeholder.com/300x150" // Reemplaza con la URL de tu imagen
+          alt="Slide 1"
+          className="max-w-full h-auto object-contain rounded-md"
+        />
+      </div>
       <span className="text-sm mt-2">Arrastra para navegar</span>
     </div>,
     <div
       key="slide2"
-      className="bg-green-500 h-64 md:h-80 flex flex-col items-center justify-center text-white text-2xl font-bold"
+      className="bg-green-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
     >
-      <span>Slide 2</span>
+      <div className="w-full h-40 md:h-48 flex items-center justify-center">
+        <img
+          src="https://via.placeholder.com/300x150" // Reemplaza con la URL de tu imagen
+          alt="Slide 2"
+          className="max-w-full h-auto object-contain rounded-md"
+        />
+      </div>
       <span className="text-sm mt-2">Arrastra para navegar</span>
     </div>,
     <div
       key="slide3"
-      className="bg-red-500 h-64 md:h-80 flex flex-col items-center justify-center text-white text-2xl font-bold"
+      className="bg-red-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
     >
-      <span>Slide 3</span>
+      <div className="w-full h-40 md:h-48 flex items-center justify-center">
+        <img
+          src="https://via.placeholder.com/300x150" // Reemplaza con la URL de tu imagen
+          alt="Slide 3"
+          className="max-w-full h-auto object-contain rounded-md"
+        />
+      </div>
       <span className="text-sm mt-2">Arrastra para navegar</span>
     </div>,
     <div
       key="slide4"
-      className="bg-purple-500 h-64 md:h-80 flex flex-col items-center justify-center text-white text-2xl font-bold"
+      className="bg-purple-500 bg-opacity-50 flex flex-col items-center justify-center text-white text-lg font-bold rounded-md shadow-md transition-all duration-300"
     >
-      <span>Slide 4</span>
+      <div className="w-full h-40 md:h-48 flex items-center justify-center">
+        <img
+          src="https://via.placeholder.com/300x150" // Reemplaza con la URL de tu imagen
+          alt="Slide 4"
+          className="max-w-full h-auto object-contain rounded-md"
+        />
+      </div>
       <span className="text-sm mt-2">Arrastra para navegar</span>
     </div>,
   ]
 
   return (
     <div
-      className={cn("bg-white mt-4 relative w-full max-w-xl mx-auto overflow-hidden rounded-sm select-none", className)}
+      className={cn("bg-white mt-4 relative w-full max-w-md mx-auto overflow-hidden rounded-md select-none", className)}
       ref={sliderRef}
     >
       <div
@@ -170,7 +188,6 @@ export default function ResponsiveSlider({ slides, className }) {
         ))}
       </div>
 
-      {/* Navigation buttons - only show when not dragging */}
       {!isDragging && (
         <>
           <button
@@ -191,7 +208,6 @@ export default function ResponsiveSlider({ slides, className }) {
         </>
       )}
 
-      {/* Indicators */}
       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2 z-10">
         {demoSlides.map((_, index) => (
           <button
@@ -205,17 +221,6 @@ export default function ResponsiveSlider({ slides, className }) {
           />
         ))}
       </div>
-    </div>
-  )
-}
-
-// Example usage
-export function SliderDemo() {
-  return (
-    <div className="p-4 md:p-8 w-full">
-      <h1 className="text-2xl font-bold mb-6 text-center">Responsive Slider</h1>
-      <p className="text-center mb-4 text-gray-500">Desliza con el dedo en móvil o arrastra con el mouse</p>
-      <ResponsiveSlider className="shadow-lg" />
     </div>
   )
 }

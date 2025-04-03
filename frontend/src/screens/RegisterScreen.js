@@ -121,27 +121,27 @@ const RegisterScreen = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='password' className='mb-3'>
-                            <FormLabel>Contraseña</FormLabel>
+                <Col md={6}>
+                        <Form.Group controlId='postalCode' className='mb-3'>
+                            <FormLabel>Código Postal</FormLabel>
                             <Form.Control
                                 className="bg-gray-100 border border-gray-600 rounded-md" 
-                                type='password' 
-                                placeholder='Ingresar Contraseña' 
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                type='text' 
+                                placeholder='Ingresar Código Postal' 
+                                value={postalCode}
+                                onChange={(e) => setPostalCode(e.target.value)}
                             />
                         </Form.Group>
                     </Col>
                     <Col md={6}>
-                        <Form.Group controlId='confirmPassword' className='mb-3'>
-                            <FormLabel>Confirmar Contraseña</FormLabel>
+                        <Form.Group controlId='country' className='mb-3'>
+                            <FormLabel>País</FormLabel>
                             <Form.Control
                                 className="bg-gray-100 border border-gray-600 rounded-md" 
-                                type='password' 
-                                placeholder='Confirmar Contraseña' 
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                type='text' 
+                                placeholder='Ingresar País' 
+                                value={country}
+                                onChange={(e) => setCountry(e.target.value)}
                             />
                         </Form.Group>
                     </Col>
@@ -173,27 +173,27 @@ const RegisterScreen = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={6}>
-                        <Form.Group controlId='postalCode' className='mb-3'>
-                            <FormLabel>Código Postal</FormLabel>
+                <Col md={6}>
+                        <Form.Group controlId='password' className='mb-3'>
+                            <FormLabel>Contraseña</FormLabel>
                             <Form.Control
                                 className="bg-gray-100 border border-gray-600 rounded-md" 
-                                type='text' 
-                                placeholder='Ingresar Código Postal' 
-                                value={postalCode}
-                                onChange={(e) => setPostalCode(e.target.value)}
+                                type='password' 
+                                placeholder='Ingresar Contraseña' 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                         </Form.Group>
                     </Col>
                     <Col md={6}>
-                        <Form.Group controlId='country' className='mb-3'>
-                            <FormLabel>País</FormLabel>
+                        <Form.Group controlId='confirmPassword' className='mb-3'>
+                            <FormLabel>Confirmar Contraseña</FormLabel>
                             <Form.Control
                                 className="bg-gray-100 border border-gray-600 rounded-md" 
-                                type='text' 
-                                placeholder='Ingresar País' 
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
+                                type='password' 
+                                placeholder='Confirmar Contraseña' 
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
                             />
                         </Form.Group>
                     </Col>

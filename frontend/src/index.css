@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body {
+    overflow-x: hidden;
+  }
+  
 main{
     min-height: 100vh;
 }
@@ -180,6 +184,24 @@ h3 {
     font-family: 'Source Sans Pro', sans-serif;
     letter-spacing: 1px;
 }
+
+.custom-toggle {
+    background-color: #78350f !important; /* amber-950 */
+    border: 1px solid white !important;
+    color: white !important;
+    transition: background-color 0.3s ease-in-out;
+    border-radius: 5px;
+  }
+  
+  /* Cambia solo cuando está abierto */
+  .custom-toggle[aria-expanded="true"] {
+    background-color: #a16207 !important; /* amber-700 */
+  }
+  
+  /* Bloqueamos cambios en los nav-links */
+  .navbar-nav .nav-link {
+    color: white !important;
+  }
 
 
   
