@@ -46,7 +46,8 @@ const ProductListScreen = () => {
     };
 
     // Aplicar los filtros en el frontend
-    const filteredProducts = products.filter(product => {
+    const filteredProducts = products
+    .filter(product => {
         const matchNombre = !nombreFiltro || product.name.toLowerCase().includes(nombreFiltro.toLowerCase());
         const matchDescuento = !descuentoFiltro || 
             (descuentoFiltro === 'con_descuento' && product.discount > 0) || 
@@ -59,12 +60,13 @@ const ProductListScreen = () => {
         const matchFechaHasta = !formattedFechaHastaFiltro || new Date(product.createdAt) <= new Date(formattedFechaHastaFiltro);
         
         return matchNombre && matchDescuento && matchFechaDesde && matchFechaHasta;
-    });
+    })
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
     // Calcular la paginación
-    const pageCount = Math.ceil(filteredProducts.length / itemsPerPage);
+    const pageCount = Math.ceil(filteredProducts.length / itemsPerPage)
     const offset = currentPage * itemsPerPage;
-    const currentProducts = filteredProducts.slice(offset, offset + itemsPerPage);
+    const currentProducts = filteredProducts.slice(offset, offset + itemsPerPage)
 
     const handlePageClick = ({ selected }) => {
         setCurrentPage(selected);
@@ -73,8 +75,6 @@ const ProductListScreen = () => {
     const createProductHandler = () => {
         navigate(`/admin/product/new`);
     }
-
-    // ...existing code...
 
 return (
     <Fragment>
@@ -142,7 +142,7 @@ return (
                         <Table striped bordered hover responsive className='table-sm'>
                             <thead>
                                 <tr>
-                                    <th>Código</th>
+                                    <th>CÓDIGO</th>
                                     <th>NOMBRE</th>
                                     <th>FECHA CREACIÓN</th>
                                     <th>PRECIO</th>

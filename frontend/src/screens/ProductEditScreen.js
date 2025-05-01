@@ -23,6 +23,7 @@ const ProductEditScreen = () => {
   const [uploading, setUploading] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
   const [stockChange, setStockChange] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Nuevo estado para controlar el botón
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,10 +48,32 @@ const ProductEditScreen = () => {
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: PRODUCT_UPDATE_RESET });
+      Swal.fire({
+        text: 'Producto actualizado correctamente',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        customClass: {
+          title: 'font-source',
+          popup: 'font-source',
+      }
+      }).then(() => {
+        navigate('/admin/productlist') // Redirigir después del Swal
+      })
+      
       navigate('/admin/productlist');
     } else if (successCreate) {
       dispatch({ type: PRODUCT_CREATE_RESET });
-      navigate('/admin/productlist');
+      Swal.fire({
+        text: 'Producto actualizado correctamente',
+        icon: 'success',
+        confirmButtonText: 'Ok',
+        customClass: {
+          title: 'font-source',
+          popup: 'font-source',
+      }
+      }).then(() => {
+        navigate('/admin/productlist') // Redirigir después del Swal
+      })
     } else {
       if (productId) {
         if (!product || product._id !== productId) {
@@ -86,6 +109,8 @@ const ProductEditScreen = () => {
       Swal.fire({ title: 'Error!', text: errorMsg, icon: 'error', confirmButtonText: 'Ok' });
       return;
     }
+
+    setIsSubmitting(true)
 
     const productData = {
       name,
@@ -317,11 +342,14 @@ const ProductEditScreen = () => {
                 />
               </Form.Group>
 
-              <Button 
-                className='btn btn-block bg-green-700 hover:bg-green-800 mt-2 md:col-span-2' 
-                type='submit'
+              <Button
+                className={`btn btn-block bg-green-700 hover:bg-green-800 mt-2 md:col-span-2 ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                type="submit"
+                disabled={isSubmitting} // Deshabilitar el botón mientras se envía
               >
-                Confirmar
+                {isSubmitting ? 'Procesando...' : 'Confirmar'}
               </Button>
             </Form>
           )}
