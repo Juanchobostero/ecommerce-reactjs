@@ -5,36 +5,37 @@ import asyncHandler from 'express-async-handler';
 // @desc Fetch all products
 // @route GET /api/products
 // @access Public
-const getProducts = asyncHandler( async (req, res) => {
-    const pageSize = 4;
+const getProducts = asyncHandler(async (req, res) => {
+    const pageSize = 10; // Cambia este valor si deseas mostrar más productos por página
     const page = Number(req.query.pageNumber) || 1;
 
-    const keyword = req.query.keyword 
-        ? { 
+    const keyword = req.query.keyword
+        ? {
             name: {
                 $regex: req.query.keyword,
-                $options: 'i'
-        } } 
+                $options: 'i',
+            },
+        }
         : {};
 
-    const count = await Product.count({ ...keyword });
-    //const products = await Product.find({ ...keyword })
-    const products = await Product.aggregate([{ 
-            $match: { ...keyword}      
-        }, 
-        { $sort: { "created_at": -1 } },
+    const count = await Product.countDocuments({ ...keyword })
+
+    const products = await Product.aggregate([
+        { $match: { ...keyword } },
+        { $sort: { created_at: -1 } }, // Orden descendente por fecha de creación
         { $skip: (page - 1) * pageSize },
-        { $limit: pageSize },
+        { $limit: count },
         {
             $lookup: {
                 from: 'productcategories',
                 localField: 'category',
                 foreignField: '_id',
-                as: 'categoryName' 
-            }
-        }
-    ])
-    res.json({products, page, pages: Math.ceil(count / pageSize)});
+                as: 'categoryName',
+            },
+        },
+    ]);
+
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc Fetch single products
