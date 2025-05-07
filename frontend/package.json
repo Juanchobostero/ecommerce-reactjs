@@ -19,6 +19,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.4.3",
+    "@vercel/analytics": "^1.5.0",
     "ajv": "^8.0.0",
     "antd": "^4.22.6",
     "apexcharts": "^3.35.4",

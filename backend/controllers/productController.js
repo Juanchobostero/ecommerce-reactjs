@@ -6,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-    const pageSize = 10; // Cambia este valor si deseas mostrar más productos por página
+    const pageSize = Number(req.query.pageSize) || 10;
     const page = Number(req.query.pageNumber) || 1;
 
     const keyword = req.query.keyword
@@ -18,22 +18,12 @@ const getProducts = asyncHandler(async (req, res) => {
         }
         : {};
 
-    const count = await Product.countDocuments({ ...keyword })
+    const count = await Product.countDocuments({ ...keyword, deleted_at: null }); // Filtrar productos no eliminados
 
-    const products = await Product.aggregate([
-        { $match: { ...keyword } },
-        { $sort: { created_at: -1 } }, // Orden descendente por fecha de creación
-        { $skip: (page - 1) * pageSize },
-        { $limit: count },
-        {
-            $lookup: {
-                from: 'productcategories',
-                localField: 'category',
-                foreignField: '_id',
-                as: 'categoryName',
-            },
-        },
-    ]);
+    const products = await Product.find({ ...keyword, deleted_at: null }) // Filtrar productos no eliminados
+        .sort({ createdAt: -1 })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize);
 
     res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
@@ -71,18 +61,19 @@ const getCategoriesWithCount = asyncHandler( async (req, res) => {
     res.json(categories);
 });
 
-// @desc Delete a product
+// @desc Soft delete a product
 // @route DELETE /api/products/:id
 // @access Private/Admin
-const deleteProduct = asyncHandler( async (req, res) => {
+const deleteProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id);
 
-    if(product) {
-        await product.remove();
-        res.json({ message: 'Product removed !' });
+    if (product) {
+        product.deleted_at = new Date(); // Registrar la fecha y hora actuales
+        await product.save();
+        res.json({ message: 'Producto eliminado correctamente (soft delete)' });
     } else {
         res.status(404);
-        throw new Error('Product not found');
+        throw new Error('Producto no encontrado');
     }
 });
 

@@ -5,10 +5,11 @@ import { Table, Button, ListGroup, Row, Col, Form, FormLabel } from 'react-boots
 import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listProducts } from '../actions/productActions';
+import { deleteProduct, listProducts } from '../actions/productActions';
 import { format, toZonedTime } from 'date-fns-tz';
 import { es } from 'date-fns/locale';
 import ReactPaginate from 'react-paginate';
+import Swal from 'sweetalert2';
 
 const ProductListScreen = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,21 @@ const ProductListScreen = () => {
 
     const productList = useSelector((state) => state.productList);
     const { loading, error, products = [] } = productList;
+
+    const productDelete = useSelector(state => state.productDelete);
+    const { 
+        loading: loadingDelete, 
+        error: errorDelete, 
+        success: successDelete 
+    } = productDelete;
+
+    const productCreate = useSelector(state => state.productCreate);
+    const { 
+        loading: loadingCreate, 
+        error: errorCreate, 
+        success: successCreate,
+        product: createdProduct 
+    } = productCreate;
 
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin || {};
@@ -31,11 +47,17 @@ const ProductListScreen = () => {
     // Obtener productos al cargar el componente
     useEffect(() => {
         if (userInfo?.isAdmin) {
-            dispatch(listProducts());
+            dispatch(listProducts())
         } else {
-            navigate('/login');
+            navigate('/login')
         }
-    }, [dispatch, navigate, userInfo]);
+    }, [
+        dispatch, 
+        navigate, 
+        userInfo, 
+        successCreate, 
+        successDelete
+    ])
 
     const formatDate = (dateString, formatString = "dd/MM/yyyy HH:mm:ss") => {
         if (!dateString) return "";
@@ -74,6 +96,37 @@ const ProductListScreen = () => {
 
     const createProductHandler = () => {
         navigate(`/admin/product/new`);
+    }
+
+    const deleteHandler = (product) => {
+        const { _id, name, code } = product
+
+        Swal.fire({
+            title: "EL PROMESERO",
+            text: `¿Estás seguro de eliminar el Producto #${name}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: 'Volver',
+            customClass: {
+                title: 'font-source',
+                popup: 'font-source',
+            }
+        }).then((result) => { 
+            if (result.isConfirmed) {
+                dispatch(deleteProduct(_id));
+                Swal.fire({
+                    title: 'Producto Eliminado',
+                    text: `El Producto #${code} fue eliminado.`,
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#b45309',
+                    background: '#fff',
+                    customClass: {
+                        title: 'font-source',
+                        popup: 'font-source',
+                    }
+                });
+            }
+        })
     }
 
 return (
@@ -132,11 +185,11 @@ return (
                 </Col>
             </Row>
 
-            {loading ? (
-                <Loader />
-            ) : error ? (
-                <Message variant='danger'>{error}</Message>
-            ) : (
+            {loadingDelete && <Loader />}
+            {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+            {loadingCreate && <Loader />}
+            {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
+            {loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message> : (
                 <ListGroup variant='flush'>
                     <ListGroup.Item>
                         <Table striped bordered hover responsive className='table-sm'>
@@ -160,10 +213,19 @@ return (
                                         <td>{product.discount > 0 ? `${product.discount}%` : 'Sin descuento'}</td>
                                         <td>
                                             <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                                                <Button variant='dark' className='btn-sm bg-amber-400 hover:bg-amber-600'>
-                                                    <i className='fas fa-edit'></i> Editar
+                                                <Button 
+                                                    variant='dark' 
+                                                    className='btn-sm bg-amber-400 hover:bg-amber-600'>
+                                                    <i className='fas fa-edit'></i>
                                                 </Button>
                                             </LinkContainer>
+                                            <Button
+                                                variant='dark'
+                                                className='btn-sm bg-red-600'
+                                                onClick={() => deleteHandler(product)}
+                                            >
+                                                <i className='fas fa-trash'></i>
+                                            </Button>
                                         </td>
                                     </tr>
                                 ))}
