@@ -71,6 +71,11 @@ const productSchema = mongoose.Schema({
         required: true,
         default: 0
     },
+    deleted_at: {
+        type: Date, // Campo para registrar la fecha de eliminación
+        default: null
+    }
+
 }, {
     timestamps: true
 });

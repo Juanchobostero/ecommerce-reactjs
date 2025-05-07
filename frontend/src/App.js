@@ -25,8 +25,7 @@ import '@fontsource/playball';
 import '@fontsource-variable/playfair-display';
 import '@fontsource-variable/ubuntu-sans';
 import '@fontsource/source-sans-pro';
-import TopButton from './components/TopButton';
-import { useSelector } from 'react-redux';
+import { Analytics } from '@vercel/analytics/react';
 
 // Componente de transición para vistas
 const TransitionWrapper = ({ children }) => {
@@ -87,10 +86,10 @@ function App() {
               </Routes>
             </TransitionWrapper>
           </Container>
-          
         </main>
         <Footer />
       </div>
+      <Analytics />
     </Router>
   );
 }

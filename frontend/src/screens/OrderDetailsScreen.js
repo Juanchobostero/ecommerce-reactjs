@@ -105,7 +105,7 @@ const OrderDetailsScreen = () => {
 
     const handleCancelOrder = () => {
         Swal.fire({
-            title: "EL PROMESERO ✅",
+            title: "EL PROMESERO",
             text: `¿Estás seguro de cancelar el Pedido N°: ${order.number}?`,
             icon: 'warning',
             showCancelButton: true,

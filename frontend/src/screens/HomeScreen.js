@@ -143,62 +143,6 @@ const HomeScreen = () => {
       )}
     </div>
   );
-
-  return (
-    <div className='font-source'>
-      <Meta />
-      <Carousel slides={cards} className="shadow-2xl" />
-      <br></br>
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <>
-          <Row className="justify-content-center align-items-center">
-            <ComprarButton />
-          </Row>
-          <Row className="justify-content-center align-items-center">
-            <About />
-          </Row>
-          <Row className="justify-content-center align-items-center">
-            <Location />
-          </Row>
-          <div className="relative">
-            <div className="fixed bottom-4 right-4 z-[100]">
-              <FloatingWhatsApp
-                className={`${userInfo && userInfo.name ? 'hidden' : 'block'}`}
-                phoneNumber="+543795004254"
-                accountName="EL PROMESERO"
-                avatar="/images/logo2.png"
-                statusMessage="Normalmente respondo en unos minutos"
-                chatMessage="¡Hola! ¿Querés un Usuario para Comprar?"
-                notification={false}
-              />
-            </div>
-
-            <button
-              className="bg-amber-950 hover:bg-amber-600 fixed right-4 z-[20] p-1"
-              id="myBtn"
-              title="Go to top"
-              onClick={topFunction}
-              style={{
-                bottom: '100px',
-                marginRight: '0.5rem',
-                width: '50px',  
-                height: '50px', 
-                borderRadius: '50%',
-              }}
-            >
-              <i className="fas fa-arrow-up"></i>
-            </button>
-          </div>
-
-
-        </>
-      )}
-    </div>
-  );
 };
 
 export default HomeScreen;
